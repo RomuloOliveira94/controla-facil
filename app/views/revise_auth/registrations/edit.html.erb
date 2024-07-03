@@ -23,6 +23,15 @@
       <%= form.label :unconfirmed_email, t(".new_email") %>
       <%= form.email_field :unconfirmed_email, required: true %>
     </div>
+    <div>
+      <%= form.label :first_name, t(".nome") %>
+      <%= form.text_field :first_name, required: true %>
+    </div>
+    <div>
+      <%= form.label :last_name, t(".sobrenome") %>
+      <%= form.text_field :last_name, required: true %>
+    </div>
+    
 
     <div>
       <%= form.button t(".save") %>
