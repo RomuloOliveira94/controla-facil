@@ -63,3 +63,5 @@ group :development do
   # gem "spring"
 end
 
+
+gem "revise_auth", "~> 0.7.1"
