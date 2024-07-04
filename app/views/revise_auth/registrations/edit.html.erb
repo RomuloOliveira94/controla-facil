@@ -1,80 +1,102 @@
-<h1><%=t ".profile" %></h1>
+<div class="grid gap-10 mb-28 items-end">
+  <h1 class="text-3xl font-bold mb-6"><%=t ".Perfil" %></h1>
 
-<%= form_with model: current_user, url: profile_email_path do |form| %>
-  <fieldset>
-    <legend><%=t ".change_email_address" %></legend>
+  <%= form_with model: current_user, url: profile_path, method: :patch do |form| %>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
+        <%= image_tag current_user.avatar, class: "rounded-full", width: "200" %>
+        <%= form.file_field :avatar, direct_upload: true %>
+      </div>
 
-    <% if current_user.unconfirmed_email? %>
-      <p><%=t ".waiting_confirmation", email: current_user.unconfirmed_email %></p>
-    <% end %>
+      <div class="flex flex-col gap-2">
+        <%= form.label :first_name, t(".nome") %>
+        <%= form.text_field :first_name, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </div>
 
-    <% if form.object.errors.any? %>
-      <ul>
-        <% form.object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    <% end %>
+      <div class="flex flex-col gap-2">
+        <%= form.label :last_name, t(".sobrenome") %>
+        <%= form.text_field :last_name, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </div>
 
-    <p><%=t ".current_email_address", email: current_user.email %></p>
-    <p><%=t ".confirmation_instructions" %></p>
-
-    <div>
-      <%= form.label :unconfirmed_email, t(".new_email") %>
-      <%= form.email_field :unconfirmed_email, required: true %>
+      <div class="flex flex-col">
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+      </div>
     </div>
-    <div>
-      <%= form.label :first_name, t(".nome") %>
-      <%= form.text_field :first_name, required: true %>
-    </div>
-    <div>
-      <%= form.label :last_name, t(".sobrenome") %>
-      <%= form.text_field :last_name, required: true %>
-    </div>
-    
+  <% end %>
 
-    <div>
-      <%= form.button t(".save") %>
-    </div>
-  </fieldset>
-<% end %>
+  <!--<%= form_with model: current_user, url: profile_email_path do |form| %>
+    <fieldset class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold"><%=t ".Mudar Email" %></h2>
 
-<%= form_with model: current_user, url: profile_password_path do |form| %>
-  <fieldset>
-    <legend><%=t ".change_password" %></legend>
+      <% if current_user.unconfirmed_email? %>
+        <p><%=t ".waiting_confirmation", email: current_user.unconfirmed_email %></p>
+      <% end %>
 
-    <% if form.object.errors.any? %>
-      <ul>
-        <% form.object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    <% end %>
+      <% if form.object.errors.any? %>
+        <ul>
+          <% form.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
 
-    <div>
-      <%= form.label :password_challenge %>
-      <%= form.password_field :password_challenge, required: true %>
-    </div>
+      <p>Seu email atual é : <%=current_user.email%></p>
+      <p>Para mudar seu email, enviaremos uma confirmação para seu novo email.</p>
 
-    <div>
-      <%= form.label :password, t(".new_password") %>
-      <%= form.password_field :password, required: true %>
-    </div>
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Novo Email</span>
+        </div>
+        <%= form.email_field :unconfirmed_email, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </label>
 
-    <div>
-      <%= form.label :password_confirmation %>
-      <%= form.password_field :password_confirmation, required: true %>
-    </div>
+      <div class="flex flex-col">
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+      </div>
+    </fieldset>
+  <% end %>-->
 
-    <div>
-      <%= form.button t(".save") %>
-    </div>
-  </fieldset>
-<% end %>
+  <%= form_with model: current_user, url: profile_password_path do |form| %>
+    <fieldset class="flex flex-col gap-4">
+      <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
 
-<%= form_with url: profile_path, method: :delete do |form| %>
-  <fieldset>
-    <legend><%=t ".delete_account" %></legend>
-    <%= form.button t(".delete_account"), data: { turbo_confirm: t(".confirm") } %>
-  </fieldset>
-<% end %>
+      <% if form.object.errors.any? %>
+        <ul>
+          <% form.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Senha Atual</span>
+        </div>
+        <%= form.password_field :password_challenge, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </label>
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Nova Senha</span>
+        </div>
+        <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </label>
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Confirmação da Senha</span>
+        </div>
+        <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-xs" %>
+      </label>
+
+      <div class="flex flex-col">
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+      </div>
+    </fieldset>
+  <% end %>
+
+  <!--<%= form_with url: profile_path, method: :delete do |form| %>
+    <fieldset>
+      <legend><%=t ".delete_account" %></legend>
+      <%= form.button t(".delete_account"), data: { turbo_confirm: t(".confirm") } %>
+    </fieldset>
+  <% end %>-->
+</div>
