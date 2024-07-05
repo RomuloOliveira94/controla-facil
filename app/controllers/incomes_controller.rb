@@ -1,7 +1,7 @@
 class IncomesController < ApplicationController
-  include BalanceHelper
   before_action :authenticate_user!
   before_action :set_income, only: %i[show edit update destroy]
+  include BalanceHelper
 
   # GET /incomes or /incomes.json
   def index

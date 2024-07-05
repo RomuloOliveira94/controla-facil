@@ -1,7 +1,7 @@
 class ExpensesController < ApplicationController
-  include BalanceHelper
   before_action :authenticate_user!
   before_action :set_expense, only: %i[ show edit update destroy ]
+  include BalanceHelper
 
   # GET /expenses or /expenses.json
   def index

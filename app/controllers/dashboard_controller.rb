@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
-  include BalanceHelper
   before_action :authenticate_user!
+  include BalanceHelper
+
   def index; end
 end
