@@ -1,30 +1,30 @@
-<div class="grid gap-10 mb-28 items-end">
+<div class="grid gap-10 mb-10">
   <h1 class="text-3xl font-bold mb-6"><%=t ".Perfil" %></h1>
   <%= form_with model: current_user, url: profile_path, method: :patch do |form| %>
-    <div class="flex flex-col gap-4">
-      <div class="flex flex-col gap-4">
+    <div class="grid gap-4">
+      <div class="grid gap-4">
         <%= image_tag current_user.avatar, class: "rounded-full", width: "200" %>
-        <%= form.file_field :avatar, direct_upload: true %>
+        <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-xs" %>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="grid gap-2">
         <%= form.label :first_name, t(".nome") %>
         <%= form.text_field :first_name, required: true, class: "input input-bordered w-full max-w-xs" %>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="grid gap-2">
         <%= form.label :last_name, t(".sobrenome") %>
         <%= form.text_field :last_name, required: true, class: "input input-bordered w-full max-w-xs" %>
       </div>
 
-      <div class="flex flex-col">
+      <div class="grid">
         <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
       </div>
     </div>
   <% end %>
 
   <!--<%= form_with model: current_user, url: profile_email_path do |form| %>
-    <fieldset class="flex flex-col gap-4">
+    <fieldset class="grid gap-4">
       <h2 class="text-2xl font-bold"><%=t ".Mudar Email" %></h2>
 
       <% if current_user.unconfirmed_email? %>
@@ -49,14 +49,14 @@
         <%= form.email_field :unconfirmed_email, required: true, class: "input input-bordered w-full max-w-xs" %>
       </label>
 
-      <div class="flex flex-col">
+      <div class="grid">
         <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
       </div>
     </fieldset>
   <% end %>-->
 
   <%= form_with model: current_user, url: profile_password_path do |form| %>
-    <fieldset class="flex flex-col gap-4">
+    <fieldset class="grid gap-4">
       <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
 
       <% if form.object.errors.any? %>
@@ -86,13 +86,13 @@
         <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-xs" %>
       </label>
 
-      <div class="flex flex-col">
+      <div class="grid">
         <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
       </div>
     </fieldset>
   <% end %>
 
-  <div class="flex flex-col">
+  <div class="grid">
     <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete }, class: "btn btn-error text-lg max-w-xs" %>
   </div>
 
