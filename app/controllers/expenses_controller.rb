@@ -1,4 +1,6 @@
 class ExpensesController < ApplicationController
+  include BalanceHelper
+  before_action :authenticate_user!
   before_action :set_expense, only: %i[ show edit update destroy ]
 
   # GET /expenses or /expenses.json
