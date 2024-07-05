@@ -1,6 +1,7 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_expense, only: %i[ show edit update destroy ]
+  before_action :set_user_balance
   include BalanceHelper
 
   # GET /expenses or /expenses.json
@@ -14,7 +15,7 @@ class ExpensesController < ApplicationController
 
   # GET /expenses/new
   def new
-    @expense = Expense.new
+    @expense = current_user.expenses.build
   end
 
   # GET /expenses/1/edit
@@ -23,7 +24,8 @@ class ExpensesController < ApplicationController
 
   # POST /expenses or /expenses.json
   def create
-    @expense = Expense.new(expense_params)
+    @expense = current_user.expenses.build(expense_params)
+    @expense.balance_id = @user_actual_month_yeah_balance.id
 
     respond_to do |format|
       if @expense.save
@@ -67,6 +69,11 @@ class ExpensesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def expense_params
-      params.require(:expense).permit(:value, :description, :fixed, :date, :user_id)
+      params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id)
+    end
+
+    def set_user_balance
+      params[:user_id] = current_user.id
+      params[:balance_id] = @user_actual_month_yeah_balance
     end
 end

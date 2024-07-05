@@ -21,7 +21,12 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">User:</strong>
-    <%= expense.user_id %>
+    <%= expense.user.first_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Balance:</strong>
+    <%= expense.balance.month %>
   </p>
 
 </div>
