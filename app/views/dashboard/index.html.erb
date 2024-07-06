@@ -1,1 +1,12 @@
 <h1>Olá mundo</h1>
+
+
+<% @balance&.incomes.each do |single| %>
+    <p><%= single.description %></p>
+    <p><%= single.value %></p>
+<% end %>
+
+<% @balance&.expenses.each do |single| %>
+    <p><%= single.description %></p>
+    <p><%= single.value %></p>
+<% end %>
