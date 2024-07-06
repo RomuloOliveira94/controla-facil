@@ -1,6 +1,7 @@
 class IncomesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_income, only: %i[show edit update destroy]
+  before_action :format_comma_to_dot, only: %i[ create update ]
   include BalanceHelper
 
   # GET /incomes or /incomes.json
@@ -13,7 +14,7 @@ class IncomesController < ApplicationController
 
   # GET /incomes/new
   def new
-    @income = Income.new
+    @income = current_user.incomes.build
   end
 
   # GET /incomes/1/edit
@@ -21,7 +22,9 @@ class IncomesController < ApplicationController
 
   # POST /incomes or /incomes.json
   def create
-    @income = Income.new(income_params)
+    @income = current_user.incomes.build(income_params)
+    @income.balance_id = @user_actual_month_yeah_balance.id
+
 
     respond_to do |format|
       if @income.save
@@ -66,6 +69,10 @@ class IncomesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def income_params
-    params.require(:income).permit(:value, :description, :fixed)
+    params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id)
+  end
+
+  def format_comma_to_dot
+    params[:income][:value] = params[:income][:value].to_s.gsub(',', '.')
   end
 end

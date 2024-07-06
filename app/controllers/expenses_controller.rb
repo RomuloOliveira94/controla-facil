@@ -1,7 +1,8 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_expense, only: %i[ show edit update destroy ]
-  before_action :set_user_balance
+  before_action :format_comma_to_dot, only: %i[ create update ]
+
   include BalanceHelper
 
   # GET /expenses or /expenses.json
@@ -72,8 +73,7 @@ class ExpensesController < ApplicationController
       params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id)
     end
 
-    def set_user_balance
-      params[:user_id] = current_user.id
-      params[:balance_id] = @user_actual_month_yeah_balance
+    def format_comma_to_dot
+      params[:expense][:value] = params[:expense][:value].to_s.gsub(',', '.')
     end
 end
