@@ -3,19 +3,44 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
-  <% content_for :title, "Expenses" %>
+  <% content_for :title, "Gastos" %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Expenses</h1>
-    <%= link_to "New expense", new_expense_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-4xl">Gastos</h1>
+    <%= link_to "Novo Gasto", new_expense_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <div id="expenses" class="min-w-full">
-    <% @expenses.each do |expense| %>
-      <%= render expense %>
-      <p>
-        <%= link_to "Show this expense", expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
+    <table class="table table-lg table-pin-rows table-pin-cols mx-auto">
+      <thead>
+        <tr>
+          <td>Descrição</td>
+          <td>Valor</td>
+          <td>Data</td>
+          <td>Fixo?</td>
+        </tr>
+      </thead>
+      <tbody>
+          <% @expenses.each do |expense| %>
+          <tr>
+            <td><%= expense.description %></td>
+            <td><%= format_brl_currency(expense.value) %></td>
+            <td><%= format_date(expense.date) %></td>
+            <td><%= format_boolean(expense.fixed) %></td>
+            <td class="w-28">
+              <%= link_to "Ver", expense, class: "btn btn-info w-fit" %>
+            </td>
+          </tr> 
+          <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Descrição</td>
+          <td>Valor</td>
+          <td>Data</td>
+          <td>Fixo?</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>

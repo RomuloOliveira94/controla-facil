@@ -7,4 +7,8 @@ module ApplicationHelper
   def format_boolean(value)
     value ? "Sim" : "Não"
   end
+
+  def format_date(value)
+    value&.strftime("%d/%m/%Y")
+  end
 end
