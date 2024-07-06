@@ -8,7 +8,7 @@ module BalanceHelper
 
 
   def user_actual_month_yeah_balance
-    @user_actual_month_yeah_balance ||= current_user.balances.where(month: Time.now.mon, year: Time.now.year).first
+    @user_actual_month_yeah_balance ||= current_user.balances.includes(:expenses, :incomes).where(month: Time.now.mon, year: Time.now.year).first
   end
 
   def check_balance
