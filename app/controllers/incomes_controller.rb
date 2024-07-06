@@ -6,7 +6,7 @@ class IncomesController < ApplicationController
 
   # GET /incomes or /incomes.json
   def index
-    @incomes = Income.all
+    @incomes = current_user.incomes.all
   end
 
   # GET /incomes/1 or /incomes/1.json
