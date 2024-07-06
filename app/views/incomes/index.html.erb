@@ -6,16 +6,38 @@
   <% content_for :title, "Incomes" %>
 
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Incomes</h1>
-    <%= link_to "New income", new_income_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-4xl">Receitas</h1>
+    <%= link_to "Nova receita", new_income_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <div id="incomes" class="min-w-full">
-    <% @incomes.each do |income| %>
-      <%= render income %>
-      <p>
-        <%= link_to "Show this income", income, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
+    <table class="table table-lg table-pin-rows table-pin-cols mx-auto">
+      <thead>
+        <tr>
+          <td>Descrição</td>
+          <td>Valor</td>
+          <td>Fixo?</td>
+        </tr>
+      </thead>
+      <tbody>
+          <% @incomes.each do |income| %>
+          <tr>
+            <td><%= income.description %></td>
+            <td><%= format_brl_currency(income.value) %></td>
+            <td><%= format_boolean(income.fixed) %></td>
+            <td class="w-28">
+              <%= link_to "Ver", income, class: "btn btn-info w-fit" %>
+            </td>
+          </tr> 
+          <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Descrição</td>
+          <td>Valor</td>
+          <td>Fixo?</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
