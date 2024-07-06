@@ -1,7 +1,7 @@
 <div id="<%= dom_id expense %>">
   <p class="my-5">
     <strong class="block font-medium mb-1">Value:</strong>
-    <%= number_to_currency(expense.value, unit: "R$", separator: ",", delimiter: "") %>
+    <%= format_brl_currency(expense.value) %>
   </p>
 
   <p class="my-5">

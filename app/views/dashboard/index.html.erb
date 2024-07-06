@@ -3,10 +3,22 @@
 
 <% @balance&.incomes.each do |single| %>
     <p><%= single.description %></p>
-    <p><%= single.value %></p>
+    <p><%= format_brl_currency(single.value) %></p>
 <% end %>
 
 <% @balance&.expenses.each do |single| %>
     <p><%= single.description %></p>
-    <p><%= single.value %></p>
+    <p><%= format_brl_currency(single.value) %></p>
 <% end %>
+
+<div>
+    <h1>Total: </h1>
+    <%= format_brl_currency(@total_incomes) %>
+</div>
+
+<div>
+    <h1>Balanço do mês <%= @balance&.month %></h1>
+    <h2>Receitas: <%= format_brl_currency(@total_incomes) %></h2>
+    <h2>Despesas: <%= format_brl_currency(@total_expenses) %></h2>
+    <h2>Saldo: <%= format_brl_currency(@total_balance) %></h2>
+</div>
