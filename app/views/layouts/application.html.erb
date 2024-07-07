@@ -11,7 +11,7 @@
     
   </head>
 
-  <body data-controller="theme-switcher" data-theme="cupcake">
+  <body data-controller="theme-switcher" data-theme="<%= current_user.theme %>">
    <%= render 'shared/navbar' %>
     <main class="container mx-auto p-5 min-h-screen">
       <%= yield %>

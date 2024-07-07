@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :incomes
   get '/dashboard' => 'dashboard#index', as: :dashboard
   get '/configurations' => 'configurations#index', as: :configurations
+  patch '/configurations/change_theme' => 'configurations#change_theme', as: :change_theme
 
   revise_auth
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
