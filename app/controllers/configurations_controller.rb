@@ -1,5 +1,5 @@
 class ConfigurationsController < ApplicationController
-
+  before_action :authenticate_user!
 
   def change_theme
     @user = current_user
