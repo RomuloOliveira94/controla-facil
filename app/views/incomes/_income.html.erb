@@ -10,8 +10,13 @@
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Fixed:</strong>
-    <%= income.fixed %>
+    <strong class="block font-medium mb-1">Fixo:</strong>
+    <%= format_boolean(income.fixed) %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Categoria:</strong>
+    <%= income.category.name %>
   </p>
 
 </div>

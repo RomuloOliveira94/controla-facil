@@ -12,17 +12,16 @@
 
 #create expenses categories
 
-Category.find_or_create_by!(name: 'Food', description: 'All expenses related to food')
-Category.find_or_create_by!(name: 'Transport', description: 'All expenses related to transport')
-Category.find_or_create_by!(name: 'Health', description: 'All expenses related to health')
-Category.find_or_create_by!(name: 'Entertainment', description: 'All expenses related to entertainment')
-Category.find_or_create_by!(name: 'Education', description: 'All expenses related to education')
-Category.find_or_create_by!(name: 'Other', description: 'All other expenses')
+Category.find_or_create_by!(name: 'Food', description: 'All expenses related to food', cat_sub: 1)
+Category.find_or_create_by!(name: 'Transport', description: 'All expenses related to transport', cat_sub: 1)
+Category.find_or_create_by!(name: 'Health', description: 'All expenses related to health', cat_sub: 1)
+Category.find_or_create_by!(name: 'Entertainment', description: 'All expenses related to entertainment', cat_sub: 1)
+Category.find_or_create_by!(name: 'Education', description: 'All expenses related to education', cat_sub: 1)
+Category.find_or_create_by!(name: 'Other', description: 'All other expenses', cat_sub: 1)
 
 #create incomes categories
 
-Category.find_or_create_by!(name: 'Salary', description: 'All incomes related to salary')
-Category.find_or_create_by!(name: 'Investment', description: 'All incomes related to investment')
-Category.find_or_create_by!(name: 'Gift', description: 'All incomes related to gift')
-Category.find_or_create_by!(name: 'Other', description: 'All other incomes')
-
+Category.find_or_create_by!(name: 'Salary', description: 'All incomes related to salary', cat_sub: 2)
+Category.find_or_create_by!(name: 'Investment', description: 'All incomes related to investment', cat_sub: 2)
+Category.find_or_create_by!(name: 'Gift', description: 'All incomes related to gift', cat_sub: 2)
+Category.find_or_create_by!(name: 'Other', description: 'All other incomes', cat_sub: 2)

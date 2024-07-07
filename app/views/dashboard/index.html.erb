@@ -1,12 +1,12 @@
 <h1>Olá mundo</h1>
 
 
-<% @balance&.incomes.each do |single| %>
+<% @balance&.incomes&.each do |single| %>
     <p><%= single.description %></p>
     <p><%= format_brl_currency(single.value) %></p>
 <% end %>
 
-<% @balance&.expenses.each do |single| %>
+<% @balance&.expenses&.each do |single| %>
     <p><%= single.description %></p>
     <p><%= format_brl_currency(single.value) %></p>
 <% end %>

@@ -25,7 +25,6 @@ class IncomesController < ApplicationController
     @income = current_user.incomes.build(income_params)
     @income.balance_id = @user_actual_month_yeah_balance.id
 
-
     respond_to do |format|
       if @income.save
         format.html { redirect_to income_url(@income), notice: 'Income was successfully created.' }
@@ -69,7 +68,7 @@ class IncomesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def income_params
-    params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id)
+    params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id, :category_id)
   end
 
   def format_comma_to_dot

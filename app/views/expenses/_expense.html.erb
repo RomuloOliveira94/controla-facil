@@ -11,7 +11,7 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Fixed:</strong>
-    <%= expense.fixed %>
+    <%= format_boolean(expense.fixed) %>
   </p>
 
   <p class="my-5">
@@ -27,6 +27,11 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Balance:</strong>
     <%= expense.balance.month %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Categoria:</strong>
+    <%= expense.category.name %>
   </p>
 
 </div>

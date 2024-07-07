@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_06_174314) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_06_180652) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_174314) do
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.column "cat_sub", "enum('expenses','incomes')"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -67,7 +68,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_174314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "balance_id", null: false
+    t.bigint "category_id", null: false
     t.index ["balance_id"], name: "index_expenses_on_balance_id"
+    t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
@@ -79,7 +82,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_174314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "balance_id", null: false
+    t.bigint "category_id", null: false
     t.index ["balance_id"], name: "index_incomes_on_balance_id"
+    t.index ["category_id"], name: "index_incomes_on_category_id"
     t.index ["user_id"], name: "index_incomes_on_user_id"
   end
 
@@ -99,7 +104,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_06_174314) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "balances", "users"
   add_foreign_key "expenses", "balances"
+  add_foreign_key "expenses", "categories"
   add_foreign_key "expenses", "users"
   add_foreign_key "incomes", "balances"
+  add_foreign_key "incomes", "categories"
   add_foreign_key "incomes", "users"
 end

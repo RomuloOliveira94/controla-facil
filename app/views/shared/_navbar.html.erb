@@ -6,7 +6,7 @@
 			<!-- Heroicon - Chip Outline -->
 			
 			
-			<% if current_user.avatar.attached? %>
+			<% if current_user&.avatar&.attached? %>
 				<%= image_tag current_user.avatar, class: "rounded-full", width: "50" %>
 			<% end %>
 			

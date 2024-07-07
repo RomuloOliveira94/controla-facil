@@ -70,7 +70,7 @@ class ExpensesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def expense_params
-      params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id)
+      params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id, :category_id)
     end
 
     def format_comma_to_dot

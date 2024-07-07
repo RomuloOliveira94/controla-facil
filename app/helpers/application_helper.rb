@@ -11,4 +11,12 @@ module ApplicationHelper
   def format_date(value)
     value&.strftime("%d/%m/%Y")
   end
+
+  def incomes_categories
+    Category.where(cat_sub: 'incomes')
+  end
+
+  def expenses_categories
+    Category.where(cat_sub: 'expenses')
+  end
 end
