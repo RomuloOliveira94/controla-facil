@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :expenses
   resources :incomes
   get '/dashboard' => 'dashboard#index', as: :dashboard
+  get '/configurations' => 'configurations#index', as: :configurations
 
   revise_auth
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
