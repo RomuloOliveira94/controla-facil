@@ -37,7 +37,7 @@
 		
 		<% if user_signed_in? %>
 			<div class="order-2 md:order-3 max-md:hidden">
-			<button class="px-4 py-2 bg-primary text-gray-50 rounded-xl flex items-center gap-2">
+			<button class="px-4 py-2 bg-error text-gray-50 rounded-xl flex items-center gap-2">
                <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete } %>
             </button>
 		</div>

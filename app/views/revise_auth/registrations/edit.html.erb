@@ -1,4 +1,4 @@
-<div class="grid gap-10 mb-10">
+<div class="grid gap-10 my-10 items-center justify-center">
   <h1 class="text-3xl font-bold mb-6"><%=t ".Perfil" %></h1>
   <%= form_with model: current_user, url: profile_path, method: :patch do |form| %>
     <div class="grid gap-4">
@@ -6,21 +6,21 @@
         <% if current_user.avatar.attached? %>
 				<%= image_tag current_user.avatar, class: "rounded-full", width: "200" %>
 			<% end %>
-        <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-xs" %>
+        <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-md" %>
       </div>
 
       <div class="grid gap-2">
         <%= form.label :first_name, t(".nome") %>
-        <%= form.text_field :first_name, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.text_field :first_name, required: true, class: "input input-bordered w-full max-w-md" %>
       </div>
 
       <div class="grid gap-2">
         <%= form.label :last_name, t(".sobrenome") %>
-        <%= form.text_field :last_name, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.text_field :last_name, required: true, class: "input input-bordered w-full max-w-md" %>
       </div>
 
       <div class="grid">
-        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
       </div>
     </div>
   <% end %>
@@ -44,15 +44,15 @@
       <p>Seu email atual é : <%=current_user.email%></p>
       <p>Para mudar seu email, enviaremos uma confirmação para seu novo email.</p>
 
-      <label class="form-control w-full max-w-xs">
+      <label class="form-control w-full max-w-md">
         <div class="label">
           <span class="label-text">Novo Email</span>
         </div>
-        <%= form.email_field :unconfirmed_email, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.email_field :unconfirmed_email, required: true, class: "input input-bordered w-full max-w-md" %>
       </label>
 
       <div class="grid">
-        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
       </div>
     </fieldset>
   <% end %>-->
@@ -69,33 +69,33 @@
         </ul>
       <% end %>
 
-      <label class="form-control w-full max-w-xs">
+      <label class="form-control w-full max-w-md">
         <div class="label">
           <span class="label-text">Senha Atual</span>
         </div>
-        <%= form.password_field :password_challenge, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.password_field :password_challenge, required: true, class: "input input-bordered w-full max-w-md" %>
       </label>
-      <label class="form-control w-full max-w-xs">
+      <label class="form-control w-full max-w-md">
         <div class="label">
           <span class="label-text">Nova Senha</span>
         </div>
-        <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-md" %>
       </label>
-      <label class="form-control w-full max-w-xs">
+      <label class="form-control w-full max-w-md">
         <div class="label">
           <span class="label-text">Confirmação da Senha</span>
         </div>
-        <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-xs" %>
+        <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
       </label>
 
       <div class="grid">
-        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-xs" %>
+        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
       </div>
     </fieldset>
   <% end %>
 
   <div class="grid">
-    <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete }, class: "btn btn-error text-lg max-w-xs" %>
+    <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete }, class: "btn btn-error text-lg max-w-md" %>
   </div>
 
   <!--<%= form_with url: profile_path, method: :delete do |form| %>
