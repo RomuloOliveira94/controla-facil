@@ -7,9 +7,9 @@
     <div data-action="change->theme-switcher#switch">
         <label for="theme">Tema</label>
         <select name="theme" id="theme" data-theme-switcher-target="theme">
-            <option value="light" <%= 'selected' if current_user.theme == 'light' %>>Claro</option>
-            <option value="dark" <%= 'selected' if current_user.theme == 'dark' %>>Escuro</option>
-            <option value="cupcake" <%= 'selected' if current_user.theme == 'cupcake' %>>Bolo</option>
+            <% ConfigurationsHelper::THEMES.each do |theme|%>
+                <option value="<%= theme %>" <%= 'selected' if current_user.theme == theme %>><%= theme.capitalize %></option>
+            <% end %>
         </select>
     </div>
 </div>
