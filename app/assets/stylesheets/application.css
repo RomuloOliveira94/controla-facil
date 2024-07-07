@@ -13,3 +13,4 @@
  *= require_tree .
  *= require_self
  */
+ @import "https://cdn.jsdelivr.net/npm/daisyui@3.3.2/dist/full.min.css";
