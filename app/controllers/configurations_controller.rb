@@ -1,6 +1,10 @@
 class ConfigurationsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @user = current_user
+  end
+
   def change_theme
     @user = current_user
     @user.theme = configuration_params[:theme]

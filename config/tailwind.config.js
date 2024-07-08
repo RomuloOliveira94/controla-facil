@@ -16,8 +16,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
-    require('@tailwindcss/container-queries'),
-    require('daisyui')
+    require('@tailwindcss/container-queries')
   ],
   daisyui: {
     themes: [
