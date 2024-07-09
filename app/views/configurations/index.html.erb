@@ -1,15 +1,69 @@
-<div>
-    <h1>Configurações</h1>
-</div>
+<div class="grid gap-8">
+    <h1 class="text-center text-3xl">Configurações ⚙️</h1>
 
-<div>
-    <h2>Escolher tema</h2>
-    <div data-action="change->theme-switcher#switch">
-        <label for="theme">Tema</label>
-        <select name="theme" id="theme" data-theme-switcher-target="theme">
-            <% ConfigurationsHelper::THEMES.each do |theme|%>
-                <option value="<%= theme %>" <%= 'selected' if user_theme == theme %>><%= theme.capitalize %></option>
-            <% end %>
-        </select>
+    <div class="flex flex-col items-center justify-center gap-4">
+        <h2 class="text-2xl font-bold">Escolher tema 🎨</h2>
+        <div data-action="change->theme-switcher#switch" class="flex gap-4 items-center justify-center bg-slate-100 shadow-sm rounded-lg p-6 w-full" >
+            <label for="theme" class="text-xl font-semibold text-black">Escolha o tema: </label>
+            <select name="theme" id="theme" data-theme-switcher-target="theme" class="select select-bordered w-full max-w-xs">
+                <% ConfigurationsHelper::THEMES.each do |theme|%>
+                    <option value="<%= theme %>" <%= 'selected' if user_theme == theme %>><%= theme.capitalize %></option>
+                <% end %>
+            </select>
+        </div>
     </div>
+
+    <div class="grid gap-6">
+        <h2 class="font-bold text-2xl text-center">Categorias Cadastradas:</h2>
+        <div class="flex flex-col md:flex-row gap-6">
+            <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-xl">Categorias de Despesas 💸</h3>
+                    <button class="btn btn-ghost btn-sm w-10 h-10"> ➕ </button>
+                </div>
+                <ul>
+                    <% incomes_categories.each do |category| %>
+                        <li class="font-semibold md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
+                            <span>
+                                <%= category.name %> 
+                            </span>
+                            <span class="font-light hidden lg:block text-start">
+                               <%= category.description %>
+                            </span> 
+                            <button class="btn btn-ghost btn-xs">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500 text-end">
+                                <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            </button>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+
+            <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-xl">Categorias de Receitas 💰</h3>
+                    <button class="btn btn-ghost btn-sm w-10 h-10"> ➕ </button>
+                </div>
+                <ul>
+                    <% expenses_categories.each do |category| %>
+                        <li class="font-semibold md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
+                            <span>
+                                <%= category.name %> 
+                            </span>
+                            <span class="font-light hidden lg:block text-start">
+                               <%= category.description %>
+                            </span> 
+                            <button class="btn btn-ghost btn-xs">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500 text-end">
+                                <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
+                                </svg>
+                            </button>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>    
+    </div>
+
 </div>
