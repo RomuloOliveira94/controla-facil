@@ -21,21 +21,9 @@
                     <h3 class="font-bold text-xl">Categorias de Despesas 💸</h3>
                     <button class="btn btn-ghost btn-sm w-10 h-10"> <%= link_to '➕', new_category_path, data: { turbo_frame: 'modal' } %> </button>
                 </div>
-                <ul>
+                <ul id="categories">
                     <% expenses_categories.each do |category| %>
-                        <li class="font-semibold md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
-                            <span>
-                                <%= category.name %> 
-                            </span>
-                            <span class="font-light hidden lg:block text-start">
-                               <%= category.description %>
-                            </span> 
-                            <button class="btn btn-ghost btn-xs">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500 text-end">
-                                <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
-                                </svg>
-                            </button>
-                        </li>
+                        <%= render 'categories_list', category: category %>
                     <% end %>
                 </ul>
             </div>
@@ -45,21 +33,9 @@
                     <h3 class="font-bold text-xl">Categorias de Receitas 💰</h3>
                     <button class="btn btn-ghost btn-sm w-10 h-10"> ➕ </button>
                 </div>
-                <ul>
+                <ul id="categories">
                     <% incomes_categories.each do |category| %>
-                        <li class="font-semibold md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
-                            <span>
-                                <%= category.name %> 
-                            </span>
-                            <span class="font-light hidden lg:block text-start">
-                               <%= category.description %>
-                            </span> 
-                            <button class="btn btn-ghost btn-xs">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500 text-end">
-                                <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
-                                </svg>
-                            </button>
-                        </li>
+                        <%= render 'categories_list', category: category %>
                     <% end %>
                 </ul>
             </div>

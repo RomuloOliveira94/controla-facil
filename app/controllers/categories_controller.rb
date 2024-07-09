@@ -1,6 +1,4 @@
 class CategoriesController < ApplicationController
-
-
   def new
     @category = Category.new
   end
@@ -8,10 +6,16 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
 
-    if @category.save
-      redirect_to new_category_path, notice: 'Categoria criada com sucesso'
-    else
-      render :new
+    respond_to do |format|
+      if @category.save
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append('categories', partial: 'configurations/categories_list',
+                                                                 locals: { category: @category })
+        end
+        format.html { redirect_to configurations_path, notice: 'Categoria criada com sucesso.' }
+      else
+        format.html { render :new }
+      end
     end
   end
 
@@ -25,5 +29,4 @@ class CategoriesController < ApplicationController
   def category_params
     params.require(:category).permit(:name, :description, :cat_sub)
   end
-
 end
