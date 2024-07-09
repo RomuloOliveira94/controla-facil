@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get '/configurations' => 'configurations#index', as: :configurations
   patch '/configurations/change_theme' => 'configurations#change_theme', as: :change_theme
 
+  #categories
+  resources :categories
+
   revise_auth
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
