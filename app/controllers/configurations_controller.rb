@@ -1,9 +1,7 @@
 class ConfigurationsController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @user = current_user
-  end
+  def index; end
 
   def change_theme
     @user = current_user
