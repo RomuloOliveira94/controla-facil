@@ -1,6 +1,7 @@
-<li id="<%= dom_id category %>" class="font-semibold md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
-    <span>
-        <%= category.name %> 
+<li id="<%= dom_id category %>" class="md:text-lg flex justify-between lg:justify-envely  lg:items-center gap-4 w-full">
+    <span class="flex items-center justify-evenly gap-1">
+       <i class="fa-solid <%= category.try(:icon) %> m-auto"></i> 
+       <strong class="text-start"><%= category.name %></strong> 
     </span>
     <div class="flex items-center gap-2">
         <span class="font-light hidden lg:block text-start">

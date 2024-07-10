@@ -1,43 +1,54 @@
 <table class="table table-xs md:table-lg table-pin-rows table-pin-cols md:hidden">
-    <thead>
+  <thead>
     <tr>
-        <td></td>
-        <td>Descrição</td>
-        <td>Fixo?</td>
-        <td class="text-center"></td>
+      <td></td>
+      <td>Descrição</td>
+      <td>Fixo?</td>
+      <td class="text-center"></td>
     </tr>
-    </thead>
-    <tbody>
-        <% values.each do |value| %>
-        <tr>
-        <td></td>
+  </thead>
+  <tbody>
+    <% values.each do |value| %>
+      <tr>
         <td>
-            <div class="grid">
+          <div class="flex items-center justify-center <%= category_list_icon_color value.category.cat_sub %>">
+            <div class="h-8 w-8 md:h-14 md:w-14 rounded-full border-2 flex items-center justify-center gap-0.5">
+              <i class="fa-solid <%= value.category.try(:icon) %> h-5 w-5"></i>
+            </div>
+            <% if value.category.cat_sub == "expenses" %>
+              <i class="fa-solid fa fa-arrow-down h-4 w-4 -ml-1 md:-ml-2 self-end" aria-hidden="true"></i>
+            <% else %>
+              <i class="fa-solid fa fa-arrow-up h-4 w-4 -ml-1 md:-ml-2 self-start" aria-hidden="true"></i>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <div class="grid">
             <strong><%= value.description %></strong>
             <strong>-<%= format_brl_currency(value.value) %></strong>
-            <span><%= value.category.name %></span>            
-            <% if value.try(:date) %>  
-                <span><%= format_date(value.date) %></span>
+            <span><%= value.category.name %></span>
+            <% if value.try(:date) %>
+              <span><%= format_date(value.date) %></span>
             <% end %>
-            </div>
+          </div>
         </td>
         <td><%= format_boolean(value.fixed) %></td>
         <td class="w-28 text-center">
-            <%= link_to value, class: "btn btn-info btn-xs md:btn-md" do %>
+          <%= link_to value, class: "btn btn-info btn-xs md:btn-md" do %>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24" class="h-6 w-6 text-primary">
-            <path fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414" />
+              <path fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414" />
             </svg>
-            <% end %>
+          <% end %>
         </td>
-        </tr> 
-        <% end %>
-    </tbody>
-    <tfoot>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
     <tr>
-        <td></td>
-        <td>Descrição</td>
-        <td>Fixo?</td>
-        <td class="text-center"></td>
+      <td></td>
+      <td>Descrição</td>
+      <td>Fixo?</td>
+      <td class="text-center"></td>
     </tr>
-    </tfoot>
+  </tfoot>
 </table>

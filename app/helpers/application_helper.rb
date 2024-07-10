@@ -22,4 +22,8 @@ module ApplicationHelper
   def user_theme
     current_user&.theme ? current_user.theme : 'light'
   end
+
+  def category_list_icon_color value_type
+    value_type == 'incomes' ? 'text-success' : 'text-error'
+  end
 end

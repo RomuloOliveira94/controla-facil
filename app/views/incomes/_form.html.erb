@@ -2,7 +2,6 @@
   <% if income.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(income.errors.count, "error") %> Problemas ao salvar:</h2>
-
       <ul>
         <% income.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,27 +9,22 @@
       </ul>
     </div>
   <% end %>
-
   <div class="my-5">
     <%= form.label :value %>
     <%= form.text_field :value, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", data: { masks_target: 'brl' }, placeholder: "R$" %>
   </div>
-
   <div class="my-5">
     <%= form.label :description %>
     <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-
   <div class="my-5">
     <%= form.label :fixed %>
     <%= form.check_box :fixed, class: "block mt-2 h-5 w-5" %>
   </div>
-
   <div>
     <%= form.label :category_id %>
     <%= form.collection_select :category_id, incomes_categories, :id, :name, { prompt: "Select a category" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
