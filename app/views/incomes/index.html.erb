@@ -10,13 +10,15 @@
     <%= link_to "Nova receita", new_income_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="incomes" class="min-w-full">
-    <table class="table table-lg table-pin-rows table-pin-cols mx-auto">
+  <div id="incomes" class="overflow-x-auto my-6">
+    <table class="table table-xs md:table-lg table-pin-rows table-pin-cols">
       <thead>
         <tr>
           <td>Descrição</td>
           <td>Valor</td>
           <td>Fixo?</td>
+          <td>Categoria</td>
+          <td class="text-center">Ação</td>
         </tr>
       </thead>
       <tbody>
@@ -25,8 +27,9 @@
             <td><%= income.description %></td>
             <td><%= format_brl_currency(income.value) %></td>
             <td><%= format_boolean(income.fixed) %></td>
-            <td class="w-28">
-              <%= link_to "Ver", income, class: "btn btn-info w-fit" %>
+            <td><%= income.category.name %></td>
+            <td class="w-28 text-center">
+              <%= link_to "Ver", income, class: "btn btn-info btn-xs md:btn-md" %>
             </td>
           </tr> 
           <% end %>
@@ -36,6 +39,8 @@
           <td>Descrição</td>
           <td>Valor</td>
           <td>Fixo?</td>
+          <td>Categoria</td>
+          <td class="text-center">Ação</td>
         </tr>
       </tfoot>
     </table>

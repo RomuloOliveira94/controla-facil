@@ -10,14 +10,16 @@
     <%= link_to "Novo Gasto", new_expense_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
-  <div id="expenses" class="min-w-full">
-    <table class="table table-lg table-pin-rows table-pin-cols mx-auto">
+  <div id="expenses" class="overflow-x-auto my-6">
+    <table class="table table-xs md:table-lg table-pin-rows table-pin-cols">
       <thead>
         <tr>
           <td>Descrição</td>
           <td>Valor</td>
           <td>Data</td>
           <td>Fixo?</td>
+          <td>Categoria</td>
+          <td class="text-center">Ação</td>
         </tr>
       </thead>
       <tbody>
@@ -27,8 +29,9 @@
             <td><%= format_brl_currency(expense.value) %></td>
             <td><%= format_date(expense.date) %></td>
             <td><%= format_boolean(expense.fixed) %></td>
-            <td class="w-28">
-              <%= link_to "Ver", expense, class: "btn btn-info w-fit" %>
+            <td><%= expense.category.name %></td>
+            <td class="w-28 text-center">
+              <%= link_to "Ver", expense, class: "btn btn-info btn-xs md:btn-md" %>
             </td>
           </tr> 
           <% end %>
@@ -39,6 +42,8 @@
           <td>Valor</td>
           <td>Data</td>
           <td>Fixo?</td>
+          <td>Categoria</td>
+          <td class="text-center">Ação</td>
         </tr>
       </tfoot>
     </table>
