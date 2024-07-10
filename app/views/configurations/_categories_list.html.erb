@@ -2,14 +2,18 @@
     <span>
         <%= category.name %> 
     </span>
-    <span class="font-light hidden lg:block text-start">
-    <%= category.description %>
-    </span>
-    <%= link_to category, data: { turbo_method: :delete } do %> 
-        <button class="btn btn-ghost btn-xs">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500 text-end">
-            <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
-            </svg>
-        </button>
-    <% end %>
+    <div class="flex items-center gap-2">
+        <span class="font-light hidden lg:block text-start">
+        <%= category.description %>
+        </span>
+        <% unless category.fixed %>
+            <%= link_to category, data: { turbo_method: :delete }, class: "flex items-center justify-center" do %> 
+                <button class="btn btn-ghost btn-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="text-red-500">
+                    <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            <% end %>
+        <% end %>
+    </div>
 </li>
