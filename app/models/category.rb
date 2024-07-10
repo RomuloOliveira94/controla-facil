@@ -4,6 +4,7 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
   validates :cat_sub, presence: true
+  validates :icon, presence: true
 
   before_destroy :disassociate_uses
 
