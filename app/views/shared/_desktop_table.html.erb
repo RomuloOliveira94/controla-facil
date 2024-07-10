@@ -1,0 +1,40 @@
+<table class="table table-xs md:table-lg table-pin-rows table-pin-cols max-md:hidden">
+    <thead>
+    <tr>
+        <td>Descrição</td>
+        <td>Valor</td>
+        <td>Fixo?</td>
+        <td>Categoria</td>
+        <td class="text-center">Ação</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% values.each do |value| %>
+        <tr>
+            <td>
+                <div class="grid">
+                    <strong><%= value.description %></strong>
+                    <% if value.try(:date) %>               
+                        <%= format_date(value.date) %>
+                    <% end %>
+                </div>
+            </td>
+            <td><strong><%= format_brl_currency(value.value) %></strong></td>
+            <td><%= format_boolean(value.fixed) %></td>
+            <td><%= value.category.name %></td>
+            <td class="w-28 text-center">
+                <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md" %>
+            </td>
+        </tr> 
+        <% end %>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td>Descrição</td>
+        <td>Valor</td>      
+        <td>Fixo?</td>
+        <td>Categoria</td>
+        <td class="text-center">Ação</td>
+    </tr>
+    </tfoot>
+</table>

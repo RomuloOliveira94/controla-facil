@@ -1,31 +1,26 @@
 <div id="<%= dom_id expense %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Value:</strong>
+    <strong class="block font-medium mb-1">Valor:</strong>
     <%= format_brl_currency(expense.value) %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Description:</strong>
+    <strong class="block font-medium mb-1">Descrição:</strong>
     <%= expense.description %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Fixed:</strong>
+    <strong class="block font-medium mb-1">Fixo?:</strong>
     <%= format_boolean(expense.fixed) %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Date:</strong>
+    <strong class="block font-medium mb-1">Data:</strong>
     <%= expense.date %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">User:</strong>
-    <%= expense.user.first_name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Balance:</strong>
+    <strong class="block font-medium mb-1">Mês:</strong>
     <%= expense.balance.month %>
   </p>
 

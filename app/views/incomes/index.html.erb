@@ -11,38 +11,7 @@
   </div>
 
   <div id="incomes" class="overflow-x-auto my-6">
-    <table class="table table-xs md:table-lg table-pin-rows table-pin-cols">
-      <thead>
-        <tr>
-          <td>Descrição</td>
-          <td>Valor</td>
-          <td>Fixo?</td>
-          <td>Categoria</td>
-          <td class="text-center">Ação</td>
-        </tr>
-      </thead>
-      <tbody>
-          <% @incomes.each do |income| %>
-          <tr>
-            <td><%= income.description %></td>
-            <td><%= format_brl_currency(income.value) %></td>
-            <td><%= format_boolean(income.fixed) %></td>
-            <td><%= income.category.name %></td>
-            <td class="w-28 text-center">
-              <%= link_to "Ver", income, class: "btn btn-info btn-xs md:btn-md" %>
-            </td>
-          </tr> 
-          <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td>Descrição</td>
-          <td>Valor</td>
-          <td>Fixo?</td>
-          <td>Categoria</td>
-          <td class="text-center">Ação</td>
-        </tr>
-      </tfoot>
-    </table>
+    <%= render 'shared/desktop_table', values: @incomes %>
+    <%= render 'shared/mobile_table', values: @incomes %>
   </div>
 </div>
