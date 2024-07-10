@@ -13,8 +13,8 @@
 
   <body data-controller="theme-switcher" data-theme="<%= user_theme %>">
    <%= render 'shared/navbar' %>
+    <%= turbo_frame_tag :modal %>
     <main class="container mx-auto p-5 min-h-screen">
-      <%= turbo_frame_tag :modal %>
       <%= yield %>
     </main>
   </body>
