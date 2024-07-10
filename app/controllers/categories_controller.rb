@@ -45,7 +45,7 @@ class CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:name, :description, :cat_sub)
+    params.require(:category).permit(:name, :description, :cat_sub, :icon)
   end
 
   def list_to_update

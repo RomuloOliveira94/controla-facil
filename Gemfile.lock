@@ -92,6 +92,8 @@ GEM
     drb (2.2.1)
     erubi (1.13.0)
     ffi (1.16.3)
+    font-awesome-sass (6.5.2)
+      sassc (~> 2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.5)
@@ -199,6 +201,8 @@ GEM
       rails (>= 7.1.0.beta1)
     ruby-vips (2.2.1)
       ffi (~> 1.12)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -251,6 +255,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
+  font-awesome-sass
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

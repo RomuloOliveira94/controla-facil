@@ -33,5 +33,19 @@
       <%= form.submit "Criar", class: "btn btn-success max-w-sm" %>
     </div>
 
+    <div class="mt-6">
+      <h3 class="text-xl font-semibold">Icone:</h3>
+      <div class="grid grid-cols-4">
+        <% all_available_icons.each do |i| %>
+          <div class="flex items-center justify-center p-2 cursor-pointer hover:opacity-70 ">    
+            <%= form.radio_button :icon, i, class: "hidden peer" %>
+            <%= label_tag "category_icon_#{i}", class: 'peer-checked:border-2 p-3 cursor-pointer rounded-lg w-16 flex justify-center items-center' do %>
+              <i class="fa-solid <%= i %> text-2xl"></i>
+            <% end %>
+          </div>
+        <% end %>
+      </div>  
+    </div>
+
   <% end %>
 </div>
