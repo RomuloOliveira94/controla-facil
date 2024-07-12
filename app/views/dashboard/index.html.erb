@@ -1,14 +1,14 @@
 <div class="grid gap-8">
   <section class="grid gap-6">
     <h1 class="text-3xl font-bold">Balanço</h1>
-    <div class="relative p-5 bg-gradient-to-r from-green-400 to-green-600 rounded-md overflow-hidden h-32 max-w-2xl">
+    <div class="relative p-5 bg-gradient-to-r from-green-400 to-green-600 rounded-md overflow-hidden h-32 md:w-1/2">
       <div class="relative z-10 mb-4 text-white text-5xl leading-none font-semibold"><%= format_brl_currency(@total_balance) %></div>
       <div class="relative z-10 text-green-200 leading-none font-semibold text-xl">Saldo Atual</div>
       <i class="fa-solid fa-scale-balanced absolute right-4 bottom-2 h-40 w-40 -mr-8 -mb-8 text-green-700 opacity-50"></i>
     </div>
   </section>
-  <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-    <h2 class="font-semibold text-2xl col-span-3">Resumo</h2>
+  <section class="grid lg:grid-cols-2 gap-4">
+    <h2 class="font-semibold text-2xl md:col-span-2">Resumo</h2>
     <div class="relative p-5 bg-gradient-to-r from-sky-400 to-sky-500 rounded-md overflow-hidden">
       <div class="relative z-10 mb-4 text-white text-4xl leading-none font-semibold"><%= format_brl_currency(@total_incomes) %></div>
       <div class="relative z-10 text-sky-200 leading-none font-semibold">Receitas</div>
@@ -21,14 +21,10 @@
     </div>
   </section>
   <section>
-    <h2>Resumo do Mês Atual:</h2>
+    <h3 class="text-xl font-semibold mt-3">Resumo do Mês Atual:</h3>
+    <div id="expenses" class="overflow-x-auto my-6">
+      <%= render 'shared/desktop_table', values: @all_incomes_and_expenses %>
+      <%= render 'shared/mobile_table', values: @all_incomes_and_expenses %>
+    </div>
   </section>
-  <% @user_actual_month_yeah_balance.incomes.each do |single| %>
-    <p><%= single.description %></p>
-    <p><%= format_brl_currency(single.value) %></p>
-  <% end %>
-  <% @user_actual_month_yeah_balance.expenses.each do |single| %>
-    <p><%= single.description %></p>
-    <p><%= format_brl_currency(single.value) %></p>
-  <% end %>
 </div>

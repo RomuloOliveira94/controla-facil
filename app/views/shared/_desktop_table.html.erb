@@ -27,6 +27,8 @@
             <strong><%= value.description.capitalize %></strong>
             <% if value.try(:date) %>
               <span class="font-light"><%= format_date(value.date) %></span>
+            <% else %>
+              <span class="font-light"><%= format_date(value.created_at) %></span>
             <% end %>
           </div>
         </td>

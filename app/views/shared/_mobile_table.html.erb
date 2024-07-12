@@ -29,6 +29,8 @@
             <span class="font-light"><%= value.category.name %></span>
             <% if value.try(:date) %>
               <span><%= format_date(value.date) %></span>
+            <% else %>
+              <span class="font-light"><%= format_date(value.created_at) %></span>
             <% end %>
           </div>
         </td>
