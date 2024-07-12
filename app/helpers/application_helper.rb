@@ -7,6 +7,11 @@ module ApplicationHelper
     value ? 'Sim' : 'Não'
   end
 
+  def get_date_by_day(day, value)
+    date = Date.new(value.year, value.month, day)
+    date.strftime('%d/%m/%Y')
+  end
+
   def format_date(value)
     value&.strftime('%d/%m/%Y')
   end

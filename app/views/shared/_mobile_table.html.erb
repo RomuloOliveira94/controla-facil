@@ -29,8 +29,8 @@
             <span class="font-light"><%= value.category.name %></span>
             <% if value.try(:date) %>
               <span><%= format_date(value.date) %></span>
-            <% else %>
-              <span class="font-light"><%= format_date(value.created_at) %></span>
+            <% elsif value.try(:day) %>
+              <span class="font-light"><%= get_date_by_day(value.day, @user_actual_month_yeah_balance) %></span>
             <% end %>
           </div>
         </td>
