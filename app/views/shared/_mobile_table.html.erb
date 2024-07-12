@@ -24,15 +24,15 @@
         </td>
         <td>
           <div class="grid">
-            <strong><%= value.description %></strong>
+            <strong><%= value.description.capitalize %></strong>
             <strong>-<%= format_brl_currency(value.value) %></strong>
-            <span><%= value.category.name %></span>
+            <span class="font-light"><%= value.category.name %></span>
             <% if value.try(:date) %>
               <span><%= format_date(value.date) %></span>
             <% end %>
           </div>
         </td>
-        <td><%= format_boolean(value.fixed) %></td>
+        <td><span class="font-semibold"><%= format_boolean(value.fixed) %></span></td>
         <td class="w-28 text-center">
           <%= link_to value, class: "btn btn-info btn-xs md:btn-md" do %>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24" class="h-6 w-6 text-primary">

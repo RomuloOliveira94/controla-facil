@@ -24,9 +24,9 @@
         </td>
         <td>
           <div class="grid">
-            <strong><%= value.description %></strong>
+            <strong><%= value.description.capitalize %></strong>
             <% if value.try(:date) %>
-              <%= format_date(value.date) %>
+              <span class="font-light"><%= format_date(value.date) %></span>
             <% end %>
           </div>
         </td>
