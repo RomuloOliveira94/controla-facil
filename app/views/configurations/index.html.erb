@@ -24,7 +24,7 @@
                     <% end %>
                 </div>
                 <ul id="expenses">
-                    <% expenses_categories.each do |category| %>
+                    <% @expenses_categories.each do |category| %>
                         <%= render 'categories_list', category: category %>
                     <% end %>
                 </ul>
@@ -38,7 +38,7 @@
                     <% end %>
                 </div>
                 <ul id="incomes">
-                    <% incomes_categories.each do |category| %>
+                    <% @incomes_categories.each do |category| %>
                         <%= render 'categories_list', category: category %>
                     <% end %>
                 </ul>

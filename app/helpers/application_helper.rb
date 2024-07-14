@@ -16,14 +16,6 @@ module ApplicationHelper
     value&.strftime('%d/%m/%Y')
   end
 
-  def incomes_categories
-    Category.where(cat_sub: 'incomes')
-  end
-
-  def expenses_categories
-    Category.where(cat_sub: 'expenses')
-  end
-
   def user_theme
     current_user&.theme ? current_user.theme : 'light'
   end
