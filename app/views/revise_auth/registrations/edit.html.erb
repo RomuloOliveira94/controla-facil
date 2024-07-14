@@ -4,8 +4,8 @@
     <div class="grid gap-4">
       <div class="grid gap-4">
         <% if current_user.avatar.attached? %>
-				<%= image_tag current_user.avatar, class: "rounded-full", width: "200" %>
-			<% end %>
+				  <%= image_tag current_user.avatar, class: "rounded-full h-64 w-64 object-cover" %>
+			  <% end %>
         <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-md" %>
       </div>
 
