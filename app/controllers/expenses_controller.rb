@@ -17,10 +17,12 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = current_user.expenses.build
+    @expenses_categories = Category.user_global(current_user).expenses
   end
 
   # GET /expenses/1/edit
   def edit
+    @expenses_categories = Category.user_global(current_user).expenses
   end
 
   # POST /expenses or /expenses.json

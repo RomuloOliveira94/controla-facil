@@ -33,7 +33,7 @@
 
   <div>
     <%= form.label :category_id %>
-    <%= form.collection_select :category_id, expenses_categories, :id, :name, { prompt: "Select a category" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.collection_select :category_id, @expenses_categories, :id, :name, { prompt: "Select a category" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="inline">

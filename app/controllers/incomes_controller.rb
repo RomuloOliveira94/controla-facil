@@ -15,10 +15,13 @@ class IncomesController < ApplicationController
   # GET /incomes/new
   def new
     @income = current_user.incomes.build
+    @incomes_categories = Category.user_global(current_user).incomes
   end
 
   # GET /incomes/1/edit
-  def edit; end
+  def edit
+    @incomes_categories = Category.user_global(current_user).incomes
+  end
 
   # POST /incomes or /incomes.json
   def create
