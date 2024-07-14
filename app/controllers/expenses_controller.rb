@@ -76,6 +76,6 @@ class ExpensesController < ApplicationController
     end
 
     def format_comma_to_dot
-      params[:expense][:value] = params[:expense][:value].to_s.gsub(',', '.')
+      params[:expense][:value] = params[:expense][:value].to_s.gsub('R$', '').gsub(',', '.')
     end
 end

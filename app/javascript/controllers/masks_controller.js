@@ -7,8 +7,11 @@ export default class extends Controller {
 
   connect() {
     new MaskInput(this.brlTarget, {
-      eager: true,
-      number: { locale: 'br', fraction: 2}
+      mask: "R$ 0,99",
+      tokens: {
+        "0": { pattern: /[0-9]/, multiple: true },
+        "9": { pattern: /[0-9]/},
+      }
     })
   }
 }

@@ -75,6 +75,6 @@ class IncomesController < ApplicationController
   end
 
   def format_comma_to_dot
-    params[:income][:value] = params[:income][:value].to_s.gsub(',', '.')
+    params[:income][:value] = params[:income][:value].to_s.gsub('R$', '').gsub(',', '.')
   end
 end
