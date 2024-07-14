@@ -23,8 +23,12 @@
   <section>
     <h3 class="text-xl font-semibold mt-3">Resumo do Mês Atual:</h3>
     <div id="expenses" class="overflow-x-auto my-6">
-      <%= render 'shared/desktop_table', values: @all_incomes_and_expenses %>
-      <%= render 'shared/mobile_table', values: @all_incomes_and_expenses %>
+      <% if @all_incomes_and_expenses.length %>
+        <%= render 'shared/desktop_table', values: @all_incomes_and_expenses %>
+        <%= render 'shared/mobile_table', values: @all_incomes_and_expenses %>
+      <% else %>
+        <p class="text-center">Nenhum registro encontrado.</p>
+      <% end %>
     </div>
   </section>
 </div>

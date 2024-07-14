@@ -1,56 +1,60 @@
-<table class="table table-xs md:table-lg table-pin-rows table-pin-cols max-md:hidden">
-  <thead>
-    <tr>
-      <td></td>
-      <td>Descrição</td>
-      <td>Valor</td>
-      <td>Fixo?</td>
-      <td>Categoria</td>
-      <td class="text-center">Ação</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% values.each do |value| %>
+<% if values.empty? %>
+  <p class="text-center font-semibold text-xl my-8 max-md:hidden md:table-lg">Nenhum registro encontrado... </p>
+<% else %>
+  <table class="table table-xs md:table-lg table-pin-rows table-pin-cols max-md:hidden">
+    <thead>
       <tr>
-        <td class="flex items-center <%= category_list_icon_color value.category.cat_sub %>">
-          <div class="h-14 w-14 rounded-full border-2 flex items-center justify-center gap-0.5">
-            <i class="fa-solid <%= value.category.try(:icon) %> h-7 w-7"></i>
-          </div>
-          <% if value.category.cat_sub == "expenses" %>
-            <i class="fa-solid fa fa-arrow-down h-6 w-6 -ml-2 self-end" aria-hidden="true"></i>
-          <% else %>
-            <i class="fa-solid fa fa-arrow-up h-6 w-6 -ml-2 self-start" aria-hidden="true"></i>
-          <% end %>
-        </td>
-        <td>
-          <div class="grid">
-            <strong><%= value.description.capitalize %></strong>
-            <% if value.try(:date) %>
-              <span class="font-light"><%= format_date(value.date) %></span>
-            <% elsif value.try(:day) %>
-              <span class="font-light"><%= get_date_by_day(value.day, @user_actual_month_yeah_balance) %></span>
-            <% else %>
-              <span class="font-light"><%= format_date(value.created_at) %></span>
-            <% end %>
-          </div>
-        </td>
-        <td><strong><%= format_brl_currency(value.value) %></strong></td>
-        <td><%= format_boolean(value.fixed) %></td>
-        <td><%= value.category.name %></td>
-        <td class="w-28 text-center">
-          <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md" %>
-        </td>
+        <td></td>
+        <td>Descrição</td>
+        <td>Valor</td>
+        <td>Fixo?</td>
+        <td>Categoria</td>
+        <td class="text-center">Ação</td>
       </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td></td>
-      <td>Descrição</td>
-      <td>Valor</td>
-      <td>Fixo?</td>
-      <td>Categoria</td>
-      <td class="text-center">Ação</td>
-    </tr>
-  </tfoot>
-</table>
+    </thead>
+    <tbody>
+      <% values.each do |value| %>
+        <tr>
+          <td class="flex items-center <%= category_list_icon_color value.category.cat_sub %>">
+            <div class="h-14 w-14 rounded-full border-2 flex items-center justify-center gap-0.5">
+              <i class="fa-solid <%= value.category.try(:icon) %> h-7 w-7"></i>
+            </div>
+            <% if value.category.cat_sub == "expenses" %>
+              <i class="fa-solid fa fa-arrow-down h-6 w-6 -ml-2 self-end" aria-hidden="true"></i>
+            <% else %>
+              <i class="fa-solid fa fa-arrow-up h-6 w-6 -ml-2 self-start" aria-hidden="true"></i>
+            <% end %>
+          </td>
+          <td>
+            <div class="grid">
+              <strong><%= value.description.capitalize %></strong>
+              <% if value.try(:date) %>
+                <span class="font-light"><%= format_date(value.date) %></span>
+              <% elsif value.try(:day) %>
+                <span class="font-light"><%= get_date_by_day(value.day, @user_actual_month_yeah_balance) %></span>
+              <% else %>
+                <span class="font-light"><%= format_date(value.created_at) %></span>
+              <% end %>
+            </div>
+          </td>
+          <td><strong><%= format_brl_currency(value.value) %></strong></td>
+          <td><%= format_boolean(value.fixed) %></td>
+          <td><%= value.category.name %></td>
+          <td class="w-28 text-center">
+            <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td>Descrição</td>
+        <td>Valor</td>
+        <td>Fixo?</td>
+        <td>Categoria</td>
+        <td class="text-center">Ação</td>
+      </tr>
+    </tfoot>
+  </table>
+<% end %>
