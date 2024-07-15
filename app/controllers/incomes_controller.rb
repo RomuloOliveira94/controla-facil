@@ -1,13 +1,13 @@
 class IncomesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_income, only: %i[show edit update destroy]
-  before_action :format_comma_to_dot, only: %i[ create update ]
+  before_action :format_comma_to_dot, only: %i[create update]
+  before_action :load_income_categories, only: %i[new edit create update]
   include BalanceHelper
 
   # GET /incomes or /incomes.json
   def index
     @incomes = current_user.incomes.all
-    flash[:notice] = 'This is a warning message'
   end
 
   # GET /incomes/1 or /incomes/1.json
@@ -16,13 +16,10 @@ class IncomesController < ApplicationController
   # GET /incomes/new
   def new
     @income = current_user.incomes.build
-    @incomes_categories = Category.user_global(current_user).incomes
   end
 
   # GET /incomes/1/edit
-  def edit
-    @incomes_categories = Category.user_global(current_user).incomes
-  end
+  def edit; end
 
   # POST /incomes or /incomes.json
   def create
@@ -31,7 +28,9 @@ class IncomesController < ApplicationController
 
     respond_to do |format|
       if @income.save
-        format.html { redirect_to income_url(@income), notice: 'Income was successfully created.' }
+        format.html do
+          redirect_to income_url(@income), flash: { notice: 'Receita adicionada com sucesso', style: 'success' }
+        end
         format.json { render :show, status: :created, location: @income }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -44,7 +43,9 @@ class IncomesController < ApplicationController
   def update
     respond_to do |format|
       if @income.update(income_params)
-        format.html { redirect_to income_url(@income), notice: 'Income was successfully updated.' }
+        format.html do
+          redirect_to income_url(@income), flash: { notice: 'Receita atualizada com sucesso', style: 'success' }
+        end
         format.json { render :show, status: :ok, location: @income }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,7 +59,9 @@ class IncomesController < ApplicationController
     @income.destroy!
 
     respond_to do |format|
-      format.html { redirect_to incomes_url, notice: 'Income was successfully destroyed.' }
+      format.html do
+        redirect_to incomes_url, flash: { notice: 'Receita removida com sucesso', style: 'success' }
+      end
       format.json { head :no_content }
     end
   end
@@ -77,5 +80,9 @@ class IncomesController < ApplicationController
 
   def format_comma_to_dot
     params[:income][:value] = params[:income][:value].to_s.gsub('R$', '').gsub(',', '.')
+  end
+
+  def load_income_categories
+    @incomes_categories = Category.user_global(current_user).incomes
   end
 end

@@ -23,8 +23,6 @@ class Category < ApplicationRecord
   end
 
   def check_user_category_limit
-    puts "Checking user category limit for user #{user.id}"
-    puts "User has #{user.categories.where(cat_sub:).count} categories"
     return unless user.categories.where(cat_sub:).count >= 10
 
     errors.add(:base, 'Você atingiu o limite de categorias, exclua alguma para adicionar novas.')
