@@ -2,29 +2,25 @@
   <h1 class="text-3xl font-bold mb-6"><%=t ".Perfil" %></h1>
   <%= form_with model: current_user, url: profile_path, method: :patch do |form| %>
     <div class="grid gap-4">
-      <div class="grid gap-4">
+      <div class="grid gap-4" data-controller="image-preview">
         <% if current_user.avatar.attached? %>
-				  <%= image_tag current_user.avatar, class: "rounded-full h-64 w-64 object-cover" %>
-			  <% end %>
-        <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-md" %>
+          <%= image_tag current_user.avatar, class: "rounded-full h-64 w-64 object-cover", data: { image_preview_target: "preview" }  %>
+        <% end %>
+        <%= form.file_field :avatar, direct_upload: true, class: "file-input w-full max-w-md", data: { action: "input->image-preview#previewImage" } %>
       </div>
-
       <div class="grid gap-2">
         <%= form.label :first_name, t(".nome") %>
         <%= form.text_field :first_name, required: true, class: "input input-bordered w-full max-w-md" %>
       </div>
-
       <div class="grid gap-2">
         <%= form.label :last_name, t(".sobrenome") %>
         <%= form.text_field :last_name, required: true, class: "input input-bordered w-full max-w-md" %>
       </div>
-
       <div class="grid">
         <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
       </div>
     </div>
   <% end %>
-
   <!--<%= form_with model: current_user, url: profile_email_path do |form| %>
     <fieldset class="grid gap-4">
       <h2 class="text-2xl font-bold"><%=t ".Mudar Email" %></h2>
@@ -56,11 +52,9 @@
       </div>
     </fieldset>
   <% end %>-->
-
   <%= form_with model: current_user, url: profile_password_path do |form| %>
     <fieldset class="grid gap-4">
       <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
-
       <% if form.object.errors.any? %>
         <ul>
           <% form.object.errors.full_messages.each do |message| %>
@@ -68,7 +62,6 @@
           <% end %>
         </ul>
       <% end %>
-
       <label class="form-control w-full max-w-md">
         <div class="label">
           <span class="label-text">Senha Atual</span>
@@ -87,17 +80,14 @@
         </div>
         <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
       </label>
-
       <div class="grid">
         <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
       </div>
     </fieldset>
   <% end %>
-
   <div class="grid">
     <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete }, class: "btn btn-error text-lg max-w-md" %>
   </div>
-
   <!--<%= form_with url: profile_path, method: :delete do |form| %>
     <fieldset>
       <legend><%=t ".delete_account" %></legend>
