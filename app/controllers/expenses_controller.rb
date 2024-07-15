@@ -1,7 +1,8 @@
 class ExpensesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_expense, only: %i[ show edit update destroy ]
-  before_action :format_comma_to_dot, only: %i[ create update ]
+  before_action :set_expense, only: %i[show edit update destroy]
+  before_action :format_comma_to_dot, only: %i[create update]
+  before_action :load_expense_categories, only: %i[new edit create update]
 
   include BalanceHelper
 
@@ -11,19 +12,15 @@ class ExpensesController < ApplicationController
   end
 
   # GET /expenses/1 or /expenses/1.json
-  def show
-  end
+  def show; end
 
   # GET /expenses/new
   def new
     @expense = current_user.expenses.build
-    @expenses_categories = Category.user_global(current_user).expenses
   end
 
   # GET /expenses/1/edit
-  def edit
-    @expenses_categories = Category.user_global(current_user).expenses
-  end
+  def edit; end
 
   # POST /expenses or /expenses.json
   def create
@@ -71,17 +68,22 @@ class ExpensesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_expense
-      @expense = Expense.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def expense_params
-      params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id, :category_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_expense
+    @expense = Expense.find(params[:id])
+  end
 
-    def format_comma_to_dot
-      params[:expense][:value] = params[:expense][:value].to_s.gsub('R$', '').gsub(',', '.')
-    end
+  # Only allow a list of trusted parameters through.
+  def expense_params
+    params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id, :category_id)
+  end
+
+  def format_comma_to_dot
+    params[:expense][:value] = params[:expense][:value].to_s.gsub('R$', '').gsub(',', '.')
+  end
+
+  def load_expense_categories
+    @expenses_categories = Category.user_global(current_user).expenses
+  end
 end
