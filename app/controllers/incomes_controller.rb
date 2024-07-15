@@ -7,6 +7,7 @@ class IncomesController < ApplicationController
   # GET /incomes or /incomes.json
   def index
     @incomes = current_user.incomes.all
+    flash[:notice] = 'This is a warning message'
   end
 
   # GET /incomes/1 or /incomes/1.json

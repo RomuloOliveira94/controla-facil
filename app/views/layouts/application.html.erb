@@ -16,6 +16,7 @@
     <%= turbo_frame_tag :modal %>
     <main class="container mx-auto p-5 min-h-screen">
       <%= yield %>
+      <%= render partial: 'shared/toast', locals: { message: flash[:notice], style: flash[:style] } %>
     </main>
   </body>
 </html>
