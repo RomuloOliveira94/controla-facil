@@ -37,7 +37,14 @@
               <% end %>
             </div>
           </td>
-          <td><strong><%= format_brl_currency(value.value) %></strong></td>
+          <td>
+            <strong>
+              <% if value.category.cat_sub === 'expenses' %>
+                -
+              <% end %>
+              <%= format_brl_currency(value.value) %>
+            </strong>
+          </td>
           <td><%= format_boolean(value.fixed) %></td>
           <td><%= value.category.name %></td>
           <td class="w-28 text-center">

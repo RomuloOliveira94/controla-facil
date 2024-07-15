@@ -28,7 +28,12 @@
           <td>
             <div class="grid">
               <strong><%= value.description.capitalize %></strong>
-              <strong>-<%= format_brl_currency(value.value) %></strong>
+              <strong>
+                <% if value.category.cat_sub === 'expenses' %>
+                  -
+                <% end %>
+                <%= format_brl_currency(value.value) %>
+              </strong>
               <span><%= value.category.name %></span>
               <% if value.try(:date) %>
                 <span class="font-light"><%= format_date(value.date) %></span>
