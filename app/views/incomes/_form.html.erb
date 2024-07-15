@@ -10,22 +10,22 @@
     </div>
   <% end %>
   <div class="my-5">
-    <%= form.label :value %>
+    <%= form.label :value, "Valor", class: "font-semibold text-lg" %>
     <%= form.text_field :value, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full", data: { masks_target: 'brl' }, placeholder: "R$" %>
   </div>
   <div class="my-5">
-    <%= form.label :description %>
+    <%= form.label :description, "Descrição", class: "font-semibold text-lg" %>
     <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-  <div class="my-5">
-    <%= form.label :fixed %>
-    <%= form.check_box :fixed, class: "block mt-2 h-5 w-5" %>
+  <div class="my-5 flex items-center gap-4">
+    <%= form.label :fixed, "Marcar como receita fixa?", class: "font-semibold text-lg" %>
+    <%= form.check_box :fixed, class: "checkbox" %>
   </div>
-  <div>
-    <%= form.label :category_id %>
-    <%= form.collection_select :category_id, @incomes_categories, :id, :name, { prompt: "Select a category" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  <div class="my-5">
+    <%= form.label :category_id, "Categoria", class: "font-semibold text-lg" %>
+    <%= form.collection_select :category_id, @incomes_categories, :id, :name, { prompt: "Selecione a categoria" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit submit_income_button_text, class: "btn btn-success rounded-lg py-3 px-5 text-white font-medium cursor-pointer" %>
   </div>
 <% end %>
