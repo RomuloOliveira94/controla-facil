@@ -26,6 +26,6 @@
     <%= form.collection_select :category_id, @incomes_categories, :id, :name, { prompt: "Selecione a categoria" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="inline">
-    <%= form.submit submit_income_button_text, class: "btn btn-success rounded-lg py-3 px-5 text-white font-medium cursor-pointer" %>
+    <%= form.submit submit_income_button_text, class: "btn btn-primary rounded-lg py-3 px-5 text-white font-medium cursor-pointer" %>
   </div>
 <% end %>
