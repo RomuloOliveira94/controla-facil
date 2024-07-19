@@ -29,7 +29,11 @@
     <%= form.label :category_id, "Categoria", class: "font-semibold text-lg" %>
     <%= form.collection_select :category_id, @expenses_categories, :id, :name, { prompt: "Selecione a categoria" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-  <div class="inline">
+  <div class="flex justify-between items-center">
+    <%= link_to @expense, class: "btn btn-secondary" do %>
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      Voltar
+    <% end %>
     <%= form.submit submit_expense_button_text, class: "btn btn-primary rounded-lg py-3 px-5 text-white font-medium cursor-pointer" %>
   </div>
 <% end %>

@@ -1,6 +1,10 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editar Despesa</h1>
+  <div class="flex items-center justify-between">
+    <h1 class="font-bold text-4xl">Editar Despesa</h1>
+    <%= link_to expenses_path, class: "btn btn-info flex" do %>
+      <i class="fa fa-list mb-1" aria-hidden="true"></i>
+      Listar Despesas
+    <% end %>
+  </div>
   <%= render "form", expense: @expense %>
-  <%= link_to "Show this expense", @expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to expenses", expenses_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>
