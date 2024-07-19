@@ -46,10 +46,8 @@
           </td>
           <td><span class="font-semibold"><%= format_boolean(value.fixed) %></span></td>
           <td class="w-28 text-center">
-            <%= link_to value, class: "btn btn-info btn-xs md:btn-md" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 24" class="h-6 w-6 text-primary">
-                <path fill-rule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414" />
-              </svg>
+            <%= link_to value, class: "btn btn-primary btn-sm md:btn-md" do %>
+              <i class="fa fa-arrow-right size-4" aria-hidden="true"></i>
             <% end %>
           </td>
         </tr>
