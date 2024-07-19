@@ -1,8 +1,10 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editar Receita</h1>
-
+  <div class="flex items-center justify-between">
+    <h1 class="font-bold text-4xl">Editar Receita</h1>
+    <%= link_to incomes_path, class: "btn btn-info flex" do %>
+      <i class="fa fa-list mb-1" aria-hidden="true"></i>
+      Listar Receitas
+    <% end %>
+  </div>
   <%= render "form", income: @income %>
-
-  <%= link_to "Show this income", @income, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to incomes", incomes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

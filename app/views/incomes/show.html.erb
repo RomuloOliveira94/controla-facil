@@ -1,8 +1,10 @@
 <div class="card bg-base-100 md:w-1/2 p-6 shadow-lg mx-auto relative">
-  <div class="flex w-full justify-end absolute left-0 -right-3 top-0 p-3">
-    <%= button_to @income, method: :delete, class: "btn btn-sm md:btn-md btn-error" do %>
-      <i class="fa fa-trash"></i>
-      <span class="hidden md:block">Deletar</span>
+  <div class="flex w-full justify-between absolute left-0 -right-3 top-0 p-3">
+    <%= link_to incomes_path, class: "btn btn-sm btn-info flex h-8 w-8" do %>
+      <i class="fa fa-list text-white" aria-hidden="true"></i>
+    <% end %>
+    <%= button_to @income, method: :delete, class: "btn btn-sm btn-error h-8 w-8", data: { turbo_confirm: 'Tem certeza?' } do %>
+      <i class="fas fa-trash-alt text-gray-100"></i>
     <% end %>
   </div>
   <div class="card-body md:items-center md:text-center">

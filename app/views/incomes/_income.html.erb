@@ -17,15 +17,15 @@
       <%= income.description %>
     </span>
   </p>
-  <div class="flex items-center gap-2">
-    <% if income.fixed %>
+  <% if income.fixed %>
+    <div class="flex items-center gap-2">
       <strong class="block font-medium">
         <i class="fas fa-check"></i>
         Todo dia:
       </strong>
       <%= income.day %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <p class="grid md:flex gap-2">
     <strong class="block font-medium mb-1">
       <i class="fas fa-tags"></i>
