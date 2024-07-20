@@ -1,32 +1,46 @@
-<div id="<%= dom_id expense %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Valor:</strong>
+<div id="<%= dom_id expense %>" class="grid gap-3">
+  <p class="grid md:flex gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-money-bill"></i>
+      Valor:
+    </strong>
     <%= format_brl_currency(expense.value) %>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Descrição:</strong>
-    <%= expense.description %>
+  <p class="grid md:flex md:flex-wrap gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-align-left"></i>
+      Descrição:
+    </strong>
+    <span class="break-all md:break-normal">
+      <%= expense.description %>
+    </span>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Fixo?:</strong>
+  <p class="grid md:flex gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-check"></i>
+      Fixo?:
+    </strong>
     <%= format_boolean(expense.fixed) %>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Data:</strong>
+  <p class="grid md:flex gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-calendar-day"></i>
+      Data:
+    </strong>
     <%= expense.date %>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Mês:</strong>
+  <p class="grid md:flex gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-calendar"></i>
+      Balanço do Mês:
+    </strong>
     <%= expense.balance.month %>
   </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Categoria:</strong>
+  <p class="grid md:flex gap-2">
+    <strong class="block font-medium mb-1">
+      <i class="fas fa-tags"></i>
+      Categoria:
+    </strong>
     <%= expense.category.name %>
   </p>
-
 </div>

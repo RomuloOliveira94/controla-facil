@@ -5,4 +5,6 @@ class Expense < ApplicationRecord
 
   validates :value, presence: true
   validates :balance_id, presence: true
+  validates :user_id, presence: true
+  validates :date, presence: true
 end
