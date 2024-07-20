@@ -1,4 +1,4 @@
-<%= form_with(model: income, class: "contents", data: { controller: 'masks' }) do |form| %>
+<%= form_with(model: income, class: "contents", data: { controller: 'masks income-form' }) do |form| %>
   <% if income.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2>Atenção:</h2>
@@ -15,11 +15,17 @@
   </div>
   <div class="my-5">
     <%= form.label :description, "Descrição", class: "font-semibold text-lg" %>
-    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.text_field :description, placeholder: "Ex: Compras do mês", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-  <div class="my-5 flex items-center gap-4">
-    <%= form.label :fixed, "Marcar como receita fixa?", class: "font-semibold text-lg" %>
-    <%= form.check_box :fixed, class: "checkbox" %>
+  <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+    <div class="flex items-center gap-4">
+      <%= form.label :fixed, "Marcar como receita fixa?", class: "font-semibold text-lg" %>
+      <%= form.check_box :fixed, class: "checkbox", data: { action: "income-form#toggleDayInput", income_form_target: "fixedInput" } %>
+    </div>
+    <div class="hidden items-center gap-4" data-income-form-target="day">
+      <%= form.label :day, "Dia:", class: "font-semibold text-lg" %>
+      <%= form.text_field :day, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 w-28", placeholder: "Ex: 10", data: { masks_target: 'day' } %>
+    </div>
   </div>
   <div class="my-5">
     <%= form.label :category_id, "Categoria", class: "font-semibold text-lg" %>

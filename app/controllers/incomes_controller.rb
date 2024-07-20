@@ -41,6 +41,11 @@ class IncomesController < ApplicationController
 
   # PATCH/PUT /incomes/1 or /incomes/1.json
   def update
+    if params[:fixed] == false
+      @income.day = nil
+      @income.save
+    end
+
     respond_to do |format|
       if @income.update(income_params)
         format.html do
@@ -75,7 +80,7 @@ class IncomesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def income_params
-    params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id, :category_id)
+    params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id, :category_id, :day)
   end
 
   def format_comma_to_dot
