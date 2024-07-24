@@ -18,7 +18,7 @@
         <div class="flex flex-col md:flex-row gap-6">
             <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
                 <div class="flex justify-between items-center">
-                    <h3 class="font-bold text-xl">Categorias de Despesas 💸</h3>
+                    <h3 class="font-bold md:text-xl">Categorias de Despesas 💸</h3>
                     <%= link_to new_category_path, data: { turbo_frame: 'modal' } do %>
                         <button class="btn btn-ghost btn-sm w-10 h-10"> ➕ </button>
                     <% end %>
@@ -32,7 +32,7 @@
 
             <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
                 <div class="flex justify-between items-center">
-                    <h3 class="font-bold text-xl">Categorias de Receitas 💰</h3>
+                    <h3 class="font-bold md:text-xl">Categorias de Receitas 💰</h3>
                      <%= link_to new_category_path, data: { turbo_frame: 'modal' } do %>
                         <button class="btn btn-ghost btn-sm w-10 h-10"> ➕ </button>
                     <% end %>

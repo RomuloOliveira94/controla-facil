@@ -38,6 +38,7 @@ module CategoriesHelper
       fa-user-md
       fa-users
       fa-wrench
+      fa-gamepad
     ]
   end
 
