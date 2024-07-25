@@ -4,9 +4,7 @@ class MonthlyBalanceService
   end
 
   def generate_monthly_balance
-    generate_time_and_month_values
-    @last_balance = @user.balances.includes(:expenses, :incomes).where(month: @month, year: @year).first
-    check_if_user_has_some_balance if @last_balance.nil?
+    @last_balance = last_balance
     generate_balance_for_current_month
   end
 
@@ -16,34 +14,6 @@ class MonthlyBalanceService
 
     save_fixed_expenses
     save_fixed_incomes
-  end
-
-  def check_if_user_has_some_balance
-    if @user.balances.empty?
-      create_balance
-      return
-    end
-
-    @last_balance = @user.balances.last
-  end
-
-  def create_balance
-    @balance = Balance.new
-    @balance.balance = 0
-    @balance.month = Time.now.mon
-    @balance.year = Time.now.year
-    @balance.user = @user
-    @balance.save
-  end
-
-  def generate_time_and_month_values
-    if Time.now.mon == 1
-      @month = 12
-      @year = Time.now.year - 1
-    else
-      @month = Time.now.mon - 1
-      @year = Time.now.year
-    end
   end
 
   def save_fixed_expenses
@@ -62,6 +32,21 @@ class MonthlyBalanceService
       new_income = Income.new(value: income.value, day: income.day, description: income.description, fixed: true, balance: @new_balance,
                               category: income.category, user: @user)
       new_income.save
+    end
+  end
+
+  def last_balance
+    generate_time_and_month_values
+    @user.balances.includes(:expenses, :incomes).where(month: @month, year: @year).first || @user.balances.last
+  end
+
+  def generate_time_and_month_values
+    if Time.now.mon == 1
+      @month = 12
+      @year = Time.now.year - 1
+    else
+      @month = Time.now.mon - 1
+      @year = Time.now.year
     end
   end
 end
