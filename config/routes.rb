@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get '/configurations' => 'configurations#index', as: :configurations
   patch '/configurations/change_theme' => 'configurations#change_theme', as: :change_theme
 
+  post 'run_balance_job', to: 'dashboard#run_balance_job'
+
   #categories
   resources :categories
 

@@ -1,4 +1,5 @@
 <div class="grid gap-8">
+  <%= button_to 'Iniciar Job', run_balance_job_path, method: :post, data: { confirm: 'Você tem certeza?' } %>
   <section class="grid gap-6">
     <h1 class="text-3xl font-bold">Balanço</h1>
     <div class="relative p-5 bg-gradient-to-r from-green-400 to-green-600 rounded-md overflow-hidden h-32 md:w-1/2">
