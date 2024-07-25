@@ -65,5 +65,3 @@ group :development do
 end
 
 gem "revise_auth", "~> 0.7.1"
-
-gem 'whenever', require: false
