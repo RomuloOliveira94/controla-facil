@@ -11,11 +11,6 @@ class DashboardController < ApplicationController
 
   def index; end
 
-  def run_balance_job
-    NewMonthBalanceJob.perform_later
-    redirect_to dashboard_path, notice: 'Job iniciado com sucesso!'
-  end
-
   private
 
   def total_incomes
