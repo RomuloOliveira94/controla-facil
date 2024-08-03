@@ -66,7 +66,7 @@
           <td><%= format_boolean(value.fixed) %></td>
           <td><%= value.category.name %></td>
           <td class="w-28 text-center">
-            <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md" %>
+            <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md", data: { turbo_frame: "_top" } %>
           </td>
         </tr>
       <% end %>

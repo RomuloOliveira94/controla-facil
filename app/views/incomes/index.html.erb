@@ -10,21 +10,21 @@
   <div class="mt-6 grid gap-2">
     <h2 class="font-bold text-2xl md:text-xl">Buscas Rápidas</h2>
     <div class="flex gap-4">
-      <%= search_form_for @q do |f| %>
+      <%= search_form_for @q, data: { turbo_frame: :results } do |f| %>
         <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month, hidden: true %>
         <%= f.search_field :created_at_lteq, value: Time.now.end_of_month, hidden: true %>
         <%= f.submit "Mês Atual", class: "btn btn-secondary btn-sm" %>
       <% end %>
-      <%= search_form_for @q do |f| %>
+      <%= search_form_for @q, data: { turbo_frame: :results } do |f| %>
         <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month.last_month, hidden: true %>
         <%= f.search_field :created_at_lteq, value: Time.now.end_of_month.last_month, hidden: true %>
         <%= f.submit "Mês Passado", class: "btn btn-secondary btn-sm" %>
       <% end %>
-      <%= search_form_for @q do |f| %>
+      <%= search_form_for @q, data: { turbo_frame: :results } do |f| %>
         <%= f.check_box :fixed_eq, checked: true, hidden: true %>
         <%= f.submit "Receitas Fixas", class: "btn btn-secondary btn-sm" %>
       <% end %>
-      <%= search_form_for @q do |f| %>
+      <%= search_form_for @q, data: { turbo_frame: :results } do |f| %>
         <%= f.check_box :fixed_eq, checked: false, hidden: true %>
         <%= f.submit "Receitas Avulsas", class: "btn btn-secondary btn-sm" %>
       <% end %>
@@ -32,19 +32,19 @@
   </div>
   <div class="mt-6 grid gap-4">
     <h2 class="font-bold text-2xl md:text-xl" >Busca</h2>
-    <%= search_form_for @q, class: "grid gap-6" do |f| %>
+    <%= search_form_for @q, class: "grid gap-6", data: { turbo_frame: :results, turbo_action: :advance, controller: "search", search_target: 'form' } do |f| %>
       <div class="flex md:items-center flex-col md:flex-row gap-4">
         <div class="flex items-center justify-between md:gap-4">
           <%= f.label :description %>
-          <%= f.search_field :description_cont, class: "input input-sm input-bordered w-full max-w-sm" %>
+          <%= f.search_field :description_cont, class: "input input-sm input-bordered w-full max-w-sm", data: { action: 'input->search#search' } %>
         </div>
         <div data-controller="masks" class="flex items-center justify-between md:gap-4">
           <%= f.label :value_gteq, "Valor" %>
-          <%= f.text_field :value_gteq, data: { masks_target: 'brl' }, class: "input input-sm input-bordered w-full max-w-sm" %>
+          <%= f.text_field :value_gteq, data: { masks_target: 'money' }, class: "input input-sm input-bordered w-full max-w-sm", data: { action: 'input->search#search' } %>
         </div>
         <div class="flex items-center justify-between md:gap-4">
           <%= f.label :category_id, "Categoria" %>
-          <%= f.collection_select :category_id_eq, Category.user_global(current_user).incomes, :id, :name, { prompt: "Selecione a categoria" }, class: "select select-sm select-bordered w-full max-w-sm", include_blank: true %>
+          <%= f.collection_select :category_id_eq, Category.user_global(current_user).incomes, :id, :name, { prompt: "Selecione a categoria" }, class: "select select-sm select-bordered w-full max-w-sm", include_blank: true, onchange: 'this.form.requestSubmit()' %>
         </div>
       </div>
       <div class="flex items-center justify-center md:justify-start gap-4">
@@ -53,8 +53,10 @@
       </div>
     <% end %>
   </div>
-  <div id="incomes" class="overflow-x-auto my-6">
-    <%= render 'shared/desktop_table', values: @incomes %>
-    <%= render 'shared/mobile_table', values: @incomes %>
-  </div>
+  <%= turbo_frame_tag :results, data: { turbo_action: :advance } do %>
+    <div id="incomes" class="overflow-x-auto my-6">
+      <%= render 'shared/desktop_table', values: @incomes %>
+      <%= render 'shared/mobile_table', values: @incomes %>
+    </div>
+  <% end %>
 </div>
