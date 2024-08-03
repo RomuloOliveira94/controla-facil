@@ -7,8 +7,10 @@ module ApplicationHelper
     value ? 'Sim' : 'Não'
   end
 
-  def get_date_by_day(day, value)
-    date = Date.new(value.year, value.month, day)
+  def get_date_by_day(value)
+    month = value.created_at.month
+    year = value.created_at.year
+    date = Date.new(year, month, value.day)
     date.strftime('%d/%m/%Y')
   end
 
