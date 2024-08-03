@@ -4,38 +4,17 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = [
     "form",
-    "datas",
     "description",
-    "value",
-    "select",
     "formButton",
     "clearButton",
   ];
   static values = {
-    showDatas: Boolean,
     showText: Boolean,
-    showSelect: Boolean,
   };
 
   connect() {
     this.timeout = null;
-    this.showDatasValue = false;
     this.showTextValue = false;
-    this.showSelectValue = false;
-  }
-
-  toggleDatas() {
-    this.showDatasValue = !this.showDatasValue;
-
-    if (this.showDatasValue) {
-      this.show(this.datasTarget);
-      this.show(this.formButtonTarget);
-      this.show(this.clearButtonTarget);
-    } else {
-      this.hide(this.datasTarget);
-      this.hide(this.formButtonTarget);
-      this.hide(this.clearButtonTarget);
-    }
   }
 
   toggleText() {
@@ -43,24 +22,8 @@ export default class extends Controller {
 
     if (this.showTextValue) {
       this.show(this.descriptionTarget);
-      this.show(this.valueTarget);
-      this.show(this.clearButtonTarget);
     } else {
       this.hide(this.descriptionTarget);
-      this.hide(this.valueTarget);
-      this.hide(this.clearButtonTarget);
-    }
-  }
-
-  toggleSelect() {
-    this.showSelectValue = !this.showSelectValue;
-
-    if (this.showSelectValue) {
-      this.show(this.selectTarget);
-      this.show(this.clearButtonTarget);
-    } else {
-      this.hide(this.selectTarget);
-      this.hide(this.clearButtonTarget);
     }
   }
 
@@ -68,6 +31,7 @@ export default class extends Controller {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.formTarget.requestSubmit();
+      this.show(this.clearButtonTarget);
     }, 500);
   }
 

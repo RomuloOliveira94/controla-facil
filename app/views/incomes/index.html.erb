@@ -31,53 +31,53 @@
     </div>
   </div>
   <div class="mt-6 grid gap-4" data-controller="search">
-    <div class="flex items-center gap-4">
-      <button data-action="search#toggleText" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
-        <i class="fa fa-search h-4 w-4" aria-hidden="true"></i>
-      </button>
-      <button data-action="search#toggleDatas" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
-        Datas
-        <i class="fa fa-calendar" aria-hidden="true"></i>
-      </button>
-      <button data-action="search#toggleSelect" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
-        Categorias
-        <i class="fa fa-list" aria-hidden="true"></i>
-      </button>
+    <div class="grid gap-4">
+      <div class="flex items-center gap-4 overflow-x-auto">
+        <button data-action="search#toggleText" class="btn btn-primary rounded-sm btn-sm">
+          <i class="fa fa-search h-4 w-4" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary rounded-sm btn-sm" onclick="data.showModal()">
+          Datas
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary rounded-sm btn-sm" onclick="categories.showModal()">
+          Categorias
+          <i class="fa fa-list" aria-hidden="true"></i>
+        </button>
+      </div>
+      <%= search_form_for @q, class: "grid gap-2", data: { turbo_frame: :results, turbo_action: :advance, search_target: 'form' } do |f| %>
+        <div class="flex md:items-center flex-col md:flex-row gap-4">
+          <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full hidden" data-search-target="description">
+            <%= f.label :description, "Busca" %>
+            <%= f.search_field :description_cont, class: "input input-sm input-bordered w-1/2", data: { action: 'input->search#search'} %>
+          </div>
+          <%= render 'shared/simple_dialog_modal', modal_id: "categories" do %>
+            <div class="grid gap-4 my-2" >
+              <%= f.label :category_id, "Categoria" %>
+              <%= f.collection_select :category_id_eq, Category.user_global(current_user).incomes, :id, :name, { prompt: "Selecione a categoria" }, class: "select select-sm select-bordered w-full max-w-xs", include_blank: true, onchange: 'categories.close()', data: { action: 'change->search#search'} %>
+            </div>
+          <% end %>
+          <%= render 'shared/simple_dialog_modal', modal_id: "data" do %>
+            <h3 class="font-semibold mb-4 text-lg">Selecione o Periodo:</h3>
+            <div class="grid gap-1 md:gap-4 my-2">
+              <%= f.label :created_at, "De" %>
+              <%= f.date_field :created_at_gteq, class: "input input-sm input-bordered w-full max-w-xs" %>
+              <%= f.label :created_at, "Até" %>
+              <%= f.date_field :created_at_lteq, class: "input input-sm input-bordered w-full max-w-xs" %>
+            </div>
+            <%= button_tag "Pesquisar", type: "button", class: "btn btn-secondary btn-sm w-full mt-4 mr-4", data: { action: 'click->search#search'}, onclick: "data.close()" %>
+          <% end %>
+        </div>
+        <div class="items-center justify-center md:justify-start hidden" data-search-target="clearButton">
+          <%= link_to 'Limpar', incomes_path, class: "btn btn-success btn-sm md:w-1/3 w-full mt-2" %>
+        </div>
+      <% end %>
     </div>
-    <%= search_form_for @q, class: "grid gap-2", data: { turbo_frame: :results, turbo_action: :advance, search_target: 'form' } do |f| %>
-      <div class="flex md:items-center flex-col md:flex-row gap-4">
-        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="description">
-          <%= f.label :description %>
-          <%= f.search_field :description_cont, class: "input input-sm input-bordered w-full max-w-md", data: { action: 'input->search#search'} %>
-        </div>
-        <div data-controller="masks" class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="value">
-          <%= f.label :value_gteq, "Valor" %>
-          <%= f.text_field :value_gteq, data: { masks_target: 'money' }, class: "input input-sm input-bordered w-full max-w-xs", data: { action: 'input->search#search'  } %>
-        </div>
-        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="select">
-          <%= f.label :category_id, "Categoria" %>
-          <%= f.collection_select :category_id_eq, Category.user_global(current_user).incomes, :id, :name, { prompt: "Selecione a categoria" }, class: "select select-sm select-bordered w-full max-w-xs", include_blank: true, onchange: 'this.form.requestSubmit()' %>
-        </div>
-        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="datas">
-          <h3 class="font-semibold">Periodo:</h3>
-          <%= f.label :created_at, "De" %>
-          <%= f.date_field :created_at_gteq, class: "input input-sm input-bordered w-full max-w-xs" %>
-          <%= f.label :created_at, "Até" %>
-          <%= f.date_field :created_at_lteq, class: "input input-sm input-bordered w-full max-w-xs" %>
-        </div>
-      </div>
-      <div class="items-center justify-center md:justify-start gap-4 hidden mt-2" data-search-target="formButton">
-        <%= f.submit "Pesquisar", class: "btn btn-secondary btn-sm md:w-1/3 w-full" %>
-      </div>
-      <div class="items-center justify-center md:justify-start hidden" data-search-target="clearButton">
-        <%= link_to 'Limpar', incomes_path, class: "btn btn-success btn-sm md:w-1/3 w-full" %>
+    <%= turbo_frame_tag :results, data: { turbo_action: :advance } do %>
+      <div id="incomes" class="overflow-x-auto">
+        <%= render 'shared/desktop_table', values: @incomes %>
+        <%= render 'shared/mobile_table', values: @incomes %>
       </div>
     <% end %>
   </div>
-  <%= turbo_frame_tag :results, data: { turbo_action: :advance } do %>
-    <div id="incomes" class="overflow-x-auto my-6">
-      <%= render 'shared/desktop_table', values: @incomes %>
-      <%= render 'shared/mobile_table', values: @incomes %>
-    </div>
-  <% end %>
 </div>
