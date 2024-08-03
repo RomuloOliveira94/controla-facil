@@ -9,7 +9,7 @@
   </div>
   <div class="mt-6 grid gap-2">
     <h2 class="font-bold text-2xl md:text-xl">Buscas Rápidas</h2>
-    <div class="flex flex-wrap md:flex-row gap-4">
+    <div class="flex md:flex-row gap-4 overflow-x-auto">
       <%= search_form_for @q, data: { turbo_frame: :results } do |f| %>
         <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month, hidden: true %>
         <%= f.search_field :created_at_lteq, value: Time.now.end_of_month, hidden: true %>
@@ -30,28 +30,35 @@
       <% end %>
     </div>
   </div>
-  <div class="mt-6 grid gap-2" data-controller="search">
+  <div class="mt-6 grid gap-4" data-controller="search">
     <div class="flex items-center gap-4">
-      <h2 class="font-bold text-2xl md:text-xl">Busca</h2>
-      <button data-action="search#toggleForm" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
-        <i class="fa fa-search h-5 w-5" aria-hidden="true"></i>
+      <button data-action="search#toggleText" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
+        <i class="fa fa-search h-4 w-4" aria-hidden="true"></i>
+      </button>
+      <button data-action="search#toggleDatas" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
+        Datas
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+      </button>
+      <button data-action="search#toggleSelect" data-search-target="searchToggle" class="btn btn-primary rounded-sm btn-sm">
+        Categorias
+        <i class="fa fa-list" aria-hidden="true"></i>
       </button>
     </div>
-    <%= search_form_for @q, class: "grid gap-6 hidden", data: { turbo_frame: :results, turbo_action: :advance, search_target: 'form' } do |f| %>
+    <%= search_form_for @q, class: "grid gap-2", data: { turbo_frame: :results, turbo_action: :advance, search_target: 'form' } do |f| %>
       <div class="flex md:items-center flex-col md:flex-row gap-4">
-        <div class="flex flex-col justify-between gap-1 md:gap-4">
+        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="description">
           <%= f.label :description %>
-          <%= f.search_field :description_cont, class: "input input-sm input-bordered w-full max-w-xs", data: { action: 'input->search#search' } %>
+          <%= f.search_field :description_cont, class: "input input-sm input-bordered w-full max-w-md", data: { action: 'input->search#search'} %>
         </div>
-        <div data-controller="masks" class="flex flex-col justify-between gap-1 md:gap-4">
+        <div data-controller="masks" class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="value">
           <%= f.label :value_gteq, "Valor" %>
-          <%= f.text_field :value_gteq, data: { masks_target: 'money' }, class: "input input-sm input-bordered w-full max-w-sm", data: { action: 'input->search#search' } %>
+          <%= f.text_field :value_gteq, data: { masks_target: 'money' }, class: "input input-sm input-bordered w-full max-w-xs", data: { action: 'input->search#search'  } %>
         </div>
-        <div class="flex flex-col justify-between gap-1 md:gap-4">
+        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="select">
           <%= f.label :category_id, "Categoria" %>
           <%= f.collection_select :category_id_eq, Category.user_global(current_user).incomes, :id, :name, { prompt: "Selecione a categoria" }, class: "select select-sm select-bordered w-full max-w-xs", include_blank: true, onchange: 'this.form.requestSubmit()' %>
         </div>
-        <div class="flex flex-col justify-between gap-1 md:gap-4">
+        <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 hidden" data-search-target="datas">
           <h3 class="font-semibold">Periodo:</h3>
           <%= f.label :created_at, "De" %>
           <%= f.date_field :created_at_gteq, class: "input input-sm input-bordered w-full max-w-xs" %>
@@ -59,9 +66,11 @@
           <%= f.date_field :created_at_lteq, class: "input input-sm input-bordered w-full max-w-xs" %>
         </div>
       </div>
-      <div class="flex items-center justify-center md:justify-start gap-4">
-        <%= f.submit "Pesquisar", class: "btn btn-secondary btn-sm w-1/2" %>
-        <%= link_to 'Limpar', incomes_path, class: "btn btn-success btn-sm" %>
+      <div class="items-center justify-center md:justify-start gap-4 hidden mt-2" data-search-target="formButton">
+        <%= f.submit "Pesquisar", class: "btn btn-secondary btn-sm md:w-1/3 w-full" %>
+      </div>
+      <div class="items-center justify-center md:justify-start hidden" data-search-target="clearButton">
+        <%= link_to 'Limpar', incomes_path, class: "btn btn-success btn-sm md:w-1/3 w-full" %>
       </div>
     <% end %>
   </div>
