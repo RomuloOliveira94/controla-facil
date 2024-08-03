@@ -7,7 +7,9 @@ class IncomesController < ApplicationController
 
   # GET /incomes or /incomes.json
   def index
-    @incomes = current_user.incomes.all
+    #@incomes = current_user.incomes.all
+    @q = current_user.incomes.order(created_at: :desc).ransack(params[:q])
+    @incomes = @q.result(distinct: true)
   end
 
   # GET /incomes/1 or /incomes/1.json

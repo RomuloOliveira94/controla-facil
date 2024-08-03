@@ -8,7 +8,9 @@ class ExpensesController < ApplicationController
 
   # GET /expenses or /expenses.json
   def index
-    @expenses = current_user.expenses.all
+    #@expenses = current_user.expenses.all
+    @q = current_user.expenses.order(created_at: :desc).ransack(params[:q])
+    @expenses = @q.result(distinct: true)
   end
 
   # GET /expenses/1 or /expenses/1.json
