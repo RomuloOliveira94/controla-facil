@@ -16,18 +16,18 @@
     </div>
     <div class="relative p-5 bg-gradient-to-r from-red-400 to-red-600 rounded-md overflow-hidden">
       <div class="relative z-10 mb-4 text-white text-4xl leading-none font-semibold"><%= format_brl_currency(@total_expenses) %></div>
-      <div class="relative z-10 text-red-200 leading-none font-semibold">Gastos Totais</div>
+      <div class="relative z-10 text-red-200 leading-none font-semibold">Despesas Totais</div>
       <i class="fa-solid fa-arrow-down-wide-short absolute right-2 bottom-4 h-32 w-32 -mr-8 -mb-8 text-red-700 opacity-50"></i>
     </div>
     <div class="grid grid-cols-2 gap-2">
       <div class="relative p-5 bg-gradient-to-r from-lime-400 to-lime-600 rounded-md overflow-hidden">
         <div class="relative z-10 mb-4 text-white text-4xl leading-none font-semibold"><%= format_brl_currency(@total_fixed_incomes) %></div>
-        <div class="relative z-10 text-lime-200 leading-none font-semibold">Ganhos Fixos</div>
+        <div class="relative z-10 text-lime-200 leading-none font-semibold">Receitas Fixas</div>
         <i class="fa-solid fa-money-bill-trend-up absolute right-2 bottom-4 h-24 w-24 -mr-4 -mb-6 text-lime-700 opacity-30 md:opacity-40"></i>
       </div>
       <div class="relative p-5 bg-gradient-to-r from-pink-400 to-pink-600 rounded-md overflow-hidden">
         <div class="relative z-10 mb-4 text-white text-4xl leading-none font-semibold"><%= format_brl_currency(@total_fixed_expenses) %></div>
-        <div class="relative z-10 text-pink-200 leading-none font-semibold">Gastos Fixos</div>
+        <div class="relative z-10 text-pink-200 leading-none font-semibold">Despesas Fixas</div>
         <i class="fa-solid fa-arrow-trend-down absolute right-2 bottom-4 h-24 w-24 -mr-1 -mb-8 text-pink-700 opacity-30 md:opacity-40"></i>
       </div>
     </div>

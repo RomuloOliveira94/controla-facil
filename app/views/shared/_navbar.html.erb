@@ -13,8 +13,8 @@
         <!-- Active Link = text-indigo-500
                 Inactive Link = hover:text-indigo-500 -->
         <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Dashboard', dashboard_path, data: { nav_bar_target: "links" }  %></li>
-        <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Gastos', expenses_path, data: { nav_bar_target: "links" } %></li>
-        <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Ganhos', incomes_path, data: { nav_bar_target: "links" } %></li>
+        <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Despesas', expenses_path, data: { nav_bar_target: "links" } %></li>
+        <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Receitas', incomes_path, data: { nav_bar_target: "links" } %></li>
         <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Perfil', profile_path, data: { nav_bar_target: "links" } %></li>
         <li class="md:px-4 md:py-2 hover:text-indigo-400"><%= link_to 'Configurações', configurations_path, data: { nav_bar_target: "links" } %></li>
         <% if user_signed_in? %>
