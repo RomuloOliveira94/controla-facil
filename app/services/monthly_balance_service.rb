@@ -20,7 +20,7 @@ class MonthlyBalanceService
   def save_fixed_expenses
     last_fixed_expenses = @last_balance.expenses.where(fixed: true)
     last_fixed_expenses.each do |expense|
-      new_expense = Expense.new(value: expense.value, date: expense.date, description: expense.description, fixed: true, balance: @new_balance,
+      new_expense = Expense.new(value: expense.value, date: generate_new_expense_date(expense.date), description: expense.description, fixed: true, balance: @new_balance,
                                 category: expense.category, user: @user)
       new_expense.save
     end
@@ -52,5 +52,9 @@ class MonthlyBalanceService
       @month = Time.now.mon - 1
       @year = Time.now.year
     end
+  end
+
+  def generate_new_expense_date expense_date
+    expense_date.change(month: Time.now.mon, year: Time.now.year)
   end
 end
