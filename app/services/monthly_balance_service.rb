@@ -14,6 +14,7 @@ class MonthlyBalanceService
 
     save_fixed_expenses
     save_fixed_incomes
+    update_balance_value
   end
 
   def save_fixed_expenses
@@ -21,7 +22,6 @@ class MonthlyBalanceService
     last_fixed_expenses.each do |expense|
       new_expense = Expense.new(value: expense.value, date: expense.date, description: expense.description, fixed: true, balance: @new_balance,
                                 category: expense.category, user: @user)
-      puts new_expense
       new_expense.save
     end
   end
@@ -33,6 +33,10 @@ class MonthlyBalanceService
                               category: income.category, user: @user)
       new_income.save
     end
+  end
+
+  def update_balance_value
+    @new_balance.update(balance: @new_balance.incomes.sum(:value) - @new_balance.expenses.sum(:value))
   end
 
   def last_balance

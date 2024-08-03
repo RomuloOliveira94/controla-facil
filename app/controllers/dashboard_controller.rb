@@ -30,12 +30,7 @@ class DashboardController < ApplicationController
   end
 
   def total_balance
-    if total_incomes.nil? || total_expenses.nil?
-      @total_balance = 0
-      return
-    end
-
-    @total_balance ||= total_incomes - total_expenses
+    @total_balance ||= user_actual_month_yeah_balance.try(:balance)
   end
 
   def all_incomes_and_expenses
