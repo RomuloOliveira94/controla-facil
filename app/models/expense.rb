@@ -7,4 +7,6 @@ class Expense < ApplicationRecord
   validates :balance_id, presence: true
   validates :user_id, presence: true
   validates :date, presence: true
+
+  include UpdateBalanceValue
 end
