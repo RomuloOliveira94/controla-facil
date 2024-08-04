@@ -8,7 +8,7 @@ class IncomesController < ApplicationController
   # GET /incomes or /incomes.json
   def index
     #@incomes = current_user.incomes.all
-    @q = current_user.incomes.order(created_at: :desc).ransack(params[:q])
+    @q = current_user.incomes.includes(:category).order(created_at: :desc).ransack(params[:q])
     @incomes = @q.result(distinct: true)
   end
 
@@ -27,6 +27,7 @@ class IncomesController < ApplicationController
   def create
     @income = current_user.incomes.build(income_params)
     @income.balance_id = @user_actual_month_yeah_balance.id
+    @income.transactionable = @user_actual_month_yeah_balance
 
     respond_to do |format|
       if @income.save

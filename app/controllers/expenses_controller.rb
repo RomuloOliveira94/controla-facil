@@ -9,7 +9,7 @@ class ExpensesController < ApplicationController
   # GET /expenses or /expenses.json
   def index
     #@expenses = current_user.expenses.all
-    @q = current_user.expenses.order(created_at: :desc).ransack(params[:q])
+    @q = current_user.expenses.includes(:category).order(created_at: :desc).ransack(params[:q])
     @expenses = @q.result(distinct: true)
   end
 
@@ -28,6 +28,7 @@ class ExpensesController < ApplicationController
   def create
     @expense = current_user.expenses.build(expense_params)
     @expense.balance_id = @user_actual_month_yeah_balance.id
+    @expense.transactionable = @user_actual_month_yeah_balance
 
     respond_to do |format|
       if @expense.save
@@ -78,7 +79,7 @@ class ExpensesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def expense_params
-    params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id, :category_id)
+    params.require(:expense).permit(:value, :description, :fixed, :date, :user_id, :balance_id, :category_id, :transactionable_id, :transactionable_type)
   end
 
   def format_comma_to_dot
