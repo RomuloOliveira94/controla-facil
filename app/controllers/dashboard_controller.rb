@@ -3,13 +3,14 @@ class DashboardController < ApplicationController
   before_action :total_incomes
   before_action :total_expenses
   before_action :total_balance
-  before_action :all_incomes_and_expenses
   before_action :total_fixed_expenses
   before_action :total_fixed_incomes
 
   include BalanceHelper
 
-  def index; end
+  def index
+    @all_incomes_and_expenses = user_actual_month_yeah_balance.all_incomes_and_expenses.sort_by!(&:created_at).reverse
+  end
 
   private
 
@@ -31,17 +32,5 @@ class DashboardController < ApplicationController
 
   def total_balance
     @total_balance ||= user_actual_month_yeah_balance.try(:balance)
-  end
-
-  def all_incomes_and_expenses
-    if user_actual_month_yeah_balance.nil?
-      @all_incomes_and_expenses = []
-      return
-    end
-
-
-    @all_incomes_and_expenses ||= user_actual_month_yeah_balance.try(:incomes) + user_actual_month_yeah_balance.try(:expenses)
-
-    @all_incomes_and_expenses.sort_by!(&:created_at).reverse!
   end
 end

@@ -6,25 +6,43 @@
       <tr>
         <td></td>
         <td>
-          <%= sort_link(@q, :created_at, default_order: :asc) do %>
+          <% if @q %>
+            <%= sort_link(@q, :created_at, default_order: :asc) do %>
+              Descrição
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Descrição
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
         <td>
-          <%= sort_link(@q, :value) do %>
+          <% if @q %>
+            <%= sort_link(@q, :value) do %>
+              Valor
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Valor
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
-        <td><%= sort_link(@q, :fixed, default_order: :desc) do %>
-            Fixo?
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
-          <% end %></td>
         <td>
-          <%= sort_link(@q, :value) do %>
+          <% if @q %>
+            <%= sort_link(@q, :fixed, default_order: :desc) do %>
+              Fixo?
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Fixo?
+          <% end %>
+        </td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :value) do %>
+              Categoria
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Categoria
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
         <td class="text-center">Ação</td>
@@ -75,25 +93,43 @@
       <tr>
         <td></td>
         <td>
-          <%= sort_link(@q, :created_at, default_order: :asc) do %>
+          <% if @q %>
+            <%= sort_link(@q, :created_at, default_order: :asc) do %>
+              Descrição
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Descrição
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
         <td>
-          <%= sort_link(@q, :value) do %>
+          <% if @q %>
+            <%= sort_link(@q, :value) do %>
+              Valor
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Valor
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
-        <td><%= sort_link(@q, :fixed, default_order: :desc) do %>
-            Fixo?
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
-          <% end %></td>
         <td>
-          <%= sort_link(@q, :value) do %>
+          <% if @q %>
+            <%= sort_link(@q, :fixed, default_order: :desc) do %>
+              Fixo?
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Fixo?
+          <% end %>
+        </td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :value) do %>
+              Categoria
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
             Categoria
-            <i class="fa-solid fa fa-sort h-3 w-3"></i>
           <% end %>
         </td>
         <td class="text-center">Ação</td>
