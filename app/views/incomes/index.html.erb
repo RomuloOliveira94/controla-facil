@@ -49,7 +49,7 @@
         <div class="flex md:items-center flex-col md:flex-row gap-4">
           <div class="flex-col md:flex-row md:items-center gap-1 md:gap-4 w-full hidden" data-search-target="description">
             <%= f.label :description, "Busca" %>
-            <%= f.search_field :description_cont, class: "input input-sm input-bordered w-1/2", data: { action: 'input->search#search'} %>
+            <%= f.search_field :description_cont, class: "input input-sm input-bordered md:w-1/2", data: { action: 'input->search#search'} %>
           </div>
           <%= render 'shared/simple_dialog_modal', modal_id: "categories" do %>
             <div class="grid gap-4 my-2" >
