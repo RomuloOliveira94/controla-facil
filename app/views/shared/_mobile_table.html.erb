@@ -5,8 +5,26 @@
     <thead>
       <tr>
         <td></td>
-        <td>Descrição</td>
-        <td>Fixo?</td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :created_at, default_order: :asc) do %>
+              Descrição
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Descrição
+          <% end %>
+        </td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :fixed, default_order: :desc) do %>
+              Fixo?
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Fixo?
+          <% end %>
+        </td>
         <td class="text-center"></td>
       </tr>
     </thead>
@@ -56,8 +74,26 @@
     <tfoot>
       <tr>
         <td></td>
-        <td>Descrição</td>
-        <td>Fixo?</td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :created_at, default_order: :asc) do %>
+              Descrição
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Descrição
+          <% end %>
+        </td>
+        <td>
+          <% if @q %>
+            <%= sort_link(@q, :fixed, default_order: :desc) do %>
+              Fixo?
+              <i class="fa-solid fa fa-sort h-3 w-3"></i>
+            <% end %>
+          <% else %>
+            Fixo?
+          <% end %>
+        </td>
         <td class="text-center"></td>
       </tr>
     </tfoot>
