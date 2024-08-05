@@ -10,11 +10,6 @@ class ExpensesController < ApplicationController
   def index
     @q = current_user.expenses.order(created_at: :desc).ransack(params[:q])
     @pagy, @expenses = pagy_countless(@q.result.includes(:category), limit: 5)
-
-    # respond_to do |format|
-    #   format.html
-    #   format.turbo_stream
-    # end
   end
 
   # GET /expenses/1 or /expenses/1.json

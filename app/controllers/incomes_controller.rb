@@ -9,7 +9,7 @@ class IncomesController < ApplicationController
   def index
     # @incomes = current_user.incomes.all
     @q = current_user.incomes.includes(:category).order(created_at: :desc).ransack(params[:q])
-    @pagy, @incomes = pagy_countless(@q.result(distinct: true), limit: 5)
+    @pagy, @incomes = pagy_countless(@q.result(distinct: true), limit: 6)
   end
 
   # GET /incomes/1 or /incomes/1.json

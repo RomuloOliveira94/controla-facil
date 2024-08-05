@@ -79,5 +79,8 @@
         <%= render 'shared/mobile_table', values: @incomes %>
       </div>
     <% end %>
+    <div class="mx-auto">
+      <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+    </div>
   </div>
 </div>
