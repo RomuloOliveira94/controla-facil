@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def format_brl_currency(value)
     number_to_currency(value, unit: 'R$ ', separator: ',', delimiter: '.', precision: 2)
   end
@@ -22,7 +24,7 @@ module ApplicationHelper
     current_user&.theme ? current_user.theme : 'light'
   end
 
-  def category_list_icon_color value_type
+  def category_list_icon_color(value_type)
     value_type == 'incomes' ? 'text-success' : 'text-error'
   end
 end

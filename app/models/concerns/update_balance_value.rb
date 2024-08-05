@@ -3,6 +3,7 @@ module UpdateBalanceValue
 
   included do
     after_save :update_balance_value
+    after_destroy :update_balance_value
   end
 
   def update_balance_value
