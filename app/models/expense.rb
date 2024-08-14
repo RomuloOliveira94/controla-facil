@@ -7,7 +7,7 @@ class Expense < ApplicationRecord
   validates :balance_id, presence: true
   validates :user_id, presence: true
   validates :date, presence: true
-  validate :date_only_on_current_month, on: [:create, :update]
+  validate :date_only_on_current_month, on: %i[create update]
 
   include UpdateBalanceValue
 
@@ -17,6 +17,11 @@ class Expense < ApplicationRecord
   end
 
   def date_only_on_current_month
-    errors.add(:date, 'deve ser do mês corrente') unless date.month == Time.zone.today.month
+    return if date.blank?
+
+    return unless date.month != Time.zone.now.month || date.year != Time.zone.now.year
+
+    errors.add(:date,
+               'Coloque uma data referente ao mês atual')
   end
 end
