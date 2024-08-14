@@ -87,7 +87,10 @@
             <%= link_to value, class: "btn btn-info btn-xs md:btn-md", data: { turbo_frame: "_top" } do %>
               <i class="fa fa-eye text-gray-100" aria-hidden="true"></i>
             <% end %>
-            <%= button_to @expense, method: :delete, class: "btn btn-xs btn-error md:btn-md", data: { turbo_confirm: 'Tem certeza?' } do %>
+            <%= link_to edit_polymorphic_path(value), class: "btn btn-primary", data: { turbo_frame: "_top" } do %>
+              <i class="fa fa-pencil text-gray-100"></i>
+            <% end %>
+            <%= button_to value, method: :delete, class: "btn btn-xs btn-error md:btn-md", data: { turbo_confirm: 'Tem certeza?' } do %>
               <i class="fas fa-trash-alt text-gray-100"></i>
             <% end %>
           </td>
