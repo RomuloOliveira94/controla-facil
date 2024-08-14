@@ -45,7 +45,7 @@
             Categoria
           <% end %>
         </td>
-        <td class="text-center">Ação</td>
+        <td class="text-center">Ações</td>
       </tr>
     </thead>
     <tbody>
@@ -83,8 +83,13 @@
           </td>
           <td><%= format_boolean(value.fixed) %></td>
           <td><%= value.category.name %></td>
-          <td class="w-28 text-center">
-            <%= link_to "Ver", value, class: "btn btn-info btn-xs md:btn-md", data: { turbo_frame: "_top" } %>
+          <td class="w-28 text-center flex items-center gap-2">
+            <%= link_to value, class: "btn btn-info btn-xs md:btn-md", data: { turbo_frame: "_top" } do %>
+              <i class="fa fa-eye text-gray-100" aria-hidden="true"></i>
+            <% end %>
+            <%= button_to @expense, method: :delete, class: "btn btn-xs btn-error md:btn-md", data: { turbo_confirm: 'Tem certeza?' } do %>
+              <i class="fas fa-trash-alt text-gray-100"></i>
+            <% end %>
           </td>
         </tr>
       <% end %>
@@ -132,7 +137,7 @@
             Categoria
           <% end %>
         </td>
-        <td class="text-center">Ação</td>
+        <td class="text-center">Ações</td>
       </tr>
     </tfoot>
   </table>
