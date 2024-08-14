@@ -64,7 +64,7 @@
           </td>
           <td><span class="font-semibold"><%= format_boolean(value.fixed) %></span></td>
           <td class="w-28 text-center">
-            <%= link_to value, class: "btn btn-primary btn-sm md:btn-md" do %>
+            <%= link_to value, class: "btn btn-primary btn-sm md:btn-md", data: { turbo_frame: "_top" } do %>
               <i class="fa fa-arrow-right size-4" aria-hidden="true"></i>
             <% end %>
           </td>
