@@ -69,3 +69,8 @@ end
 gem "revise_auth", "~> 0.7.1"
 
 gem 'ransack'
+
+gem "capistrano", "~> 3.10", require: false
+gem "capistrano-rails", "~> 1.6", require: false
+gem 'capistrano-rvm'
+gem 'capistrano-puma', require: false
