@@ -3,7 +3,6 @@
     <% if category.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(category.errors.count, "error") %> Atenção:</h2>
-
         <ul>
           <% category.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -11,41 +10,34 @@
         </ul>
       </div>
     <% end %>
-
     <div class="my-5">
       <%= form.label "Nome" %>
       <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
-
-
     <div class="my-5">
       <%= form.label "Descrição" %>
       <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
-
     <div>
       <%= form.label "Tipo de categoria" %>
-      <%= form.select :cat_sub, all_available_categories, { prompt: "Selecione o tipo" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+      <%= form.select :cat_sub, [["Desepesas", "expenses"], ["Receitas", "incomes"]], { prompt: "Selecione o tipo" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
     </div>
-
     <div class="flex justify-between items-center mt-6">
-      <button type="button" data-action="dialog-modal#hideModal" class="btn btn-error max-w-sm">Cancelar</button>   
+      <button type="button" data-action="dialog-modal#hideModal" class="btn btn-error max-w-sm">Cancelar</button>
       <%= form.submit "Criar", class: "btn btn-success max-w-sm" %>
     </div>
-
     <div class="mt-6">
       <h3 class="text-xl font-semibold">Icone:</h3>
       <div class="grid grid-cols-4">
         <% all_available_icons.each do |i| %>
-          <div class="flex items-center justify-center p-2 cursor-pointer hover:opacity-70 ">    
+          <div class="flex items-center justify-center p-2 cursor-pointer hover:opacity-70 ">
             <%= form.radio_button :icon, i, class: "hidden peer" %>
             <%= label_tag "category_icon_#{i}", class: 'peer-checked:border-2 p-3 cursor-pointer rounded-lg w-16 flex justify-center items-center' do %>
               <i class="fa-solid <%= i %> text-2xl"></i>
             <% end %>
           </div>
         <% end %>
-      </div>  
+      </div>
     </div>
-
   <% end %>
 </div>
