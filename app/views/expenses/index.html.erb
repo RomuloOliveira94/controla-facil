@@ -7,10 +7,10 @@
       <span class="text-lg">Nova despesa</span>
     <% end %>
   </div>
-  <div class="grid gap-6" data-controller="search">
-    <div class="mt-6 grid gap-2">
+  <div class="grid gap-4" data-controller="search">
+    <div class="mt-4 grid gap-2">
       <h2 class="font-bold text-lg md:text-xl">Buscas Rápidas:</h2>
-      <div class="flex md:flex-row gap-4 overflow-x-auto">
+      <div class="flex md:flex-row gap-2 overflow-x-auto">
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
           <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month, hidden: true %>
           <%= f.search_field :created_at_lteq, value: Time.now.end_of_month, hidden: true %>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="grid gap-4">
-      <div class="flex items-center gap-4 overflow-x-auto">
+      <div class="flex items-center gap-2 overflow-x-auto">
         <button data-action="search#toggleText" class="btn btn-primary rounded-sm btn-sm">
           <i class="fa fa-search h-4 w-4" aria-hidden="true"></i>
         </button>
