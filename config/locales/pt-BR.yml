@@ -20,6 +20,11 @@ pt-BR:
         value: Valor
         date: Data
         category: Categoria
+      category:
+        name: Nome
+        kind: Tipo
+        cat_sub: Tipo de Categoria
+        icon: Ícone  
     errors:
       messages:
         record_invalid: "A validação falhou: %{errors}"
