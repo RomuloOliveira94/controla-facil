@@ -1,21 +1,14 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :set_search
-  # before_action :total_incomes
-  # before_action :total_expenses
-  # before_action :total_balance
-  # before_action :total_fixed_expenses
-  # before_action :total_fixed_incomes
 
   include BalanceHelper
 
   def index
-    # @all_incomes_and_expenses = user_actual_month_yeah_balance.all_incomes_and_expenses.sort_by!(&:created_at).reverse
     @result = @q.result.includes(expenses: :category, incomes: :category).order(created_at: :desc).first
 
     if @result
       @all_incomes_and_expenses = @result.all_incomes_and_expenses if @result
-
       @total_incomes = total_incomes
       @total_expenses = total_expenses
       @total_balance = total_balance
