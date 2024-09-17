@@ -3,5 +3,5 @@ ReviseAuth.configure do |config|
   # config.sign_up_params += [:time_zone]
   # config.update_params += [:time_zone]
   config.sign_up_params += %i[first_name last_name avatar provider_token provider password_digest]
-  config.update_params += %i[first_name last_name]
+  config.update_params += %i[first_name last_name avatar]
 end

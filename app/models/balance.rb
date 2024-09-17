@@ -4,6 +4,6 @@ class Balance < ApplicationRecord
   has_many :incomes, dependent: :destroy
 
   def all_incomes_and_expenses
-    incomes + expenses
+    incomes.includes(:category) + expenses.includes(:category)
   end
 end
