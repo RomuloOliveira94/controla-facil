@@ -54,7 +54,7 @@
       </div>
     </fieldset>
   <% end %>-->
-  <% if current_user.provider.empty? %>
+  <% if current_user.provider.nil? %>
     <%= form_with model: current_user, url: profile_password_path do |form| %>
       <fieldset class="grid gap-4">
         <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
