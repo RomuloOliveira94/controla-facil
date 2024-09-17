@@ -27,4 +27,8 @@ module ApplicationHelper
   def category_list_icon_color(value_type)
     value_type == 'incomes' ? 'text-success' : 'text-error'
   end
+
+  def get_month_text(month)
+    I18n.t('date.month_array')[month]
+  end
 end

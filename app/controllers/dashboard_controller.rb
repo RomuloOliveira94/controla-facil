@@ -1,36 +1,74 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
-  before_action :total_incomes
-  before_action :total_expenses
-  before_action :total_balance
-  before_action :total_fixed_expenses
-  before_action :total_fixed_incomes
+  before_action :set_search
+  # before_action :total_incomes
+  # before_action :total_expenses
+  # before_action :total_balance
+  # before_action :total_fixed_expenses
+  # before_action :total_fixed_incomes
 
   include BalanceHelper
 
   def index
-    @all_incomes_and_expenses = user_actual_month_yeah_balance.all_incomes_and_expenses.sort_by!(&:created_at).reverse
+    # @all_incomes_and_expenses = user_actual_month_yeah_balance.all_incomes_and_expenses.sort_by!(&:created_at).reverse
+    @result = @q.result.includes(expenses: :category, incomes: :category).order(created_at: :desc).first
+
+    if @result
+      @all_incomes_and_expenses = @result.all_incomes_and_expenses if @result
+
+      @total_incomes = total_incomes
+      @total_expenses = total_expenses
+      @total_balance = total_balance
+      @total_fixed_expenses = total_fixed_expenses
+      @total_fixed_incomes = total_fixed_incomes
+    end
+
+    @month = @q.month_eq
+    @year = @q.year_eq
+
+    @last_month = @month - 1
+    @next_month = @month + 1
+
+    if @last_month == 12
+      @month = 1
+      @year += 1
+    end
+
+    return unless @next_month == 1
+
+    @month = 12
+    @year -= 1
   end
 
   private
 
+  def set_search
+    if params[:q].blank?
+      params[:q] = {
+        month_eq: Time.now.mon,
+        year_eq: Time.now.year
+      }
+    end
+    @q = current_user.balances.ransack(params[:q])
+  end
+
   def total_incomes
-    @total_incomes ||= user_actual_month_yeah_balance.try(:incomes)&.sum(:value)
+    @total_incomes ||= @result.try(:incomes)&.sum(:value)
   end
 
   def total_expenses
-    @total_expenses ||= user_actual_month_yeah_balance.try(:expenses)&.sum(:value)
+    @total_expenses ||= @result.try(:expenses)&.sum(:value)
   end
 
   def total_fixed_expenses
-    @total_fixed_expenses ||= user_actual_month_yeah_balance.try(:expenses).where(fixed: true)&.sum(:value)
+    @total_fixed_expenses ||= @result.try(:expenses).where(fixed: true)&.sum(:value)
   end
 
   def total_fixed_incomes
-    @total_fixed_incomes ||= user_actual_month_yeah_balance.try(:incomes).where(fixed: true)&.sum(:value)
+    @total_fixed_incomes ||= @result.try(:incomes).where(fixed: true)&.sum(:value)
   end
 
   def total_balance
-    @total_balance ||= user_actual_month_yeah_balance.try(:balance)
+    @total_balance ||= @result.try(:balance)
   end
 end
