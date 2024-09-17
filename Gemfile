@@ -73,3 +73,7 @@ gem 'revise_auth', '~> 0.7.1'
 gem 'ransack'
 
 gem 'dotenv-rails', groups: %i[development test]
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
