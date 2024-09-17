@@ -54,38 +54,40 @@
       </div>
     </fieldset>
   <% end %>-->
-  <%= form_with model: current_user, url: profile_password_path do |form| %>
-    <fieldset class="grid gap-4">
-      <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
-      <% if form.object.errors.any? %>
-        <ul>
-          <% form.object.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      <% end %>
-      <label class="form-control w-full max-w-md">
-        <div class="label">
-          <span class="label-text">Senha Atual</span>
+  <% if current_user.provider.empty? %>
+    <%= form_with model: current_user, url: profile_password_path do |form| %>
+      <fieldset class="grid gap-4">
+        <h2 class="text-2xl font-bold"><%=t ".Mudar Senha" %></h2>
+        <% if form.object.errors.any? %>
+          <ul>
+            <% form.object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        <label class="form-control w-full max-w-md">
+          <div class="label">
+            <span class="label-text">Senha Atual</span>
+          </div>
+          <%= form.password_field :password_challenge, required: true, class: "input input-bordered w-full max-w-md" %>
+        </label>
+        <label class="form-control w-full max-w-md">
+          <div class="label">
+            <span class="label-text">Nova Senha</span>
+          </div>
+          <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-md" %>
+        </label>
+        <label class="form-control w-full max-w-md">
+          <div class="label">
+            <span class="label-text">Confirmação da Senha</span>
+          </div>
+          <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
+        </label>
+        <div class="grid">
+          <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
         </div>
-        <%= form.password_field :password_challenge, required: true, class: "input input-bordered w-full max-w-md" %>
-      </label>
-      <label class="form-control w-full max-w-md">
-        <div class="label">
-          <span class="label-text">Nova Senha</span>
-        </div>
-        <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-md" %>
-      </label>
-      <label class="form-control w-full max-w-md">
-        <div class="label">
-          <span class="label-text">Confirmação da Senha</span>
-        </div>
-        <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
-      </label>
-      <div class="grid">
-        <%= form.button t(".Editar"), class: "btn btn-success text-lg max-w-md" %>
-      </div>
-    </fieldset>
+      </fieldset>
+    <% end %>
   <% end %>
   <div class="grid">
     <%= link_to 'Sair', logout_path, data: { "turbo-method": :delete }, class: "btn btn-error text-lg max-w-md" %>
