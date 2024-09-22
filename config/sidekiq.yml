@@ -3,6 +3,6 @@
     balance_user_mail_job:
       cron: '* 3 1 * *'
       class: BalanceUserMailJob
-    tester_job:
-      cron: '* * * * *'
-      class: TesterJob  
+    # tester_job:
+    #   cron: '* * * * *'
+    #   class: TesterJob  
