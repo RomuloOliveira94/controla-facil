@@ -59,9 +59,10 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 RUN gem install foreman
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["foreman", "start"]
+
 # Start the server by default, this can be overwritten at runtime
 # EXPOSE 3000
 # CMD ["./bin/rails", "server"]
