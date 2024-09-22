@@ -1,5 +1,8 @@
 :scheduler:
   :schedule:
     balance_user_mail_job:
-      cron: '* 3 1 * *'  # Runs once per minute
+      cron: '* 3 1 * *'
       class: BalanceUserMailJob
+    tester_job:
+      cron: '* * * * *'
+      class: TesterJob  
