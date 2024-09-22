@@ -1,0 +1,5 @@
+:scheduler:
+  :schedule:
+    balance_user_mail_job:
+      every: 1m  # Runs once per minute
+      class: BalanceUserMailJob

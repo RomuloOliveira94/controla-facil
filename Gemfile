@@ -80,4 +80,4 @@ gem 'omniauth-rails_csrf_protection'
 
 #jobs
 gem 'sidekiq'
-gem 'sidekiq-cron'
+gem "sidekiq-scheduler", "~> 5.0"

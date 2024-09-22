@@ -7,8 +7,8 @@ class MonthBalanceMailer < ApplicationMailer
   #
   def month_balance_email
     @user = params[:user]
-    @month = params[:month]
+    @balance = params[:balance]
 
-    mail to: "romuloffall@gmail.com"
+    mail to: @user.email
   end
 end
