@@ -111,12 +111,17 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
+    et-orbi (1.2.11)
+      tzinfo
     faraday (2.11.0)
       faraday-net_http (>= 2.0, < 3.4)
       logger
     faraday-net_http (3.3.0)
       net-http
     ffi (1.16.3)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
@@ -211,6 +216,7 @@ GEM
       stringio
     puma (6.4.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.8.0)
     rack (3.1.6)
     rack-protection (4.0.0)
@@ -278,6 +284,16 @@ GEM
       rails (>= 7.1.0.beta1)
     ruby-vips (2.2.1)
       ffi (~> 1.12)
+    sidekiq (7.3.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
+    sidekiq-cron (1.12.0)
+      fugit (~> 1.8)
+      globalid (>= 1.0.1)
+      sidekiq (>= 6)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -351,6 +367,8 @@ DEPENDENCIES
   ransack
   redis (>= 4.0.1)
   revise_auth (~> 0.7.1)
+  sidekiq
+  sidekiq-cron
   sprockets-rails
   stimulus-rails
   tailwindcss-rails

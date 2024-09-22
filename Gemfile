@@ -77,3 +77,7 @@ gem 'dotenv-rails', groups: %i[development test]
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
+
+#jobs
+gem 'sidekiq'
+gem 'sidekiq-cron'
