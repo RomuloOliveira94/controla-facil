@@ -9,7 +9,8 @@ class NoBalanceMailer < ApplicationMailer
     @month = I18n.t('date.month_array')[Date.today.prev_month.month]
     @year = Date.today.prev_month.year
     @user = params[:user]
+    @url = "https://controla-facil.apps.romin.dev.br"
 
-    mail to: @user.email
+    mail to: @user.email, subject: 'Sem balanço financeiro no mês passado 😟 - Controla Fácil'
   end
 end
