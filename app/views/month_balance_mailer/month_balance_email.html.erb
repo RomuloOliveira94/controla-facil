@@ -1,4 +1,18 @@
-<h1>MonthBalance#month_balance_email</h1>
-<p>
-  <%= @user.first_name %>, funfo <%= @balance.balance %>
-</p>
+<div class="email-body">
+  <h1>Seu Relatório Mensal do Mês de <%= @month %>/<%= @year %> </h1>
+  <h2 style="text-align: start; font-size: 24px;">
+    <%= @greeting %> <%= @user.first_name %>!
+  </h2>
+  <p>
+    <ul>
+      <li style="font-size: 18px;">Total de Entradas: <%= @total_incomes %></li>
+      <li style="font-size: 18px;">Total de Saídas: <%= @total_expenses %></li>
+      <li style="font-size: 18px;">Saldo Final: <%= @total_balance %></li>
+    </ul>
+  </p>
+  <p style="text-align: start;">
+    <a href="<%= @url %>" style="display: grid; gap: 6px;">Acesse o site 🌏
+      <%= image_tag 'controla-facil-logo-no-bg.png', width: 120 %>
+    </a>
+  </p>
+</div>
