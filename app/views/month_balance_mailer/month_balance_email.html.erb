@@ -1,13 +1,45 @@
 <div class="email-body">
   <h1>Seu Relatório Mensal do Mês de <%= @month %>/<%= @year %> </h1>
-  <h2 style="text-align: start; font-size: 24px;">
+  <h2>
     <%= @greeting %> <%= @user.first_name %>!
   </h2>
   <p>
+    <h3>Segue abaixo o seu resumo do financeiro do mês de <%= @month %> do ano de <%= @year %>:</h3>
     <ul>
-      <li style="font-size: 18px;">Total de Entradas: <%= @total_incomes %></li>
-      <li style="font-size: 18px;">Total de Saídas: <%= @total_expenses %></li>
-      <li style="font-size: 18px;">Saldo Final: <%= @total_balance %></li>
+      <li style="font-size: 18px;">Total de Entradas: <strong><%= @total_incomes %></strong></li>
+      <li style="font-size: 18px;">Total de Saídas: <strong><%= @total_expenses %></strong></li>
+      <li style="font-size: 18px;">Saldo Final: <strong><%= @total_balance %></strong></li>
+    </ul>
+    <h3>Segue também um breve detalhamento das suas movimentações:</h3>
+    <ul>
+      <% @formatted_incomes.each do |income| %>
+        <li style="font-size: 18px;">
+          <span>
+            Entrada de <strong><%= income[:value] %></strong> no dia <%= income[:date] %>
+          </span>
+          <br>
+          <span>
+            Referente a:
+            <strong>
+              <%= income[:description] %>
+            </strong>
+          </span>
+        </li>
+      <% end %>
+      <% @formatted_expenses.each do |expense| %>
+        <li style="font-size: 18px;">
+          <span>
+            Saída de <strong><%= expense[:value] %></strong> no dia <%= expense[:date] %>
+          </span>
+          <br>
+          <span>
+            Referente a:
+            <strong>
+              <%= expense[:description] %>
+            </strong>
+          </span>
+        </li>
+      <% end %>
     </ul>
   </p>
   <p style="text-align: start;">
