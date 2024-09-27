@@ -1,2 +1,23 @@
-MonthBalance#month_balance_email
-<%= @user.first_name %>, funfo <%= @total_balance %>
+Seu Relatório Mensal do Mês de <%= @month %>/<%= @year %>
+
+<%= @greeting %> <%= @user.first_name %>!
+
+Segue abaixo o seu resumo do financeiro do mês de <%= @month %> do ano de <%= @year %>:
+
+- Total de Entradas: <%= @total_incomes %>
+- Total de Saídas: <%= @total_expenses %>
+- Saldo Final: <%= @total_balance %>
+
+Segue também um breve detalhamento das suas movimentações:
+
+<% @formatted_incomes.each do |income| %>
+    - Entrada de <%= income[:value] %> no dia <%= income[:date] %>
+        Referente a: <%= income[:description] %>
+<% end %>
+
+<% @formatted_expenses.each do |expense| %>
+    - Saída de <%= expense[:value] %> no dia <%= expense[:date] %>
+        Referente a: <%= expense[:description] %>
+<% end %>
+
+Acesse o site: <%= @url %>

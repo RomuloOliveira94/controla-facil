@@ -1,3 +1,7 @@
-NoBalance#no_balance_mail
+Sem movimentações
 
-<%= @greeting %>, find me in app/views/no_balance_mailer/no_balance_mail.text.erb
+<%= @greeting %> <%= @user.first_name %>,
+
+Você nao teve movimentações no mês de <%= @month %>/<%= @year %>, fique a vontade para acessar nosso site <%= @url %> e controlar sua vida financeira novamente.
+
+Acesse o site 🌏 <%= @url %>
