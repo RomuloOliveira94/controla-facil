@@ -1,6 +1,6 @@
 class BalanceUserMailJob
   include Sidekiq::Job
-  sidekiq_options retry: 1
+  sidekiq_options retry: 2
 
   def perform(*_args)
     users = User.all
