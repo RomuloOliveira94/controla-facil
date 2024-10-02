@@ -1,7 +1,7 @@
 :scheduler:
   :schedule:
     balance_user_mail_job:
-      cron: '* 3 2 * *'
+      cron: '0 2 1 * *'
       class: BalanceUserMailJob
     # tester_job:
     #   cron: '* * * * *'
