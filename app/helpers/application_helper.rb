@@ -31,4 +31,14 @@ module ApplicationHelper
   def get_month_text(month)
     I18n.t('date.month_array')[month]
   end
+
+  def advance_date(date)
+    date.advance(months: 1)
+    date
+  end
+
+  def decrease_date(date)
+    date.advance(months: -1)
+    date
+  end
 end

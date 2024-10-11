@@ -8,7 +8,7 @@
       <% end %>
       <h1 class="text-xl font-semibold hidden md:block">Mostrando balanço do mês <%= get_month_text(@month) %> de <%= @year %></h1>
       <%= search_form_for @q, url: dashboard_path do |f| %>
-        <%= f.search_field :month_eq, value: @month + 1 , hidden: true %>
+        <%= f.search_field :month_eq, value: @month + 1, hidden: true %>
         <%= f.search_field :year_eq, value: @year, hidden: true %>
         <%= f.submit "Próximo Mês", class: "btn btn-primary btn-sm" %>
       <% end %>

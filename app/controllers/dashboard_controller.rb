@@ -5,8 +5,6 @@ class DashboardController < ApplicationController
   include BalanceHelper
 
   def index
-    #BalanceUserMailJob.perform_async(current_user.id, @q.month_eq)
-
     @result = @q.result.includes(expenses: :category, incomes: :category).order(created_at: :desc).first
 
     if @result
@@ -18,22 +16,19 @@ class DashboardController < ApplicationController
       @total_fixed_incomes = total_fixed_incomes
     end
 
-
-    @month = @q.month_eq
-    @year = @q.year_eq
-
-    @last_month = @month - 1
-    @next_month = @month + 1
-
-    if @last_month == 12
-      @month = 1
-      @year += 1
+    if @q.month_eq == 13
+      @next_month = 1
+      @next_year = @q.year_eq + 1
+    elsif @q.month_eq == 0
+      @next_month = 12
+      @next_year = @q.year_eq - 1
+    else
+      @next_month = @q.month_eq
+      @next_year = @q.year_eq
     end
 
-    return unless @next_month == 1
-
-    @month = 12
-    @year -= 1
+    @month = @next_month
+    @year = @next_year
   end
 
   private

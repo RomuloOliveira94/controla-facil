@@ -26,7 +26,6 @@ class ExpensesController < ApplicationController
   # POST /expenses or /expenses.json
   def create
     @expense = current_user.expenses.build(expense_params)
-    @expense.balance_id = @user_actual_month_yeah_balance.id
 
     respond_to do |format|
       if @expense.save

@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     if current_user.balances.empty?
       current_user.balances.create(month: Time.now.mon, year: Time.now.year, balance: 0)
     else
-      MonthlyBalanceService.new(current_user).generate_monthly_balance
+      MonthlyBalanceService.new(current_user, Time.now.mon, Time.now.year).generate_monthly_balance
     end
   end
 end

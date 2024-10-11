@@ -1,6 +1,8 @@
 class MonthlyBalanceService
-  def initialize(user)
+  def initialize(user, month, year)
     @user = user
+    @month = month
+    @year = year
   end
 
   def generate_monthly_balance
@@ -9,7 +11,7 @@ class MonthlyBalanceService
   end
 
   def generate_balance_for_current_month
-    @new_balance = Balance.new(month: Time.now.mon, year: Time.now.year, user: @user, balance: 0)
+    @new_balance = Balance.new(month: @month, year: @year, user: @user, balance: 0)
     return unless @new_balance.save
 
     save_fixed_expenses
@@ -19,6 +21,8 @@ class MonthlyBalanceService
 
   def save_fixed_expenses
     last_fixed_expenses = @last_balance.expenses.where(fixed: true)
+    return if last_fixed_expenses.empty?
+
     last_fixed_expenses.each do |expense|
       new_expense = Expense.new(value: expense.value, date: generate_new_expense_date(expense.date), description: expense.description, fixed: true, balance: @new_balance,
                                 category: expense.category, user: @user)
@@ -28,6 +32,8 @@ class MonthlyBalanceService
 
   def save_fixed_incomes
     last_fixed_incomes = @last_balance.incomes.where(fixed: true)
+    return if last_fixed_incomes.empty?
+
     last_fixed_incomes.each do |income|
       new_income = Income.new(value: income.value, day: income.day, description: income.description, fixed: true, balance: @new_balance,
                               category: income.category, user: @user)
@@ -41,20 +47,21 @@ class MonthlyBalanceService
 
   def last_balance
     generate_time_and_month_values
-    @user.balances.includes(:expenses, :incomes).where(month: @month, year: @year).first || @user.balances.last
+    @user.balances.includes(:expenses, :incomes).where(month: @last_month,
+                                                       year: @last_year).first || @user.balances.last
   end
 
   def generate_time_and_month_values
-    if Time.now.mon == 1
-      @month = 12
-      @year = Time.now.year - 1
+    if @month == 1
+      @last_month = 12
+      @last_year = @year - 1
     else
-      @month = Time.now.mon - 1
-      @year = Time.now.year
+      @last_month = @month - 1
+      @last_year = @year
     end
   end
 
-  def generate_new_expense_date expense_date
-    expense_date.change(month: Time.now.mon, year: Time.now.year)
+  def generate_new_expense_date(expense_date)
+    expense_date.change(month: @month, year: @year)
   end
 end
