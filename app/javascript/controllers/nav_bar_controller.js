@@ -3,7 +3,7 @@ import { useWindowResize } from "stimulus-use";
 
 // Connects to data-controller="nav-bar"
 export default class extends Controller {
-  static targets = ["toggle", "btn", "links", "width"];
+  static targets = ["toggle", "btn", "links", "width", "inputCheck"];
 
   connect() {
     useWindowResize(this);
@@ -13,8 +13,14 @@ export default class extends Controller {
   windowResize({ width }) {
     if (width < 768) {
       this.toggleTarget.classList.add("hidden");
+      this.inputCheckTarget.checked = false;
+      this.linksTargets.forEach((link) => {
+        link.classList = "text-gray-500";
+      });
     } else {
       this.toggleTarget.classList.remove("hidden");
+      this.inputCheckTarget.checked = false;
+      this.activateLink();
     }
   }
 
@@ -30,7 +36,7 @@ export default class extends Controller {
           link.classList = "text-primary border-b-2 border-primary pb-[30px]";
         }
       } else {
-        link.classList = "text-gray-500";
+        link.classList = "hover:text-secondary";
       }
     });
   }
