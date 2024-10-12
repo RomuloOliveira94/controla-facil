@@ -12,8 +12,8 @@
       <h2 class="font-bold text-lg md:text-xl">Buscas Rápidas:</h2>
       <div class="flex md:flex-row gap-2 overflow-x-auto">
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
-          <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month, hidden: true %>
-          <%= f.search_field :created_at_lteq, value: Time.now.end_of_month, hidden: true %>
+          <%= f.search_field :date_gteq, value: Time.now.beginning_of_month, hidden: true %>
+          <%= f.search_field :date_lteq, value: Time.now.end_of_month, hidden: true %>
           <%= f.submit "Mês Atual", class: "btn btn-secondary btn-sm" %>
         <% end %>
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
@@ -79,7 +79,7 @@
         <%= render 'shared/mobile_table', values: @expenses %>
       </div>
     <% end %>
-    <div class="mx-auto">
+    <div class="flex justify-center my-4">
       <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
     </div>
   </div>

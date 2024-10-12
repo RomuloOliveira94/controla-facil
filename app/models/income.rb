@@ -18,7 +18,7 @@ class Income < ApplicationRecord
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[balance_id category_id created_at day description fixed id updated_at
-       user_id value]
+       user_id value date]
   end
 
   def income_month_year
