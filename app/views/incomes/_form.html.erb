@@ -28,6 +28,10 @@
     </div>
   </div>
   <div class="my-5">
+    <%= form.label :date, "Data", class: "font-semibold text-lg" %>
+    <%= form.date_field :date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+  <div class="my-5">
     <%= form.label :category_id, "Categoria", class: "font-semibold text-lg" %>
     <%= form.collection_select :category_id, @incomes_categories, :id, :name, { prompt: "Selecione a categoria" }, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>

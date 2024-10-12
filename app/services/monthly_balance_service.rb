@@ -6,6 +6,11 @@ class MonthlyBalanceService
   end
 
   def generate_monthly_balance
+    if @user.balances.nil?
+      user.balances.create(month: @expense_date.month, year: @expense_date.year, balance: 0)
+      return
+    end
+
     @last_balance = last_balance
     generate_balance_for_current_month
   end
@@ -24,7 +29,7 @@ class MonthlyBalanceService
     return if last_fixed_expenses.empty?
 
     last_fixed_expenses.each do |expense|
-      new_expense = Expense.new(value: expense.value, date: generate_new_expense_date(expense.date), description: expense.description, fixed: true, balance: @new_balance,
+      new_expense = Expense.new(value: expense.value, date: generate_new_date(expense.date), description: expense.description, fixed: true, balance: @new_balance,
                                 category: expense.category, user: @user)
       new_expense.save
     end
@@ -35,7 +40,7 @@ class MonthlyBalanceService
     return if last_fixed_incomes.empty?
 
     last_fixed_incomes.each do |income|
-      new_income = Income.new(value: income.value, day: income.day, description: income.description, fixed: true, balance: @new_balance,
+      new_income = Income.new(value: income.value, day: income.day, description: income.description, date: generate_new_date(income.date), fixed: true, balance: @new_balance,
                               category: income.category, user: @user)
       new_income.save
     end
@@ -61,7 +66,8 @@ class MonthlyBalanceService
     end
   end
 
-  def generate_new_expense_date(expense_date)
-    expense_date.change(month: @month, year: @year)
+  def generate_new_date(date)
+    date = Date.today if date.nil?
+    date.change(month: @month, year: @year)
   end
 end
