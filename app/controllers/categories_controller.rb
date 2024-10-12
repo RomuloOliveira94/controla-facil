@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :ensure_frame_response, only: %i[ create ]
-  before_action :set_category, only: %i[ destroy ]
+  before_action :ensure_frame_response, only: %i[create]
+  before_action :set_category, only: %i[destroy]
 
   def new
     @category = Category.new
@@ -13,9 +13,9 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-          format.turbo_stream do
+        format.turbo_stream do
           render turbo_stream: turbo_stream.append(list_to_update, partial: 'configurations/categories_list',
-                                                                 locals: { category: @category })
+                                                                   locals: { category: @category })
         end
         format.html { redirect_to configurations_path, notice: 'Categoria criada com sucesso.' }
       else
@@ -50,6 +50,6 @@ class CategoriesController < ApplicationController
   end
 
   def list_to_update
-    @category.cat_sub === "expenses" ? "expenses" : "incomes"
+    @category.cat_sub === 'expenses' ? 'expenses' : 'incomes'
   end
 end
