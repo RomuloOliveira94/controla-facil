@@ -27,7 +27,7 @@ export default class extends Controller {
       if (link.href === window.location.href) {
         link.classList = "text-primary";
         if (window.innerWidth > 768) {
-          link.classList = "text-primary border-b-2 border-primary pb-[18px]";
+          link.classList = "text-primary border-b-2 border-primary pb-[30px]";
         }
       } else {
         link.classList = "text-gray-500";
