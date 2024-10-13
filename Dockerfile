@@ -56,12 +56,12 @@ USER rails:rails
 
 RUN gem install foreman
 
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
 EXPOSE 80
 
 CMD ["foreman", "start"]
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 # EXPOSE 3000
