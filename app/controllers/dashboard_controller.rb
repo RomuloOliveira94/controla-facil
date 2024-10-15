@@ -20,6 +20,16 @@ class DashboardController < ApplicationController
     @year = @q.year_eq
   end
 
+  def generate_monthly_balance
+    month = params[:month].to_i
+    year = params[:year].to_i
+    MonthlyBalanceService.new(current_user, month, year).generate_monthly_balance
+    redirect_to root_path(q: {
+                            month_eq: month,
+                            year_eq: year
+                          }), flash: { notice: 'Balanço gerado com sucess!', style: 'success' }
+  end
+
   private
 
   def set_search

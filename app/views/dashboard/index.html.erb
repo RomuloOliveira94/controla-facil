@@ -9,7 +9,7 @@
         <p class="hidden md:block">Mês anterior</p>
       </button>
     <% end %>
-    <h1 class="md:text-xl font-semibold">Mostrando balanço de <%= get_month_text(@month) %>/<%= @year %></h1>
+    <h1 class="md:text-xl font-semibold">Balanço de <%= get_month_text(@month) %>/<%= @year %></h1>
     <%= search_form_for @q, url: dashboard_path do |f| %>
       <%= f.search_field :month_eq, value: @month == 12 ? 1 : @month + 1, hidden: true %>
       <%= f.search_field :year_eq, value: @month == 12 ? @year + 1 : @year, hidden: true %>
@@ -21,8 +21,14 @@
   </div>
 </div>
 <% if @all_incomes_and_expenses.nil? %>
-  <div class="min-h-screen">
+  <div class="grid place-content-center gap-2">
     <h1 class="text-center text-2xl font-bold h-full mt-32">Nenhum balanço encontrado...</h1>
+    <%= form_with url: generate_monthly_balance_path, method: :post do %>
+      <%= hidden_field_tag :month, @month %>
+      <%= hidden_field_tag :year, @year %>
+      <%= submit_tag "Gerar o balanço do mês #{get_month_text(@month)}", class: "btn btn-primary mx-auto w-full" %>
+    <% end %>
+    <small>Todos as receitas e despesas fixa serão importadas*</small>
   </div>
 <% else %>
   <h2 class="text-center text-white text-xl font-semibold p-3 rounded-md <%= positive_bool(@total_balance) ? 'bg-success' : 'bg-error animate-pulse' %>">Seu balanço está <%= positive_bool(@total_balance) ? "positivo, Parabéns!!! 🤑🎉": "negativo, tente se organizar melhor! 😰💸" %></h2>

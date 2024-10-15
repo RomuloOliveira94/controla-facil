@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :categories
 
   get '/dashboard' => 'dashboard#index', as: :dashboard
+  post '/generate_monthly_balance' => 'dashboard#generate_monthly_balance', as: :generate_monthly_balance
   get '/configurations' => 'configurations#index', as: :configurations
   patch '/configurations/change_theme' => 'configurations#change_theme', as: :change_theme
 

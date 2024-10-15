@@ -7,11 +7,12 @@ class MonthlyBalanceService
 
   def generate_monthly_balance
     if @user.balances.nil?
-      user.balances.create(month: @expense_date.month, year: @expense_date.year, balance: 0)
+      user.balances.create(month: @month, year: @year, balance: 0)
       return
     end
 
     @last_balance = last_balance
+    puts "last_balance: #{@last_balance.inspect}"
     generate_balance_for_current_month
   end
 
@@ -67,7 +68,9 @@ class MonthlyBalanceService
   end
 
   def generate_new_date(date)
-    date = Date.today if date.nil?
+    return if date.nil?
+
+    date = date.change(day: 28) if @month == 2 && date.day > 28
     date.change(month: @month, year: @year)
   end
 end
