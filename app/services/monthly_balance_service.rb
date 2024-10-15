@@ -12,7 +12,6 @@ class MonthlyBalanceService
     end
 
     @last_balance = last_balance
-    puts "last_balance: #{@last_balance.inspect}"
     generate_balance_for_current_month
   end
 
