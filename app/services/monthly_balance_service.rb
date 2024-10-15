@@ -67,7 +67,7 @@ class MonthlyBalanceService
   end
 
   def generate_new_date(date)
-    return if date.nil?
+    date = Date.today if date.nil?
 
     date = date.change(day: 28) if @month == 2 && date.day > 28
     date.change(month: @month, year: @year)
