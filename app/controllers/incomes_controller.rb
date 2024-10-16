@@ -31,11 +31,16 @@ class IncomesController < ApplicationController
     respond_to do |format|
       if @income.save
         format.html do
-          redirect_to income_url(@income), flash: { notice: 'Receita adicionada com sucesso', style: 'success' }
+          redirect_to root_path(q: {
+                                  month_eq: @income.date.month,
+                                  year_eq: @income.date.year
+                                }), flash: { notice: 'Receita adicionada com sucesso', style: 'success' }
         end
         format.json { render :show, status: :created, location: @income }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          render :new, status: :unprocessable_entity, flash: { notice: 'Erro ao adicionar a receita', style: 'error' }
+        end
         format.json { render json: @income.errors, status: :unprocessable_entity }
       end
     end
@@ -51,11 +56,16 @@ class IncomesController < ApplicationController
     respond_to do |format|
       if @income.update(income_params)
         format.html do
-          redirect_to income_url(@income), flash: { notice: 'Receita atualizada com sucesso', style: 'success' }
+          redirect_to root_path(q: {
+                                  month_eq: @income.date.month,
+                                  year_eq: @income.date.year
+                                }), flash: { notice: 'Receita atualizada com sucesso', style: 'success' }
         end
         format.json { render :show, status: :ok, location: @income }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html do
+          render :edit, status: :unprocessable_entity, flash: { notice: 'Erro ao atualizar a receita', style: 'error' }
+        end
         format.json { render json: @income.errors, status: :unprocessable_entity }
       end
     end
@@ -67,7 +77,10 @@ class IncomesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to incomes_url, flash: { notice: 'Receita removida com sucesso', style: 'success' }
+        redirect_to root_path(q: {
+                                month_eq: @income.date.month,
+                                year_eq: @income.date.year
+                              }), flash: { notice: 'Receita removida com sucesso', style: 'success' }
       end
       format.json { head :no_content }
     end

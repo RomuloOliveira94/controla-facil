@@ -30,11 +30,14 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.save
         format.html do
-          redirect_to expense_url(@expense), flash: { notice: 'Despesa adicionada com sucesso', style: 'success' }
+          redirect_to root_path(q: {
+                                  month_eq: @expense.date.month,
+                                  year_eq: @expense.date.year
+                                }), flash: { notice: 'Despesa adicionada com sucesso', style: 'success' }
         end
         format.json { render :show, status: :created, location: @expense }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity, flash: { notice: 'Erro ao adicionar a despesa', style: 'error' } }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
@@ -45,11 +48,14 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.update(expense_params)
         format.html do
-          redirect_to expense_url(@expense), flash: { notice: 'Despesa atualizada com sucesso', style: 'success' }
+          redirect_to root_path(q: {
+                                  month_eq: @expense.date.month,
+                                  year_eq: @expense.date.year
+                                }), flash: { notice: 'Despesa atualizada com sucesso', style: 'success' }
         end
         format.json { render :show, status: :ok, location: @expense }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity, flash: { notice: 'Erro ao atualizar a despesa', style: 'error' } }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +67,10 @@ class ExpensesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to expenses_url, flash: { notice: 'Despesa removida com sucesso', style: 'success' }
+        redirect_to root_path(q: {
+                                month_eq: @expense.date.month,
+                                year_eq: @expense.date.year
+                              }), flash: { notice: 'Despesa removida com sucesso', style: 'success' }
       end
       format.json { head :no_content }
     end

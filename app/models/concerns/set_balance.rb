@@ -8,15 +8,15 @@ module SetBalance
   def set_balance
     return unless date.present?
 
-    @expense_date = date
-    self.balance = user.balances.find_by(month: @expense_date.month, year: @expense_date.year)
+    @value_date = date
+    self.balance = user.balances.find_by(month: @value_date.month, year: @value_date.year)
     return unless balance.nil?
 
     generate_new_balance
   end
 
   def generate_new_balance
-    MonthlyBalanceService.new(user, @expense_date.month, @expense_date.year).generate_monthly_balance
-    self.balance = user.balances.find_by(month: @expense_date.month, year: @expense_date.year)
+    MonthlyBalanceService.new(user, @value_date.month, @value_date.year).generate_monthly_balance
+    self.balance = user.balances.find_by(month: @value_date.month, year: @value_date.year)
   end
 end

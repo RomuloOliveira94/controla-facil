@@ -24,6 +24,15 @@ class DashboardController < ApplicationController
     month = params[:month].to_i
     year = params[:year].to_i
     MonthlyBalanceService.new(current_user, month, year).generate_monthly_balance
+
+    if current_user.balances.where(month:, year:).empty?
+      redirect_to root_path(q: {
+                              month_eq: month,
+                              year_eq: year
+                            }), flash: { notice: 'Não foi possível gerar o balanço!', style: 'error' }
+      return
+    end
+
     redirect_to root_path(q: {
                             month_eq: month,
                             year_eq: year
