@@ -25,8 +25,8 @@ class MonthlyBalanceService
   end
 
   def save_fixed_expenses
-    last_fixed_expenses = @last_balance.expenses.where(fixed: true)
-    return if last_fixed_expenses.empty?
+    last_fixed_expenses = @last_balance.try(:expenses)&.where(fixed: true)
+    return if last_fixed_expenses.nil?
 
     last_fixed_expenses.each do |expense|
       new_expense = Expense.new(value: expense.value, date: generate_new_date(expense.date), description: expense.description, fixed: true, balance: @new_balance,
@@ -36,8 +36,8 @@ class MonthlyBalanceService
   end
 
   def save_fixed_incomes
-    last_fixed_incomes = @last_balance.incomes.where(fixed: true)
-    return if last_fixed_incomes.empty?
+    last_fixed_incomes = @last_balance.try(:incomes)&.where(fixed: true)
+    return if last_fixed_incomes.nil?
 
     last_fixed_incomes.each do |income|
       new_income = Income.new(value: income.value, day: income.day, description: income.description, date: generate_new_date(income.date), fixed: true, balance: @new_balance,
