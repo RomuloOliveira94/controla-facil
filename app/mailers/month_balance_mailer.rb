@@ -13,6 +13,7 @@ class MonthBalanceMailer < ApplicationMailer
     @total_incomes = format_brl_currency(params[:total_incomes] || 0)
     @total_expenses = format_brl_currency(params[:total_expenses] || 0)
     @total_balance = format_brl_currency(@balance.balance || 0)
+    @url = 'https://controla-facil.apps.romin.dev.br'
 
     @formatted_incomes = @balance.incomes.collect do |income|
       {
