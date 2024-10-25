@@ -1,25 +1,30 @@
-<h1><%=t ".reset_password" %></h1>
-
-<%= form_with model: @user, url: password_reset_path do |form| %>
-  <% if form.object.errors.any? %>
-    <ul>
-      <% form.object.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+<div class="flex flex-col items-center justify-center gap-6">
+  <h1><%=t ".reset_password" %></h1>
+  <%= form_with model: @user, url: password_reset_path, class: "grid gap-3 form-input:outline-none" do |form| %>
+    <% if form.object.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2>Atenção:</h2>
+        <ul>
+          <% form.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <label class="form-control w-full max-w-md">
+      <div class="label">
+        <span class="label-text">Nova Senha</span>
+      </div>
+      <%= form.password_field :password, required: true, class: "input input-bordered w-full max-w-md" %>
+    </label>
+    <label class="form-control w-full max-w-md">
+      <div class="label">
+        <span class="label-text">Confirmação da Senha</span>
+      </div>
+      <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
+    </label>
+    <div>
+      <%= form.button t(".reset_password"), class: "btn btn-primary w-full text-lg" %>
+    </div>
   <% end %>
-
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password, required: true %>
-  </div>
-
-  <div>
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation, required: true %>
-  </div>
-
-  <div>
-    <%= form.button t(".reset_password") %>
-  </div>
-<% end %>
+</div>

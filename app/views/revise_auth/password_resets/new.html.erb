@@ -3,11 +3,14 @@
 
   <%= form_with model: @user, url: password_resets_path, class: "grid gap-3 form-input:outline-none" do |form| %>
     <% if form.object.errors.any? %>
-      <ul>
-        <% form.object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2>Atenção:</h2>
+        <ul>
+          <% form.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
 
     <label class="input input-bordered flex items-center gap-2">
