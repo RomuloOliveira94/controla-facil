@@ -18,6 +18,7 @@ class BalanceUserMailJob
 
         MonthBalanceMailer.with(user:,
                                 balance: last_month_balance, total_incomes:, total_expenses:).month_balance_email.deliver_now
+        continue
       end
 
       NoBalanceMailer.with(user:).no_balance_mail.deliver_now if last_month_balance.nil?

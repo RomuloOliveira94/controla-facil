@@ -8,8 +8,8 @@ class MonthBalanceMailer < ApplicationMailer
     @greeting = 'Olá'
     @user = params[:user]
     @balance = params[:balance]
-    @month = I18n.t('date.month_array')[Date.today.prev_month.month]
-    @year = Date.today.prev_month.year
+    @month = I18n.t('date.month_array')[@balance.month]
+    @year = @balance.year
     @total_incomes = format_brl_currency(params[:total_incomes] || 0)
     @total_expenses = format_brl_currency(params[:total_expenses] || 0)
     @total_balance = format_brl_currency(@balance.balance || 0)
