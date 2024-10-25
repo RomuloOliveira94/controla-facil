@@ -14,11 +14,13 @@
     </div>
     <div class="order-3 max-md:w-full md:order-2 mb-6 md:mb-0 z-50" data-nav-bar-target="toggle">
       <ul class="flex font-semibold gap-4 max-md:mt-4 flex-col md:flex-row">
+      <% if user_signed_in? %>
         <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Dashboard', dashboard_path, class: "link hover:text-red-700", data: { nav_bar_target: "links" }  %></li>
         <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Despesas', expenses_path, data: { nav_bar_target: "links" } %></li>
         <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Receitas', incomes_path, data: { nav_bar_target: "links" } %></li>
         <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Perfil', profile_path, data: { nav_bar_target: "links" } %></li>
         <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Configurações', configurations_path, data: { nav_bar_target: "links" } %></li>
+      <% end %>
         <% if user_signed_in? %>
           <li class="md:hidden">
             <button class="px-4 py-2 btn btn-error text-gray-50 rounded-xl flex items-center gap-2">

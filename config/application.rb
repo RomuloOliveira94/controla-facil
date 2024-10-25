@@ -28,8 +28,8 @@ module ControlaFacil
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    #load services
-    config.autoload_paths += %W(#{config.root}/app/services)
+    # load services
+    config.autoload_paths += %W[#{config.root}/app/services]
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -37,7 +37,9 @@ module ControlaFacil
     # in config/environments, which are processed later.
     #
     config.time_zone = 'America/Sao_Paulo'
-    config.i18n.default_locale = :"pt-BR"
+    config.i18n.load_path += Dir[Rails.root.join('lib', 'locale', '*.{rb,yml}')]
+    config.i18n.available_locales = %i[pt en]
+    config.i18n.default_locale = 'pt'
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
