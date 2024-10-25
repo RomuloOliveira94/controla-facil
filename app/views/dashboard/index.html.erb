@@ -31,13 +31,15 @@
     <small>Todos as receitas e despesas fixa serão importadas*</small>
   </div>
 <% else %>
-  <h2 class="text-center text-white text-xl font-semibold p-3 rounded-md <%= positive_bool(@total_balance) ? 'bg-success' : 'bg-error animate-pulse' %>">Seu balanço está <%= positive_bool(@total_balance) ? "positivo, Parabéns!!! 🤑🎉": "negativo, tente se organizar melhor! 😰💸" %></h2>
+  <% if @total_balance != 0 %>
+    <h2 class="text-center text-white text-xl font-semibold p-3 rounded-md <%= positive_bool(@total_balance) ? 'bg-success' : 'bg-error animate-pulse' %>">Seu balanço está <%= positive_bool(@total_balance) ? "positivo, Parabéns!!! 🤑🎉": "negativo, tente se organizar melhor! 😰💸" %></h2>
+  <% end %>
   <section class="grid gap-6">
     <h1 class="text-3xl font-bold">Balanço</h1>
     <div class="relative p-5 rounded-md overflow-hidden h-32 md:w-1/2 <%= positive_check(@total_balance) %>">
       <div class="relative z-10 mb-4 text-white text-5xl leading-none font-semibold"><%= format_brl_currency(@total_balance) %></div>
       <div class="relative z-10 text-gray-200 leading-none font-semibold text-xl">Balanço Atual</div>
-      <i class="fa-solid fa-scale-balanced absolute right-4 bottom-2 h-40 w-40 -mr-8 -mb-8 opacity-40 <%= positive_bool(@total_balance) ? 'text-success' : 'text-red-700' %>"></i>
+      <i class="fa-solid fa-scale-balanced absolute right-4 bottom-2 h-40 w-40 -mr-8 -mb-8 opacity-40 <%= positive_bool(@total_balance) ? 'text-green-700' : 'text-red-700' %>"></i>
     </div>
   </section>
   <section class="grid lg:grid-cols-3 gap-2">
