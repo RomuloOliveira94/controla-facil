@@ -1,12 +1,15 @@
-<div class="email-body">
+<div class="container">
+  <div class="header">
+    <a href="<%= @url %>">
+      <img src="https://controlafacil.starksoftware.tech/logo.png" alt="Controla Fácil">
+    </a>
+  </div>
   <h1>Sem movimentações</h1>
   <h2 style="text-align: start; font-size: 24px;"><%= @greeting %> <%= @user.first_name %>,</h2>
   <p style="font-size: 18px;">
     Você nao teve movimentações no mês de <%= @month %>/<%= @year %>, fique a vontade para acessar <a href="<%= @url %>">nosso site</a> e controlar sua vida financeira novamente.
   </p>
-  <p style="text-align: start;">
-    <a href="<%= @url %>" style="display: grid; gap: 6px;">Acesse o site 🌏
-      <%= image_tag 'controla-facil-logo-no-bg.png', width: 120 %>
-    </a>
-  </p>
+  <div class="footer">
+    <p>&copy; <%= Time.now.year %> Controla Fácil. Todos os direitos reservados.</p>
+  </div>
 </div>
