@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center justify-center gap-6">
-  <h1><%=t ".reset_password" %></h1>
+  <h1 class="text-xl font-semibold">Redefinição de senha:</h1>
   <%= form_with model: @user, url: password_reset_path, class: "grid gap-3 form-input:outline-none" do |form| %>
     <% if form.object.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -24,7 +24,7 @@
       <%= form.password_field :password_confirmation, required: true, class: "input input-bordered w-full max-w-md" %>
     </label>
     <div>
-      <%= form.button t(".reset_password"), class: "btn btn-primary w-full text-lg" %>
+      <%= form.button t(".Redefinir"), class: "btn btn-primary w-full text-lg" %>
     </div>
   <% end %>
 </div>

@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center justify-center gap-6">
-  <h1><%=t ".send_password_reset_instructions" %></h1>
+  <h1 class="text-xl font-semibold">Enviar e-mail de reset de senha:</h1>
 
   <%= form_with model: @user, url: password_resets_path, class: "grid gap-3 form-input:outline-none" do |form| %>
     <% if form.object.errors.any? %>
@@ -28,7 +28,7 @@
   
 
     <div>
-      <%= form.button t(".send_password_reset_instructions"), class: "btn btn-primary w-full text-lg" %>
+      <%= form.button t(".Enviar"), class: "btn btn-primary w-full text-lg" %>
     </div>
   <% end %>
 
