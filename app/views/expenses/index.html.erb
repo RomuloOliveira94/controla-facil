@@ -14,20 +14,20 @@
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
           <%= f.search_field :date_gteq, value: Time.now.beginning_of_month, hidden: true %>
           <%= f.search_field :date_lteq, value: Time.now.end_of_month, hidden: true %>
-          <%= f.submit "Mês Atual", class: "btn btn-secondary btn-sm" %>
+          <%= f.submit "Mês Atual", class: "btn btn-primary btn-sm", data: { action: 'click->search#showClearButton'} %>
         <% end %>
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
           <%= f.search_field :created_at_gteq, value: Time.now.beginning_of_month.last_month, hidden: true %>
           <%= f.search_field :created_at_lteq, value: Time.now.end_of_month.last_month, hidden: true %>
-          <%= f.submit "Mês Passado", class: "btn btn-secondary btn-sm" %>
+          <%= f.submit "Mês Passado", class: "btn btn-primary btn-sm", data: { action: 'click->search#showClearButton'} %>
         <% end %>
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
           <%= f.check_box :fixed_eq, checked: true, hidden: true %>
-          <%= f.submit "Receitas Fixas", class: "btn btn-secondary btn-sm" %>
+          <%= f.submit "Receitas Fixas", class: "btn btn-primary btn-sm", data: { action: 'click->search#showClearButton'} %>
         <% end %>
         <%= search_form_for @q, data: { turbo_frame: :expenses } do |f| %>
           <%= f.check_box :fixed_eq, checked: false, hidden: true %>
-          <%= f.submit "Receitas Avulsas", class: "btn btn-secondary btn-sm" %>
+          <%= f.submit "Receitas Avulsas", class: "btn btn-primary btn-sm", data: { action: 'click->search#showClearButton'} %>
         <% end %>
       </div>
     </div>
@@ -65,11 +65,11 @@
               <%= f.label :date, "Até" %>
               <%= f.date_field :created_at_lteq, class: "input input-sm input-bordered w-full max-w-xs" %>
             </div>
-            <%= button_tag "Pesquisar", type: "button", class: "btn btn-secondary btn-sm w-full mt-4 mr-4", data: { action: 'click->search#search'}, onclick: "data.close()" %>
+            <%= button_tag "Pesquisar", type: "button", class: "btn btn-primary btn-sm w-full mt-4 mr-4", data: { action: 'click->search#search'}, onclick: "data.close()" %>
           <% end %>
         </div>
         <div class="items-center justify-center md:justify-start hidden" data-search-target="clearButton">
-          <%= link_to 'Limpar', expenses_path, class: "btn btn-success btn-sm md:w-1/3 w-full mt-2" %>
+          <%= link_to 'Limpar', expenses_path, class: "btn btn-secondary btn-sm md:w-1/3 w-full mt-2" %>
         </div>
       <% end %>
     </div>

@@ -31,8 +31,12 @@ export default class extends Controller {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.formTarget.requestSubmit();
-      this.show(this.clearButtonTarget);
+      this.showClearButton();
     }, 500);
+  }
+
+  showClearButton() {
+    this.show(this.clearButtonTarget);
   }
 
   show(element) {
