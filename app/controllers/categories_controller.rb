@@ -50,6 +50,6 @@ class CategoriesController < ApplicationController
   end
 
   def list_to_update
-    @category.cat_sub === 'expenses' ? 'expenses' : 'incomes'
+    @category.cat_sub == 'expenses' ? 'expenses' : 'incomes'
   end
 end

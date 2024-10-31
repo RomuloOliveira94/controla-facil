@@ -5,25 +5,19 @@ class IncomesController < ApplicationController
   before_action :load_income_categories, only: %i[new edit create update]
   include BalanceHelper
 
-  # GET /incomes or /incomes.json
   def index
-    # @incomes = current_user.incomes.all
     @q = current_user.incomes.includes(:category).order(date: :desc).ransack(params[:q])
     @pagy, @incomes = pagy_countless(@q.result.includes(:category), limit: 15)
   end
 
-  # GET /incomes/1 or /incomes/1.json
   def show; end
 
-  # GET /incomes/new
   def new
     @income = current_user.incomes.build
   end
 
-  # GET /incomes/1/edit
   def edit; end
 
-  # POST /incomes or /incomes.json
   def create
     @income = current_user.incomes.build(income_params)
     @income.balance_id = @user_actual_month_yeah_balance.id
@@ -46,7 +40,6 @@ class IncomesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /incomes/1 or /incomes/1.json
   def update
     if params[:fixed] == false
       @income.day = nil
@@ -71,7 +64,6 @@ class IncomesController < ApplicationController
     end
   end
 
-  # DELETE /incomes/1 or /incomes/1.json
   def destroy
     @income.destroy!
 
@@ -88,12 +80,10 @@ class IncomesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_income
     @income = Income.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def income_params
     params.require(:income).permit(:value, :description, :fixed, :user_id, :balance_id, :category_id, :day, :date)
   end
