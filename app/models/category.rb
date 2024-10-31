@@ -1,14 +1,14 @@
 class Category < ApplicationRecord
   has_many :incomes
   has_many :expenses
-  belongs_to :user
+  belongs_to :user, optional: true
 
   validates :name, presence: true
   validates :cat_sub, presence: true
   validates :icon, presence: true
 
   before_destroy :disassociate_uses
-  before_create :check_user_category_limit
+  before_create :check_user_category_limit, if: -> { user.present? }
 
   scope :user_global, ->(user) { where('fixed IS TRUE OR user_id = ?', user.id) }
   scope :incomes, -> { where(cat_sub: 'incomes').order(:created_at) }

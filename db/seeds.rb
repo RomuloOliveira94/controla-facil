@@ -17,7 +17,7 @@ Category.find_or_create_by!(name: 'Transporte', description: 'Despesas relaciona
 Category.find_or_create_by!(name: 'Saúde', description: 'Despesas relacionadas a saúde', cat_sub: 1, fixed: true, icon: 'fas fa-medkit')
 Category.find_or_create_by!(name: 'Entertainment', description: 'Despesas relacionadas a Entretenimento', cat_sub: 1, fixed: true, icon: 'fas fa-film')
 Category.find_or_create_by!(name: 'Education', description: 'Despesas relacionadas Educação', cat_sub: 1, fixed: true, icon: 'fas fa-graduation-cap')
-Category.find_or_create_by!(name: 'Other', description: 'Outras despesas', cat_sub: 1, fixed: true, icon: 'fas fa-question-circle')
+Category.find_or_create_by!(name: 'Outros', description: 'Outras despesas', cat_sub: 1, fixed: true, icon: 'fas fa-question-circle')
 Category.find_or_create_by!(name: 'Moradia', description: 'Despesas relacionadas', cat_sub: 1, fixed: true, icon: 'fas fa-home')
 
 #create incomes categories
