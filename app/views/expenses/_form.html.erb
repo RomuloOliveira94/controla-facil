@@ -17,9 +17,12 @@
     <%= form.label :description, "Descrição", class: "font-semibold text-lg" %>
     <%= form.text_field :description, placeholder: "Ex: Viagem ao interior", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-  <div class="my-5 flex items-center gap-4">
-    <%= form.label :fixed, "Marcar como despesa fixa?", class: "font-semibold text-lg" %>
-    <%= form.check_box :fixed, class: "checkbox" %>
+  <div class="grid my-5 ">
+    <div class="flex items-center gap-4" class="grid">
+      <%= form.label :fixed, "Marcar como despesa fixa?", class: "font-semibold text-lg" %>
+      <%= form.check_box :fixed, class: "checkbox" %>
+    </div>
+    <small>Despesas fixas são automaticamente geradas todo mês.</small>
   </div>
   <div class="my-5">
     <%= form.label :date, "Data", class: "font-semibold text-lg" %>

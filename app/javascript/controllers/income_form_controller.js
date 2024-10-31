@@ -23,6 +23,7 @@ export default class extends Controller {
     if (event.target.checked) {
       this.dayTarget.classList.remove("hidden");
       this.dayTarget.classList.add("flex");
+      this.dayInputTarget.value = "";
     } else {
       this.dayTarget.classList.add("hidden");
       this.dayTarget.classList.remove("flex");

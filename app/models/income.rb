@@ -6,11 +6,9 @@ class Income < ApplicationRecord
   before_validation :set_balance
 
   validates :value, presence: true
-  validates :day, presence: true, if: :fixed?
+  # validates :day, presence: true, if: :fixed?
   validates :date, presence: true
-
-  before_update :clear_day_if_not_fixed
-
+  
   after_save :update_balance_value
 
   include UpdateBalanceValue
@@ -23,11 +21,5 @@ class Income < ApplicationRecord
 
   def income_month_year
     created_at.strftime('%B/%Y')
-  end
-
-  private
-
-  def clear_day_if_not_fixed
-    self.day = nil unless fixed?
   end
 end

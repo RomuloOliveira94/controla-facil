@@ -18,14 +18,17 @@
     <%= form.text_field :description, placeholder: "Ex: Compras do mês", class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
   <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-    <div class="flex items-center gap-4">
-      <%= form.label :fixed, "Marcar como receita fixa?", class: "font-semibold text-lg" %>
-      <%= form.check_box :fixed, class: "checkbox", data: { action: "income-form#toggleDayInput", income_form_target: "fixedInput" } %>
+    <div class="grid">
+      <div class="flex items-center gap-4">
+        <%= form.label :fixed, "Marcar como receita fixa?", class: "font-semibold text-lg" %>
+        <%= form.check_box :fixed, class: "checkbox"%>
+      </div>
+      <small>Receitas fixas são automaticamente geradas todo mês.</small>
     </div>
-    <div class="hidden items-center gap-4" data-income-form-target="day">
+    <!--<div class="hidden items-center gap-4" data-income-form-target="day">
       <%= form.label :day, "Dia:", class: "font-semibold text-lg" %>
       <%= form.text_field :day, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 w-28", placeholder: "Ex: 10", data: { income_form_target: 'dayInput' } %>
-    </div>
+    </div>-->
   </div>
   <div class="my-5">
     <%= form.label :date, "Data", class: "font-semibold text-lg" %>
