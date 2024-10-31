@@ -16,9 +16,9 @@ class Category < ApplicationRecord
 
   def disassociate_uses
     if cat_sub == 'expenses'
-      expenses.update_all(category_id: Category.find_by(name: 'Outros').id)
+      expenses.update_all(category_id: Category.find_by(name: 'Outras').id)
     else
-      incomes.update_all(category_id: Category.find_by(name: 'Outros').id)
+      incomes.update_all(category_id: Category.find_by(name: 'Outras').id)
     end
   end
 
