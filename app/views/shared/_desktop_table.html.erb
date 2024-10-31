@@ -90,7 +90,7 @@
             <%= link_to edit_polymorphic_path(value), class: "btn btn-primary", data: { turbo_frame: "_top" } do %>
               <i class="fa fa-pencil text-gray-100"></i>
             <% end %>
-            <%= button_to value, method: :delete, class: "btn btn-xs btn-error md:btn-md", data: { turbo_confirm: 'Tem certeza?' } do %>
+            <%= button_to value, method: :delete, class: "btn btn-xs btn-error md:btn-md", data: { turbo_confirm: 'Tem certeza?' }, data: { turbo_frame: "_top" } do %>
               <i class="fas fa-trash-alt text-gray-100"></i>
             <% end %>
           </td>

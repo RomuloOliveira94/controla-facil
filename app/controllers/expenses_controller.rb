@@ -6,7 +6,6 @@ class ExpensesController < ApplicationController
 
   include BalanceHelper
 
-
   def index
     @q = current_user.expenses.includes(:category).order(date: :desc).ransack(params[:q])
     @pagy, @expenses = pagy_countless(@q.result.includes(:category), limit: 15)
@@ -33,7 +32,9 @@ class ExpensesController < ApplicationController
         end
         format.json { render :show, status: :created, location: @expense }
       else
-        format.html { render :new, status: :unprocessable_entity, flash: { notice: 'Erro ao adicionar a despesa', style: 'error' } }
+        format.html do
+          render :new, status: :unprocessable_entity, flash: { notice: 'Erro ao adicionar a despesa', style: 'error' }
+        end
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
@@ -50,7 +51,9 @@ class ExpensesController < ApplicationController
         end
         format.json { render :show, status: :ok, location: @expense }
       else
-        format.html { render :edit, status: :unprocessable_entity, flash: { notice: 'Erro ao atualizar a despesa', style: 'error' } }
+        format.html do
+          render :edit, status: :unprocessable_entity, flash: { notice: 'Erro ao atualizar a despesa', style: 'error' }
+        end
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
