@@ -1,6 +1,7 @@
 module CategoriesHelper
   def all_available_icons
     %w[
+      fa-question-circle
       fa-ambulance
       fa-baby-carriage
       fa-balance-scale
@@ -13,11 +14,12 @@ module CategoriesHelper
       fa-coffee
       fa-credit-card
       fa-cutlery
-      fa-diamond
+      fa-chart-line
+      fa-film
       fa-graduation-cap
       fa-home
       fa-hospital
-      fa-money
+      fa-hotel
       fa-plane
       fa-shopping-cart
       fa-subway
@@ -28,7 +30,9 @@ module CategoriesHelper
       fa-users
       fa-wrench
       fa-gamepad
+      fa-gift
+      fa-music
+      fa-heart
     ]
   end
-
 end
