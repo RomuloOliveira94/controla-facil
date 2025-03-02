@@ -3,10 +3,15 @@
   <head>
     <title>Controla Fácil</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="##000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Controla Fácil">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
     <%= favicon_link_tag 'favicon.png' %>
     <meta property="og:title" content="Controla Fácil" />
@@ -15,6 +20,23 @@
     <meta property="og:url" content="https://controlafacil.starksoftware.tech" />
     <meta property="og:image" content="https://controlafacil.starksoftware.tech/logo.png" />
     <%= javascript_importmap_tags %>
+    <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
+    <script>
+      const checkPermission = async () => {
+        switch (Notification.permission) {
+          case 'granted':
+      console.log('Permission to receive notifications has been granted');
+      break;
+          case 'denied':
+      console.log('Permission to receive notifications has been denied');
+      break;
+          default:
+      const permission = await Notification.requestPermission();
+      console.log(`Permission to receive notifications has been ${permission}`);
+      break;
+        }
+      };
+    </script>
   </head>
   <body data-controller="theme-switcher" data-theme="<%= user_theme %>">
     <%= render 'shared/navbar' %>

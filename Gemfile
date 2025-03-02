@@ -24,7 +24,7 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem 'tailwindcss-rails'
+gem 'tailwindcss-rails', '~> 3.3.1'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
@@ -78,6 +78,10 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
-#jobs
+# jobs
 gem 'sidekiq'
-gem "sidekiq-scheduler", "~> 5.0"
+gem 'sidekiq-scheduler', '~> 5.0'
+
+
+#webpush
+gem 'web-push'

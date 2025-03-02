@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   get '/auth/google_oauth2/callback', to: 'providers#start_google_session'
 
+  get 'service-worker' => 'pwa#service_worker', as: :pwa_service_worker
+  get 'manifest' => 'pwa#manifest', as: :pwa_manifest
+
   revise_auth
 
   get 'up' => 'rails/health#show', as: :rails_health_check

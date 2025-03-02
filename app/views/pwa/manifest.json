@@ -1,0 +1,29 @@
+{
+  "name": "Controla Fácil",
+  "short_name": "CF",
+  "description": "Control suas despesas de forma simples!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot.png",
+      "sizes": "365x740",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-2.png",
+      "sizes": "360x739",
+      "type": "image/png"
+    }
+  ]
+}
