@@ -12,3 +12,6 @@
     notify_friday_job:
       cron: "0 17 * * 5"
       class: NotifyFridayJob
+    notify_monday_job:
+      cron: "0 8 * * 1"
+      class: NotifyMondayJob
