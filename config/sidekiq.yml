@@ -6,3 +6,9 @@
     notify_expense_expiring_job:
       cron: "0 8 * * *"
       class: NotifyExpenseExpiringJob
+    notify_month_begin_job:
+      cron: "0 8 1 * *"
+      class: NotifyMonthBeginJob
+    notify_friday_job:
+      cron: "0 17 * * 5"
+      class: NotifyFridayJob

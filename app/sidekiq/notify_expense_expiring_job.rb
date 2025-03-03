@@ -10,8 +10,8 @@ class NotifyExpenseExpiringJob
 
       expenses.each do |expense|
         formatted_date = I18n.l(expense.date, format: '%A, %d de %B de %Y')
-        WebPushService.new(title: 'Vencimento de Despesa!',
-                           message: "Sua despesa #{expense.description} vai vencer #{formatted_date}",
+        WebPushService.new(title: '📅 Vencimento de Despesa!',
+                           message: "💸 #{expense.description} vai vencer #{formatted_date} 🎴",
                            target: user).call
       end
     end

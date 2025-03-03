@@ -26,7 +26,8 @@ class WebPushService < ApplicationService
     {
       title: @title,
       body: @message,
-      icon: '/favicon.png'
+      icon: '/favicon.png',
+      url: '/'
     }.to_json
   end
 
