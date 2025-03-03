@@ -3,7 +3,6 @@ const onPush = (event) => {
   const { title, ...options } = event.data.json();
 
   const showNotification = self.registration.showNotification(title, {
-    icon,
     ...options,
   });
 

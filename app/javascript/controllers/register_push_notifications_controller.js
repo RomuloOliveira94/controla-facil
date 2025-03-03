@@ -23,8 +23,6 @@ export default class extends Controller {
     const registration = await navigator.serviceWorker.ready;
     let subscription = await registration.pushManager.getSubscription();
 
-    console.log("Subscription", subscription.toJSON());
-
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
