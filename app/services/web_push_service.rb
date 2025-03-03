@@ -1,23 +1,21 @@
 class WebPushService < ApplicationService
-  attr_reader :title, :message, :targets
+  attr_reader :title, :message, :target
 
-  def initialize(title:, message:, targets:)
+  def initialize(title:, message:, target:)
     super()
     @title = title
     @message = message
-    @targets = targets
+    @target = target
   end
 
   def call
-    @targets.each do |target|
-      WebPush.payload_send(
-        message: message_json,
-        endpoint: target.push_subscription.endpoint,
-        p256dh: target.push_subscription.p256dh,
-        auth: target.push_subscription.auth,
-        vapid: vapid
-      )
-    end
+    WebPush.payload_send(
+      message: message_json,
+      endpoint: @target.push_subscription.endpoint,
+      p256dh: @target.push_subscription.p256dh,
+      auth: @target.push_subscription.auth,
+      vapid: vapid
+    )
   rescue StandardError => e
     Rails.logger.error(e)
   end

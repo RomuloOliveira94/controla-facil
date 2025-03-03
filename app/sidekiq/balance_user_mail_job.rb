@@ -1,6 +1,6 @@
 class BalanceUserMailJob
   include Sidekiq::Job
-  sidekiq_options retry: 2
+  sidekiq_options retry: 0
 
   def perform(*_args)
     users = User.all
@@ -18,7 +18,7 @@ class BalanceUserMailJob
 
         MonthBalanceMailer.with(user:,
                                 balance: last_month_balance, total_incomes:, total_expenses:).month_balance_email.deliver_now
-        continue
+        next
       end
 
       NoBalanceMailer.with(user:).no_balance_mail.deliver_now if last_month_balance.nil?
