@@ -21,48 +21,7 @@
     <meta property="og:image" content="https://controlafacil.starksoftware.tech/logo.png" />
     <%= javascript_importmap_tags %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
-    <%= tag.meta name: "user-id", content: current_user.id if user_signed_in? %>
-    <script>
-      const checkPermission = async () => {
-        switch (Notification.permission) {
-          case 'granted':
-      console.log('Permission to receive notifications has been granted');
-      break;
-          case 'denied':
-      console.log('Permission to receive notifications has been denied');
-      break;
-          default:
-      const permission = await Notification.requestPermission();
-      console.log(`Permission to receive notifications has been ${permission}`);
-      break;
-        }
-      };
-
-      checkPermission();
-
-      const vapidPublicKey = document.querySelector(
-        'meta[name="vapid-public-key"]',
-      ).content;
-
-      const subscribe = async () => {
-        const registration = await navigator.serviceWorker.ready;
-
-        let subscription = await registration.pushManager.getSubscription();
-
-        if (!subscription) {
-          subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: vapidPublicKey,
-          });
-
-          if (!subscription) {
-      console.error('Web push subscription failed');
-          }
-        }
-
-        return subscription;
-      };
-    </script>
+    <%= tag.meta name: "user-id", content: current_user&.id or "" %>
   </head>
   <body data-controller="theme-switcher" data-theme="<%= user_theme %>">
     <%= render 'shared/navbar' %>

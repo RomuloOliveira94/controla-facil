@@ -7,54 +7,86 @@ export default class extends Controller {
       'meta[name="vapid-public-key"]'
     ).content;
     this.userId = document.querySelector('meta[name="user-id"]').content;
+
+    if (!this.vapidPublicKey || !this.userId) {
+      return;
+    }
+
+    if (window.PushManager) {
+      this.checkPermission();
+    } else {
+      return;
+    }
   }
 
   async registerPushNotifications() {
     const registration = await navigator.serviceWorker.ready;
-    const subscription = await registration.pushManager.getSubscription();
+    let subscription = await registration.pushManager.getSubscription();
+
+    console.log("Subscription", subscription.toJSON());
 
     if (!subscription) {
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: this.vapidPublicKey,
       });
-    }
 
-    const {
-      endpoint,
-      keys: { p256dh, auth },
-    } = subscription.toJSON();
-
-    const body = JSON.stringify({
-      push_subscription: {
+      const {
         endpoint,
-        p256dh: p256dh,
-        auth: auth,
-        user_id: this.userId,
-      },
-    });
-    console.log(body);
+        keys: { p256dh, auth },
+      } = subscription.toJSON();
 
-    const response = await fetch("/push_subscriptions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-          .content,
-      },
-      body,
-    });
+      const body = JSON.stringify({
+        push_subscription: {
+          endpoint,
+          p256dh: p256dh,
+          auth: auth,
+          user_id: this.userId,
+        },
+      });
 
-    if (response.ok) {
-      console.log("Push subscription created successfully");
-      console.log(response);
-    } else {
-      console.log(response);
-      console.error("Error creating push subscription");
+      this.saveSubscription(body);
     }
   }
 
-  saveSubscription(subscription) {
-    console.log(subscription);
+  async saveSubscription(body) {
+    try {
+      const response = await fetch("/push_subscriptions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+            .content,
+        },
+        body,
+      });
+
+      if (response.ok) {
+        console.log("Subscription saved");
+      }
+    } catch (error) {
+      console.error("Error saving subscription", error);
+    }
+  }
+
+  async checkPermission() {
+    switch (Notification.permission) {
+      case "granted":
+        this.registerPushNotifications();
+        break;
+      case "denied":
+        console.log("Permission to receive notifications has been denied");
+        break;
+      default:
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          this.registerPushNotifications();
+        } else {
+          console.log(
+            `Permission to receive notifications has been ${permission}`
+          );
+        }
+        break;
+    }
   }
 }
