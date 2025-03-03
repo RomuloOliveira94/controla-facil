@@ -1,7 +1,7 @@
 {
   "name": "Controla Fácil",
-  "short_name": "CF",
-  "description": "Control suas despesas de forma simples!",
+  "short_name": "Controla Fácil",
+  "description": "Controle suas despesas de forma simples!",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
