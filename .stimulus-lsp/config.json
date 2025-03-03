@@ -1,0 +1,11 @@
+{
+  "version": "1.0.4",
+  "createdAt": "2025-03-03T00:04:03.379Z",
+  "updatedAt": "2025-03-03T00:04:20.107Z",
+  "options": {
+    "ignoredControllerIdentifiers": [
+      "register-push-notifications"
+    ],
+    "ignoredAttributes": []
+  }
+}

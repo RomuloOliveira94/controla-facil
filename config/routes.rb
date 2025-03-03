@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get 'service-worker' => 'pwa#service_worker', as: :pwa_service_worker
   get 'manifest' => 'pwa#manifest', as: :pwa_manifest
+  post 'push_subscriptions' => 'push_subscriptions#create', as: :push_subscriptions
 
   revise_auth
 

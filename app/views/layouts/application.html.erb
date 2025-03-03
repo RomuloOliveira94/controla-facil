@@ -21,6 +21,7 @@
     <meta property="og:image" content="https://controlafacil.starksoftware.tech/logo.png" />
     <%= javascript_importmap_tags %>
     <%= tag.meta name: "vapid-public-key", content: Rails.configuration.x.vapid.public_key %>
+    <%= tag.meta name: "user-id", content: current_user.id if user_signed_in? %>
     <script>
       const checkPermission = async () => {
         switch (Notification.permission) {
@@ -36,6 +37,31 @@
       break;
         }
       };
+
+      checkPermission();
+
+      const vapidPublicKey = document.querySelector(
+        'meta[name="vapid-public-key"]',
+      ).content;
+
+      const subscribe = async () => {
+        const registration = await navigator.serviceWorker.ready;
+
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+          subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: vapidPublicKey,
+          });
+
+          if (!subscription) {
+      console.error('Web push subscription failed');
+          }
+        }
+
+        return subscription;
+      };
     </script>
   </head>
   <body data-controller="theme-switcher" data-theme="<%= user_theme %>">
@@ -45,6 +71,7 @@
       <%= yield %>
       <%= render partial: 'shared/toast', locals: { message: flash[:notice], style: flash[:style] } %>
     </main>
+    <button data-controller="register-push-notifications" class="btn btn-primary" data-action="register-push-notifications#registerPushNotifications">Subscribe</button>
     <%= render 'shared/footer' %>
   </body>
 </html>
