@@ -13,6 +13,24 @@
         </div>
     </div>
 
+    <div class="flex flex-col items-center justify-center gap-4">
+        <h2 class="text-2xl font-bold">Notificações por Email 📧</h2>
+        <div class="flex gap-4 items-center justify-center bg-slate-100 shadow-sm rounded-lg p-6 w-full" data-controller="email-notifications">
+            <label for="email-notifications-toggle" class="text-xl font-semibold text-black">Receber notificações por email: </label>
+            <div class="form-control">
+                <%= form_with model: @user, url: change_email_notifications_path, method: :patch, local: false, class: "flex items-center gap-2" do |form| %>
+                    <input type="checkbox" 
+                           id="email-notifications-toggle"
+                           name="configuration[email_notifications]" 
+                           value="1"
+                           <%= 'checked' if @user.email_notifications %>
+                           class="toggle toggle-primary" 
+                           data-action="change->email-notifications#toggle" />
+                <% end %>
+            </div>
+        </div>
+    </div>
+
     <div class="grid gap-6">
         <h2 class="font-bold text-2xl text-center">Categorias Cadastradas:</h2>
         <div class="flex flex-col md:flex-row gap-6">

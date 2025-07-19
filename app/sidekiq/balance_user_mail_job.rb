@@ -6,7 +6,7 @@ class BalanceUserMailJob
     users = User.all
 
     users.each do |user|
-      next if user.balances.blank? || user.email.blank?
+      next if user.balances.blank? || user.email.blank? || !user.email_notifications
 
       last_month_date = Date.today.prev_month
       last_month = last_month_date.month
