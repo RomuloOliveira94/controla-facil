@@ -31,6 +31,44 @@
         </div>
     </div>
 
+    <div class="flex flex-col items-center justify-center gap-4" data-controller="push-notifications">
+        <h2 class="text-2xl font-bold">Notificações Push 🔔</h2>
+        <div class="flex gap-4 items-center justify-center flex-wrap bg-slate-100 shadow-sm rounded-lg p-6 w-full">
+            <label class="text-xl font-semibold text-black">Receber notificações no navegador: </label>
+            <button 
+                data-push-notifications-target="button"
+                data-action="click->push-notifications#toggleNotifications"
+                class="btn btn-outline gap-2">
+                🔔 <span>Ativar Notificações</span>
+            </button>
+        </div>
+
+        <!-- Modal Customizado -->
+        <div 
+            data-push-notifications-target="modal"
+            class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+            <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center">
+                <div class="text-6xl mb-4">🔔</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Ativar Notificações</h3>
+                <p class="text-gray-600 mb-6">
+                    Receba lembretes sobre suas despesas e informações importantes sobre suas finanças diretamente no seu navegador.
+                </p>
+                <div class="flex gap-4 justify-center">
+                    <button 
+                        data-action="click->push-notifications#hideCustomModal"
+                        class="btn btn-ghost">
+                        Agora não
+                    </button>
+                    <button 
+                        data-action="click->push-notifications#activateNotifications"
+                        class="btn btn-primary">
+                        Ativar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="grid gap-6">
         <h2 class="font-bold text-2xl text-center">Categorias Cadastradas:</h2>
         <div class="flex flex-col md:flex-row gap-6">

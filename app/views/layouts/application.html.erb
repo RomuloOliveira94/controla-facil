@@ -26,7 +26,7 @@
   <body data-controller="theme-switcher" data-theme="<%= user_theme %>">
     <%= render 'shared/navbar' %>
     <%= turbo_frame_tag :modal %>
-    <main class="container mx-auto p-5 min-h-screen pt-28" data-controller="register-push-notifications">
+    <main class="container mx-auto p-5 min-h-screen pt-28">
       <%= yield %>
       <%= render partial: 'shared/toast', locals: { message: flash[:notice], style: flash[:style] } %>
     </main>
