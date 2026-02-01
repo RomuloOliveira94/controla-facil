@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_19_020313) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_01_141217) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -117,7 +117,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_19_020313) do
     t.datetime "updated_at", null: false
     t.string "theme", default: "light"
     t.string "provider"
-    t.string "provider_token"
+    t.text "provider_token"
     t.boolean "email_notifications", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
