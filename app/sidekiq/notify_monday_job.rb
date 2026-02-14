@@ -16,9 +16,7 @@ class NotifyMondayJob
   ].freeze
 
   def perform(*_args)
-    User.all.each do |user|
-      next unless user.push_subscription.present?
-
+    User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
       WebPushService.new(title: '🌟 Uma nova semana começa!',
                          message: MESSAGES.sample,
                          target: user).call

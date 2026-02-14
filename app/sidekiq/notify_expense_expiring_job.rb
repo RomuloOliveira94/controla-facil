@@ -3,9 +3,7 @@ class NotifyExpenseExpiringJob
   sidekiq_options retry: 0
 
   def perform(*_args)
-    User.all.each do |user|
-      next unless user.push_subscription.present?
-
+    User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
       expenses = user.expenses.where(date: Time.zone.now.beginning_of_day..3.days.from_now.end_of_day)
 
       expenses.each do |expense|

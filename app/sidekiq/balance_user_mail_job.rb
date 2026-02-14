@@ -3,27 +3,20 @@ class BalanceUserMailJob
   sidekiq_options retry: 0
 
   def perform(*_args)
-    users = User.all
+    last_month_date = Date.today.prev_month
 
-    users.each do |user|
-      next if user.balances.blank? || user.email.blank? || !user.email_notifications?
+    User.where.not(email: [nil, '']).where(email_notifications: true).find_each do |user|
+      last_month_balance = user.balances.find_by(month: last_month_date.month, year: last_month_date.year)
 
-      last_month_date = Date.today.prev_month
-      last_month = last_month_date.month
-      last_month_year = last_month_date.year
-
-      last_month_balance = user.balances.includes(:expenses, :incomes).find_by(month: last_month, year: last_month_year)
-
-      if last_month_balance.present?
-        total_incomes = last_month_balance.incomes.sum(:value) if last_month_balance.incomes.present?
-        total_expenses = last_month_balance.expenses.sum(:value) if last_month_balance.expenses.present?
+      if last_month_balance
+        total_incomes = last_month_balance.incomes.sum(:value)
+        total_expenses = last_month_balance.expenses.sum(:value)
 
         MonthBalanceMailer.with(user:,
-                                balance: last_month_balance, total_incomes:, total_expenses:).month_balance_email.deliver_now
-        next
+                                balance: last_month_balance, total_incomes:, total_expenses:).month_balance_email.deliver_later
+      else
+        NoBalanceMailer.with(user:).no_balance_mail.deliver_later
       end
-
-      NoBalanceMailer.with(user:).no_balance_mail.deliver_now if last_month_balance.nil?
     end
   end
 end
