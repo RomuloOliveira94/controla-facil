@@ -21,13 +21,13 @@ export default class extends Controller {
   }
 
   showBanner() {
-    this.bannerTarget.classList.remove('-translate-y-full', 'opacity-0')
-    this.bannerTarget.classList.add('translate-y-0', 'opacity-100')
+    this.bannerTarget.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none')
+    this.bannerTarget.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto')
   }
 
   hideBanner() {
-    this.bannerTarget.classList.remove('translate-y-0', 'opacity-100')
-    this.bannerTarget.classList.add('-translate-y-full', 'opacity-0')
+    this.bannerTarget.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto')
+    this.bannerTarget.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none')
   }
 
   async install() {
