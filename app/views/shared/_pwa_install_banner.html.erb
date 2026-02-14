@@ -1,0 +1,19 @@
+<div data-controller="pwa-install" class="fixed top-0 left-0 right-0 md:left-auto z-50 pointer-events-none">
+  <div data-pwa-install-target="banner"
+       class="pointer-events-auto mx-auto md:mx-0 md:mr-4 max-w-sm mt-20 px-4 transition-all duration-500 ease-out -translate-y-full opacity-0">
+    <div class="bg-base-100 shadow-lg border border-base-300 rounded-xl p-4 text-center relative">
+      <button data-action="click->pwa-install#close" class="btn btn-ghost btn-xs btn-circle absolute top-2 right-2">✕</button>
+      <img src="/favicon.png" alt="Controla Fácil" class="w-12 h-12 rounded-lg mx-auto mb-2" />
+      <p class="font-semibold text-sm">Instalar Controla Fácil</p>
+      <p class="text-xs opacity-70 mb-3">Acesse direto da sua tela inicial</p>
+      <div class="flex gap-2 justify-center">
+        <button data-action="click->pwa-install#dismiss" class="btn btn-ghost btn-sm flex-1">
+          Agora não
+        </button>
+        <button data-action="click->pwa-install#install" class="btn btn-primary btn-sm flex-1">
+          Instalar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
