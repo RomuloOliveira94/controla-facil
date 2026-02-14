@@ -1,5 +1,7 @@
 <!-- component -->
-<nav class="border-b-2 border-b-gray-400 border-opacity-10 w-full fixed bg-base-100 z-50" data-controller="nav-bar">
+<nav class="border-b-2 border-b-gray-400 border-opacity-10 w-full fixed bg-base-100 z-50"
+     data-controller="nav-bar"
+     data-action="turbo:load@document->nav-bar#close">
   <div class="md:h-16 md:px-4 container mx-auto px-5 flex items-center justify-between flex-wrap md:flex-nowrap h-full my-2">
     <!-- Logo -->
     <div class="md:order-1 flex gap-2 items-center my-2">
@@ -12,14 +14,14 @@
         </span>
       <% end %>
     </div>
-    <div class="order-3 max-md:w-full md:order-2 mb-6 md:mb-0 z-50" data-nav-bar-target="toggle">
+    <div class="order-3 max-md:w-full md:order-2 max-md:bg-base-100 max-md:pb-4 max-md:border-b max-md:border-base-300 max-md:hidden" data-nav-bar-target="menu">
       <ul class="flex font-semibold gap-4 max-md:mt-4 flex-col md:flex-row">
       <% if user_signed_in? %>
-        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Dashboard', dashboard_path, class: "link hover:text-red-700", data: { nav_bar_target: "links" }  %></li>
-        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Despesas', expenses_path, data: { nav_bar_target: "links" } %></li>
-        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Receitas', incomes_path, data: { nav_bar_target: "links" } %></li>
-        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Perfil', profile_path, data: { nav_bar_target: "links" } %></li>
-        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Configurações', configurations_path, data: { nav_bar_target: "links" } %></li>
+        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Dashboard', dashboard_path, data: { nav_bar_target: "links", action: "click->nav-bar#close" } %></li>
+        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Despesas', expenses_path, data: { nav_bar_target: "links", action: "click->nav-bar#close" } %></li>
+        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Receitas', incomes_path, data: { nav_bar_target: "links", action: "click->nav-bar#close" } %></li>
+        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Perfil', profile_path, data: { nav_bar_target: "links", action: "click->nav-bar#close" } %></li>
+        <li class="md:px-4 md:py-2 text-lg"><%= link_to 'Configurações', configurations_path, data: { nav_bar_target: "links", action: "click->nav-bar#close" } %></li>
       <% end %>
         <% if user_signed_in? %>
           <li class="md:hidden">
@@ -42,27 +44,31 @@
         <% end %>
       </ul>
     </div>
-    <div class="order-2 md:order-3 md:hidden" data-nav-bar-target="btn">
-      <label class="btn btn-circle swap swap-rotate bg-primary">
-        <input type="checkbox" data-action="click->nav-bar#toggle" data-nav-bar-target="inputCheck" />
-        <svg
-          class="swap-off fill-current text-gray-50"
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
-          viewBox="0 0 512 512">
+    <div class="order-2 md:order-3 md:hidden">
+      <button type="button"
+              class="btn btn-circle bg-primary"
+              data-action="click->nav-bar#toggle"
+              aria-label="Abrir menu de navegação">
+        <!-- Ícone hamburger (menu fechado) -->
+        <svg data-nav-bar-target="iconOpen"
+             class="fill-current text-gray-50"
+             xmlns="http://www.w3.org/2000/svg"
+             width="28"
+             height="28"
+             viewBox="0 0 512 512">
           <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
         </svg>
-        <svg
-          class="swap-on fill-current text-gray-50"
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="28"
-          viewBox="0 0 512 512">
+        <!-- Ícone X (menu aberto) -->
+        <svg data-nav-bar-target="iconClose"
+             class="hidden fill-current text-gray-50"
+             xmlns="http://www.w3.org/2000/svg"
+             width="28"
+             height="28"
+             viewBox="0 0 512 512">
           <polygon
             points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
         </svg>
-      </label>
+      </button>
     </div>
     <% if user_signed_in? %>
       <div class="order-2 md:order-3 max-md:hidden">

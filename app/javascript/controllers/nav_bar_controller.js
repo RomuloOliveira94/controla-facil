@@ -1,43 +1,59 @@
-import { Controller } from "@hotwired/stimulus";
-import { useWindowResize } from "stimulus-use";
+import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="nav-bar"
+const ACTIVE_CLASSES = ['text-primary']
+const ACTIVE_DESKTOP_CLASSES = ['text-primary', 'border-b-2', 'border-primary', 'pb-[30px]']
+const INACTIVE_CLASSES = ['hover:text-secondary']
+const ALL_LINK_CLASSES = [...new Set([...ACTIVE_CLASSES, ...ACTIVE_DESKTOP_CLASSES, ...INACTIVE_CLASSES])]
+
+const MOBILE_BREAKPOINT = 768
+
 export default class extends Controller {
-  static targets = ["toggle", "btn", "links", "width", "inputCheck"];
+  static targets = ['menu', 'iconOpen', 'iconClose', 'links']
+  static values = { open: { type: Boolean, default: false } }
 
   connect() {
-    useWindowResize(this);
-    this.activateLink();
-  }
-
-  windowResize({ width }) {
-    if (width < 768) {
-      this.toggleTarget.classList.add("hidden");
-      this.inputCheckTarget.checked = false;
-      this.linksTargets.forEach((link) => {
-        link.classList = "text-gray-500";
-      });
-    } else {
-      this.toggleTarget.classList.remove("hidden");
-      this.inputCheckTarget.checked = false;
-      this.activateLink();
-    }
+    this.updateLinks()
   }
 
   toggle() {
-    this.toggleTarget.classList.toggle("hidden");
+    this.openValue = !this.openValue
   }
 
-  activateLink() {
+  close() {
+    this.openValue = false
+  }
+
+  // Callback automático do Stimulus quando openValue muda
+  openValueChanged() {
+    if (this.openValue) {
+      this.menuTarget.classList.remove('max-md:hidden')
+      this.iconOpenTarget.classList.add('hidden')
+      this.iconCloseTarget.classList.remove('hidden')
+    } else {
+      this.menuTarget.classList.add('max-md:hidden')
+      this.iconOpenTarget.classList.remove('hidden')
+      this.iconCloseTarget.classList.add('hidden')
+    }
+  }
+
+  updateLinks() {
+    const currentPath = window.location.pathname
+    const isDesktop = window.innerWidth >= MOBILE_BREAKPOINT
+
     this.linksTargets.forEach((link) => {
-      if (link.href === window.location.href) {
-        link.classList = "text-primary";
-        if (window.innerWidth > 768) {
-          link.classList = "text-primary border-b-2 border-primary pb-[30px]";
+      const linkPath = new URL(link.href, window.location.origin).pathname
+
+      link.classList.remove(...ALL_LINK_CLASSES)
+
+      if (linkPath === currentPath) {
+        if (isDesktop) {
+          link.classList.add(...ACTIVE_DESKTOP_CLASSES)
+        } else {
+          link.classList.add(...ACTIVE_CLASSES)
         }
       } else {
-        link.classList = "hover:text-secondary";
+        link.classList.add(...INACTIVE_CLASSES)
       }
-    });
+    })
   }
 }
