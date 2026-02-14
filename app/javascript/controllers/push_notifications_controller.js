@@ -1,163 +1,115 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["modal", "button"];
+  static targets = ["toggle"]
 
   connect() {
-    this.vapidPublicKey = document.querySelector(
-      'meta[name="vapid-public-key"]'
-    ).content;
-    this.userId = document.querySelector('meta[name="user-id"]').content;
+    this.vapidPublicKey = document.querySelector('meta[name="vapid-public-key"]')?.content
+    this.userId = document.querySelector('meta[name="user-id"]')?.content
+    this.csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
 
-    if (!this.vapidPublicKey || !this.userId) {
-      return;
-    }
+    if (!this.vapidPublicKey || !this.userId) return
 
-    this.updateButtonState();
+    this.syncToggleState()
   }
 
-  async updateButtonState() {
+  async syncToggleState() {
     if (!window.PushManager) {
-      this.buttonTarget.disabled = true;
-      this.buttonTarget.innerHTML = "🔕 <span>Não Suportado</span>";
-      return;
+      this.toggleTarget.disabled = true
+      return
     }
 
-    const permission = Notification.permission;
+    const registration = await navigator.serviceWorker.ready
+    const subscription = await registration.pushManager.getSubscription()
+    this.toggleTarget.checked = !!subscription
+  }
 
-    if (permission === "granted") {
-      const registration = await navigator.serviceWorker.ready;
-      const subscription = await registration.pushManager.getSubscription();
+  async toggle(event) {
+    const isChecked = event.target.checked
 
-      if (subscription) {
-        this.buttonTarget.innerHTML = "🔔 <span>Notificações Ativas</span>";
-        this.buttonTarget.classList.remove("btn-outline");
-        this.buttonTarget.classList.add("btn-success");
-      } else {
-        this.buttonTarget.innerHTML = "🔔 <span>Ativar Notificações</span>";
-        this.buttonTarget.classList.add("btn-outline");
-        this.buttonTarget.classList.remove("btn-success");
-      }
+    if (isChecked) {
+      await this.activate()
     } else {
-      this.buttonTarget.innerHTML = "🔔 <span>Ativar Notificações</span>";
-      this.buttonTarget.classList.add("btn-outline");
-      this.buttonTarget.classList.remove("btn-success");
+      await this.deactivate()
     }
   }
 
-  async toggleNotifications() {
+  async activate() {
     if (!window.PushManager) {
-      alert("Seu navegador não suporta notificações push.");
-      return;
+      this.toggleTarget.checked = false
+      return
     }
-
-    const permission = Notification.permission;
-
-    if (permission === "granted") {
-      // Se já tem permissão, registra/atualiza a subscription
-      await this.registerPushNotifications();
-    } else if (permission === "denied") {
-      alert(
-        "As notificações foram negadas. Por favor, habilite nas configurações do seu navegador."
-      );
-    } else {
-      // Mostra o modal customizado primeiro
-      this.showCustomModal();
-    }
-  }
-
-  showCustomModal() {
-    this.modalTarget.classList.remove("hidden");
-    this.modalTarget.classList.add("flex");
-  }
-
-  hideCustomModal() {
-    this.modalTarget.classList.add("hidden");
-    this.modalTarget.classList.remove("flex");
-  }
-
-  async activateNotifications() {
-    this.hideCustomModal();
 
     try {
-      const permission = await Notification.requestPermission();
+      const permission = await Notification.requestPermission()
 
-      if (permission === "granted") {
-        await this.registerPushNotifications();
-        this.updateButtonState();
-      } else {
-        console.log(
-          `Permission to receive notifications has been ${permission}`
-        );
-        this.updateButtonState();
+      if (permission !== 'granted') {
+        this.toggleTarget.checked = false
+        return
       }
-    } catch (error) {
-      console.error("Error requesting notification permission", error);
-    }
-  }
 
-  async registerPushNotifications() {
-    try {
-      const registration = await navigator.serviceWorker.ready;
-      let subscription = await registration.pushManager.getSubscription();
+      const registration = await navigator.serviceWorker.ready
+      let subscription = await registration.pushManager.getSubscription()
 
-      // Se já existe uma subscription, vamos atualizá-la
       if (subscription) {
-        await subscription.unsubscribe();
+        await subscription.unsubscribe()
       }
 
-      // Cria uma nova subscription
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: this.vapidPublicKey,
-      });
+        applicationServerKey: this.vapidPublicKey
+      })
 
-      const {
-        endpoint,
-        keys: { p256dh, auth },
-      } = subscription.toJSON();
+      const { endpoint, keys: { p256dh, auth } } = subscription.toJSON()
 
       const body = JSON.stringify({
         push_subscription: {
           endpoint,
-          p256dh: p256dh,
-          auth: auth,
-          user_id: this.userId,
+          p256dh,
+          auth,
+          user_id: this.userId
+        }
+      })
+
+      const response = await fetch('/push_subscriptions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': this.csrfToken
         },
-      });
+        body
+      })
 
-      await this.saveSubscription(body);
-      this.updateButtonState();
-
-      // Mostra uma notificação de teste
-      new Notification("Notificações Ativadas!", {
-        body: "Você receberá notificações sobre suas finanças.",
-        icon: "/favicon.png",
-      });
+      if (!response.ok) {
+        this.toggleTarget.checked = false
+      }
     } catch (error) {
-      console.error("Error registering push notifications", error);
+      console.error('Erro ao ativar notificações push:', error)
+      this.toggleTarget.checked = false
     }
   }
 
-  async saveSubscription(body) {
+  async deactivate() {
     try {
-      const response = await fetch("/push_subscriptions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-            .content,
-        },
-        body,
-      });
+      const registration = await navigator.serviceWorker.ready
+      const subscription = await registration.pushManager.getSubscription()
 
-      if (response.ok) {
-        console.log("Subscription saved successfully");
-      } else {
-        console.error("Failed to save subscription");
+      if (subscription) {
+        await subscription.unsubscribe()
       }
+
+      await fetch('/push_subscriptions', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': this.csrfToken
+        }
+      })
+
+      this.toggleTarget.checked = false
     } catch (error) {
-      console.error("Error saving subscription", error);
+      console.error('Erro ao desativar notificações push:', error)
+      this.toggleTarget.checked = true
     }
   }
 }

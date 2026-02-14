@@ -9,12 +9,15 @@ Rails.application.routes.draw do
   patch '/configurations/change_theme' => 'configurations#change_theme', as: :change_theme
   patch '/configurations/change_email_notifications' => 'configurations#change_email_notifications',
         as: :change_email_notifications
+  patch '/configurations/change_push_notifications' => 'configurations#change_push_notifications',
+        as: :change_push_notifications
 
   get '/auth/google_oauth2/callback', to: 'providers#start_google_session'
 
   get 'service-worker' => 'pwa#service_worker', as: :pwa_service_worker
   get 'manifest' => 'pwa#manifest', as: :pwa_manifest
   post 'push_subscriptions' => 'push_subscriptions#create', as: :push_subscriptions
+  delete 'push_subscriptions' => 'push_subscriptions#destroy', as: :destroy_push_subscription
 
   revise_auth
 

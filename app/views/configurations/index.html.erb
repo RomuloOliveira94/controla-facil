@@ -1,69 +1,42 @@
-<div class="grid gap-8">
+<div class="grid gap-8 max-w-4xl mx-auto">
     <h1 class="text-center text-3xl">Configurações ⚙️</h1>
 
-    <div class="flex flex-col items-center justify-center gap-4">
-        <h2 class="text-2xl font-bold">Escolher tema 🎨</h2>
-        <div data-action="change->theme-switcher#switch" class="flex gap-4 items-center justify-center bg-slate-100 shadow-sm rounded-lg p-6 w-full" >
-            <label for="theme" class="text-xl font-semibold text-black">Escolha o tema: </label>
-            <select name="theme" id="theme" data-theme-switcher-target="theme" class="select select-bordered w-full max-w-xs">
-                <% ConfigurationsHelper::THEMES.each do |theme|%>
-                    <option value="<%= theme %>" <%= 'selected' if user_theme == theme %>><%= theme.capitalize %></option>
-                <% end %>
-            </select>
-        </div>
-    </div>
-
-    <div class="flex flex-col items-center justify-center gap-4">
-        <h2 class="text-2xl font-bold">Notificações por Email 📧</h2>
-        <div class="flex gap-4 items-center justify-center bg-slate-100 shadow-sm rounded-lg p-6 w-full" data-controller="email-notifications">
-            <label for="email-notifications-toggle" class="text-xl font-semibold text-black">Receber notificações por email: </label>
-            <div class="form-control">
-                <%= form_with model: @user, url: change_email_notifications_path, method: :patch, local: false, class: "flex items-center gap-2" do |form| %>
-                    <input type="checkbox" 
-                           id="email-notifications-toggle"
-                           name="configuration[email_notifications]" 
-                           value="1"
-                           <%= 'checked' if @user.email_notifications %>
-                           class="toggle toggle-primary" 
-                           data-action="change->email-notifications#toggle" />
-                <% end %>
+    <div class="bg-base-200 shadow-sm rounded-lg p-6">
+        <h2 class="text-xl font-bold mb-4">Preferências</h2>
+        <div class="divide-y divide-base-300">
+            <div data-action="change->theme-switcher#switch" class="flex items-center justify-between py-4 first:pt-0">
+                <label for="theme" class="font-semibold">Escolha o tema 🎨</label>
+                <select name="theme" id="theme" data-theme-switcher-target="theme" class="select select-bordered select-sm w-full max-w-xs">
+                    <% ConfigurationsHelper::THEMES.each do |theme|%>
+                        <option value="<%= theme %>" <%= 'selected' if user_theme == theme %>><%= theme.capitalize %></option>
+                    <% end %>
+                </select>
             </div>
-        </div>
-    </div>
 
-    <div class="flex flex-col items-center justify-center gap-4" data-controller="push-notifications">
-        <h2 class="text-2xl font-bold">Notificações Push 🔔</h2>
-        <div class="flex gap-4 items-center justify-center flex-wrap bg-slate-100 shadow-sm rounded-lg p-6 w-full">
-            <label class="text-xl font-semibold text-black">Receber notificações no navegador: </label>
-            <button 
-                data-push-notifications-target="button"
-                data-action="click->push-notifications#toggleNotifications"
-                class="btn btn-outline gap-2">
-                🔔 <span>Ativar Notificações</span>
-            </button>
-        </div>
+            <div class="flex items-center justify-between py-4" data-controller="email-notifications">
+                <label for="email-notifications-toggle" class="font-semibold">Notificações por email 📧</label>
+                <div class="form-control">
+                    <%= form_with model: @user, url: change_email_notifications_path, method: :patch, local: false, class: "flex items-center gap-2" do |form| %>
+                        <input type="checkbox" 
+                               id="email-notifications-toggle"
+                               name="configuration[email_notifications]" 
+                               value="1"
+                               <%= 'checked' if @user.email_notifications %>
+                               class="toggle toggle-primary" 
+                               data-action="change->email-notifications#toggle" />
+                    <% end %>
+                </div>
+            </div>
 
-        <!-- Modal Customizado -->
-        <div 
-            data-push-notifications-target="modal"
-            class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
-            <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center">
-                <div class="text-6xl mb-4">🔔</div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">Ativar Notificações</h3>
-                <p class="text-gray-600 mb-6">
-                    Receba lembretes sobre suas despesas e informações importantes sobre suas finanças diretamente no seu navegador.
-                </p>
-                <div class="flex gap-4 justify-center">
-                    <button 
-                        data-action="click->push-notifications#hideCustomModal"
-                        class="btn btn-ghost">
-                        Agora não
-                    </button>
-                    <button 
-                        data-action="click->push-notifications#activateNotifications"
-                        class="btn btn-primary">
-                        Ativar
-                    </button>
+            <div class="flex items-center justify-between py-4 last:pb-0" data-controller="push-notifications">
+                <label for="push-notifications-toggle" class="font-semibold">Notificações push 🔔</label>
+                <div class="form-control">
+                    <input type="checkbox"
+                           id="push-notifications-toggle"
+                           data-push-notifications-target="toggle"
+                           data-action="change->push-notifications#toggle"
+                           <%= 'checked' if current_user.push_subscription.present? %>
+                           class="toggle toggle-primary" />
                 </div>
             </div>
         </div>
@@ -72,7 +45,7 @@
     <div class="grid gap-6">
         <h2 class="font-bold text-2xl text-center">Categorias Cadastradas:</h2>
         <div class="flex flex-col md:flex-row gap-6">
-            <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
+            <div class="grid gap-2 bg-base-200 shadow-sm rounded-lg p-6 w-full">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold md:text-xl">Categorias de Despesas 💸</h3>
                     <%= link_to new_category_path, data: { turbo_frame: 'modal' } do %>
@@ -86,7 +59,7 @@
                 </ul>
             </div>
 
-            <div class="grid gap-2 bg-slate-100 shadow-sm rounded-lg p-6 text-black w-full">
+            <div class="grid gap-2 bg-base-200 shadow-sm rounded-lg p-6 w-full">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold md:text-xl">Categorias de Receitas 💰</h3>
                      <%= link_to new_category_path, data: { turbo_frame: 'modal' } do %>

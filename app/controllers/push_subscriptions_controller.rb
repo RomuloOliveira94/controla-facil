@@ -10,6 +10,15 @@ class PushSubscriptionsController < ApplicationController
       subscription.touch
     end
 
+    current_user.update!(push_notifications: true)
+
+    render json: { status: 'success' }, status: :ok
+  end
+
+  def destroy
+    current_user.push_subscription&.destroy
+    current_user.update!(push_notifications: false)
+
     render json: { status: 'success' }, status: :ok
   end
 

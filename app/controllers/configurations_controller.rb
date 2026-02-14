@@ -25,9 +25,23 @@ class ConfigurationsController < ApplicationController
     end
   end
 
+  def change_push_notifications
+    @user = current_user
+    push_notifications_value = configuration_params[:push_notifications] == '1'
+    @user.push_notifications = push_notifications_value
+    @user.save
+
+    respond_to do |format|
+      format.json { render json: { status: 'success', push_notifications: @user.push_notifications } }
+      format.html do
+        redirect_to configurations_path, notice: 'Configuração de notificações push atualizada com sucesso!'
+      end
+    end
+  end
+
   private
 
   def configuration_params
-    params.require(:configuration).permit(:theme, :email_notifications)
+    params.require(:configuration).permit(:theme, :email_notifications, :push_notifications)
   end
 end
