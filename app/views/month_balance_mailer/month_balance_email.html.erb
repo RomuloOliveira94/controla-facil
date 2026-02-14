@@ -1,53 +1,133 @@
-<div class="container">
-  <div class="header">
-    <a href="<%= @url %>">
-      <img src="https://controlafacil.starksoftware.tech/logo.png" alt="Controla Fácil">
-    </a>
-  </div>
-  <h1>Seu Relatório Mensal do Mês de <%= @month %>/<%= @year %> </h1>
-  <h2>
-    <%= @greeting %> <%= @user.first_name %>!
-  </h2>
-  <p>
-    <h3>Segue abaixo o seu resumo do financeiro do mês de <%= @month %> do ano de <%= @year %>:</h3>
-    <ul>
-      <li style="font-size: 18px;">Total de Entradas: <strong><%= @total_incomes %></strong></li>
-      <li style="font-size: 18px;">Total de Saídas: <strong><%= @total_expenses %></strong></li>
-      <li style="font-size: 18px;">Saldo Final: <strong><%= @total_balance %></strong></li>
-    </ul>
-    <h3>Segue também um breve detalhamento das suas movimentações:</h3>
-    <ul>
-      <% @formatted_incomes.each do |income| %>
-        <li style="font-size: 18px;">
-          <span>
-            Entrada de <strong><%= income[:value] %></strong> no dia <%= income[:date] %>
-          </span>
-          <br>
-          <span>
-            Referente a:
-            <strong>
-              <%= income[:description] %>
-            </strong>
-          </span>
-        </li>
+<table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);">
+  <!-- Header -->
+  <tr>
+    <td style="background: linear-gradient(135deg, #0091ff 0%, #0070cc 100%); padding: 32px 24px; text-align: center;">
+      <a href="<%= @url %>" style="border-radius: 100%">
+        <img src="https://controlafacil.romin.dev.br/logo.png" alt="Controla Fácil" style="max-width: 180px; height: auto; border-radius: 20px;">
+      </a>
+      <p style="color: #ffffff; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin: 14px 0 0 0;">
+        Relatório Financeiro
+      </p>
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding: 32px 28px;">
+      <!-- Saudação -->
+      <h2 style="font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 8px 0;"><%= @greeting %>, <%= @user.first_name %>!</h2>
+      <p style="font-size: 15px; line-height: 1.6; color: #374151; margin: 0 0 24px 0;">
+        Aqui está o resumo do seu financeiro referente a <strong><%= @month %>/<%= @year %></strong>.
+      </p>
+
+      <!-- Cards de resumo -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 28px 0;">
+        <tr>
+          <!-- Receitas -->
+          <td style="padding: 0 4px 0 0; width: 33%;" valign="top">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color: #eff6ff; border-radius: 10px; padding: 16px 12px; text-align: center; border-left: 4px solid #0091ff;">
+                  <p style="font-size: 11px; color: #6b7280; margin: 0 0 6px 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Receitas</p>
+                  <p style="font-size: 17px; font-weight: 700; color: #0091ff; margin: 0;"><%= @total_incomes %></p>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <!-- Despesas -->
+          <td style="padding: 0 4px; width: 33%;" valign="top">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color: #fef2f2; border-radius: 10px; padding: 16px 12px; text-align: center; border-left: 4px solid #ef4444;">
+                  <p style="font-size: 11px; color: #6b7280; margin: 0 0 6px 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Despesas</p>
+                  <p style="font-size: 17px; font-weight: 700; color: #ef4444; margin: 0;"><%= @total_expenses %></p>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <!-- Saldo -->
+          <td style="padding: 0 0 0 4px; width: 33%;" valign="top">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background-color: #f0fdf4; border-radius: 10px; padding: 16px 12px; text-align: center; border-left: 4px solid #22c55e;">
+                  <p style="font-size: 11px; color: #6b7280; margin: 0 0 6px 0; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Saldo</p>
+                  <p style="font-size: 17px; font-weight: 700; color: #22c55e; margin: 0;"><%= @total_balance %></p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Detalhamento -->
+      <% if @formatted_incomes.any? || @formatted_expenses.any? %>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 8px;">
+          <tr>
+            <td style="padding-bottom: 12px; border-bottom: 2px solid #e5e7eb;">
+              <h3 style="font-size: 16px; font-weight: 700; color: #111827; margin: 0;">Detalhamento das Movimentações</h3>
+            </td>
+          </tr>
+        </table>
+
+        <% if @formatted_incomes.any? %>
+          <p style="font-size: 13px; font-weight: 700; color: #0091ff; text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 10px 0;">
+            ▲ Receitas
+          </p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 8px;">
+            <% @formatted_incomes.each do |income| %>
+              <tr>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #f3f4f6;">
+                  <p style="font-size: 14px; margin: 0 0 2px 0; color: #111827; font-weight: 600;"><%= income[:description] %></p>
+                  <p style="font-size: 12px; margin: 0; color: #9ca3af;"><%= income[:date] %></p>
+                </td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #f3f4f6; text-align: right; white-space: nowrap;">
+                  <span style="font-size: 15px; font-weight: 700; color: #0091ff;"><%= income[:value] %></span>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
+
+        <% if @formatted_expenses.any? %>
+          <p style="font-size: 13px; font-weight: 700; color: #ef4444; text-transform: uppercase; letter-spacing: 0.5px; margin: 20px 0 10px 0;">
+            ▼ Despesas
+          </p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 8px;">
+            <% @formatted_expenses.each do |expense| %>
+              <tr>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #f3f4f6;">
+                  <p style="font-size: 14px; margin: 0 0 2px 0; color: #111827; font-weight: 600;"><%= expense[:description] %></p>
+                  <p style="font-size: 12px; margin: 0; color: #9ca3af;"><%= expense[:date] %></p>
+                </td>
+                <td style="padding: 10px 8px; border-bottom: 1px solid #f3f4f6; text-align: right; white-space: nowrap;">
+                  <span style="font-size: 15px; font-weight: 700; color: #ef4444;"><%= expense[:value] %></span>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        <% end %>
       <% end %>
-      <% @formatted_expenses.each do |expense| %>
-        <li style="font-size: 18px;">
-          <span>
-            Saída de <strong><%= expense[:value] %></strong> no dia <%= expense[:date] %>
-          </span>
-          <br>
-          <span>
-            Referente a:
-            <strong>
-              <%= expense[:description] %>
-            </strong>
-          </span>
-        </li>
-      <% end %>
-    </ul>
-  </p>
-  <div class="footer">
-    <p>&copy; <%= Time.now.year %> Controla Fácil. Todos os direitos reservados.</p>
-  </div>
-</div>
+
+      <!-- CTA -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin: 28px 0 8px 0;">
+        <tr>
+          <td align="center">
+            <a href="<%= @url %>"
+               style="display: inline-block; background: linear-gradient(135deg, #0091ff 0%, #0070cc 100%); color: #ffffff; font-size: 15px; font-weight: 600; padding: 14px 36px; border-radius: 8px; text-decoration: none;">
+              Acessar Controla Fácil
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center; padding: 20px 24px;">
+      <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+        &copy; <%= Time.now.year %> <a href="<%= @url %>" style="color: #0091ff; text-decoration: none;">Controla Fácil</a>. Todos os direitos reservados.
+      </p>
+    </td>
+  </tr>
+</table>
