@@ -3,8 +3,11 @@ class NotifyExpenseExpiringJob
   sidekiq_options retry: 0
 
   def perform(*_args)
+    today = Time.zone.today
+    end_date = [today + 3.days, today.end_of_month].min
+
     User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
-      expenses = user.expenses.where(date: Time.zone.now.beginning_of_day..3.days.from_now.end_of_day)
+      expenses = user.expenses.where(date: today..end_date)
 
       expenses.each do |expense|
         formatted_date = I18n.l(expense.date, format: '%A, %d de %B de %Y')
