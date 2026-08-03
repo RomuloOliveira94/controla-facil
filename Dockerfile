@@ -8,6 +8,10 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 WORKDIR /rails
 
 # Set production environment
+# O grupo `data_migration` (mysql2) é opcional no Gemfile, então já fica de fora
+# sem precisar entrar no BUNDLE_WITHOUT: grupos opcionais só são instalados com
+# um `--with`/BUNDLE_WITH explícito, que esta imagem nunca faz. Por isso o build
+# não precisa dos headers do cliente MySQL.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
@@ -19,7 +23,7 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential default-libmysqlclient-dev git libvips pkg-config
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -42,8 +46,12 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl default-mysql-client libvips && \
+    apt-get install --no-install-recommends -y curl libvips sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# O app roda em horário de Brasília (config.time_zone), e o SQLite resolve
+# datetime('now','localtime') pelo TZ do processo.
+ENV TZ="America/Sao_Paulo"
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
