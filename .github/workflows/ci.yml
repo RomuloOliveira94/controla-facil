@@ -2,6 +2,10 @@ name: CI
 
 on:
   pull_request:
+  # também na main: push direto na branch dispara o deploy, então a suíte
+  # precisa rodar mesmo quando a mudança não passa por pull request.
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
