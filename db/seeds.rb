@@ -6,8 +6,12 @@
 #
 # A identidade de uma categoria fixa é o par (name, cat_sub) — é o que a
 # aplicação usa para distinguir, por exemplo, "Outras" de despesa e "Outras" de
-# receita. Por isso o find_or_create_by! casa só por esse par, e os demais
+# receita. O find_or_create_by! casa por esse par mais fixed: true, e os demais
 # atributos são atribuídos apenas na criação.
+#
+# O fixed: true no matcher importa porque usuários criam as próprias categorias:
+# sem ele, uma categoria de usuário chamada "Alimentação" de despesa seria
+# encontrada pela busca e impediria a criação da categoria global de mesmo nome.
 #
 # Isso importa no primeiro boot depois da migração para SQLite: a criação do
 # banco da fila faz o db:prepare rodar os seeds, com o banco primário já
@@ -31,9 +35,8 @@ fixed_categories = [
 ]
 
 fixed_categories.each do |attributes|
-  Category.find_or_create_by!(name: attributes[:name], cat_sub: attributes[:cat_sub]) do |category|
+  Category.find_or_create_by!(name: attributes[:name], cat_sub: attributes[:cat_sub], fixed: true) do |category|
     category.description = attributes[:description]
     category.icon = attributes[:icon]
-    category.fixed = true
   end
 end

@@ -55,6 +55,31 @@ class SeedsTest < ActiveSupport::TestCase
     assert_equal 'fas fa-outro-icone', existente.icon
   end
 
+  # Usuários criam as próprias categorias, e nada impede que uma delas tenha o
+  # mesmo nome de uma categoria global. Sem fixed: true no matcher, essa linha
+  # do usuário seria encontrada e a categoria global nunca seria criada.
+  test 'categoria de usuário com mesmo nome não impede a criação da fixa' do
+    Category.where(name: 'Alimentação', cat_sub: 'expenses').delete_all
+    dono = create_user(email: 'dono@example.com')
+    propria = Category.create!(
+      name: 'Alimentação',
+      cat_sub: 'expenses',
+      description: 'minha categoria',
+      icon: 'fas fa-outro-icone',
+      user: dono
+    )
+
+    assert_not_predicate propria, :fixed?
+
+    Rails.application.load_seed
+
+    assert_equal 1, Category.where(name: 'Alimentação', cat_sub: 'expenses', fixed: true).count
+    assert_equal 1, Category.where(name: 'Alimentação', cat_sub: 'expenses', fixed: false).count
+    # a categoria do usuário continua intacta e ainda pertence a ele
+    assert_equal 'minha categoria', propria.reload.description
+    assert_equal dono.id, propria.user_id
+  end
+
   test 'seeds distinguem Outras de despesa e Outras de receita' do
     Rails.application.load_seed
 
