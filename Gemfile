@@ -8,8 +8,8 @@ gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
-# Use mysql as the database for Active Record
-gem 'mysql2', '~> 0.5'
+# Use sqlite3 as the database for Active Record
+gem 'sqlite3', '>= 1.4'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '>= 5.0'
@@ -85,3 +85,12 @@ gem 'sidekiq-scheduler', '~> 5.0'
 
 #webpush
 gem 'web-push'
+
+# Somente para o pipeline de cópia MySQL -> SQLite (lib/tasks/mysql_to_sqlite.rake).
+# Grupo opcional: é ignorado pelo `bundle install` padrão e pela imagem de produção,
+# então o mysql2 nunca entra no build (e não precisa compilar em máquinas sem os
+# headers do cliente MySQL). O container de cópia opta pelo grupo com:
+#   bundle config set --local with data_migration
+group :data_migration, optional: true do
+  gem 'mysql2', '~> 0.5'
+end

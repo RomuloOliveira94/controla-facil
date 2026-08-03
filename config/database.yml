@@ -1,56 +1,35 @@
-# MySQL. Versions 5.5.8 and up are supported.
+# SQLite. Versions 3.8.0 and up are supported.
 #
-# Install the MySQL driver
-#   gem install mysql2
+# Install the sqlite3 driver
+#   gem install sqlite3
 #
-# Ensure the MySQL gem is defined in your Gemfile
-#   gem "mysql2"
+# Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem "sqlite3"
 #
-# And be sure to use new-style password hashing:
-#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
+# O adapter sqlite3 do Rails 7.1 já aplica journal_mode = WAL,
+# synchronous = NORMAL e foreign_keys = ON por padrão. A chave `pragmas:` só
+# existe a partir do Rails 8, então não deve ser usada aqui.
 #
 default: &default
-  adapter: mysql2
-  encoding: utf8mb4
+  adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password: <%= ENV["DB_PASSWORD"] %>
-  socket: /var/run/mysqld/mysqld.sock
+  timeout: 5000
 
+# development e production usam o formato de 3 níveis (com `primary:`) porque a
+# Fase 4 adiciona o banco `queue:` do Solid Queue ao lado do primário.
 development:
-  <<: *default
-  database: controla_facil_development
+  primary:
+    <<: *default
+    database: storage/development.sqlite3
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: controla_facil_test
+  database: storage/test.sqlite3
 
-# As with config/credentials.yml, you never want to store sensitive information,
-# like your database password, in your source code. If your source code is
-# ever seen by anyone, they now have access to your database.
-#
-# Instead, provide the password or a full connection URL as an environment
-# variable when you boot the app. For example:
-#
-#   DATABASE_URL="mysql2://myuser:mypass@localhost/somedatabase"
-#
-# If the connection URL is provided in the special DATABASE_URL environment
-# variable, Rails will automatically merge its configuration values on top of
-# the values provided in this file. Alternatively, you can specify a connection
-# URL environment variable explicitly:
-#
-#   production:
-#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
-#
-# Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
-# for a full overview on how database connection configuration can be specified.
-#
 production:
-  <<: *default
-  adapter: mysql2
-  encoding: utf8mb4
-  collation: utf8mb4_general_ci
-  pool: 5
+  primary:
+    <<: *default
+    database: storage/production.sqlite3
