@@ -1,8 +1,7 @@
-class NotifyExpenseExpiringJob
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+class NotifyExpenseExpiringJob < ApplicationJob
+  queue_as :default
 
-  def perform(*_args)
+  def perform
     today = Time.zone.today
     end_date = [today + 3.days, today.end_of_month].min
 

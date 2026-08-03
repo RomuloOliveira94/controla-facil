@@ -1,6 +1,5 @@
-class NotifyMondayJob
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+class NotifyMondayJob < ApplicationJob
+  queue_as :default
 
   MESSAGES = [
     'Que sua semana comece com muita energia! 💪',
@@ -15,7 +14,7 @@ class NotifyMondayJob
     'Que sua segunda-feira seja tão maravilhosa quanto você! 🌈'
   ].freeze
 
-  def perform(*_args)
+  def perform
     User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
       WebPushService.new(title: '🌟 Uma nova semana começa!',
                          message: MESSAGES.sample,

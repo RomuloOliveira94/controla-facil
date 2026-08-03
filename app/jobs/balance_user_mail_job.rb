@@ -1,8 +1,7 @@
-class BalanceUserMailJob
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+class BalanceUserMailJob < ApplicationJob
+  queue_as :default
 
-  def perform(*_args)
+  def perform
     last_month_date = Date.today.prev_month
 
     User.where.not(email: [nil, '']).where(email_notifications: true).find_each do |user|

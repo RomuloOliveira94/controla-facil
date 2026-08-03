@@ -1,6 +1,5 @@
-class NotifyMonthBeginJob
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+class NotifyMonthBeginJob < ApplicationJob
+  queue_as :default
 
   MESSAGES = [
     '💡 Não esqueça de registrar suas despesas e receitas!',
@@ -15,7 +14,7 @@ class NotifyMonthBeginJob
     '📂 Mantenha suas finanças em ordem neste novo mês!'
   ].freeze
 
-  def perform(*_args)
+  def perform
     User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
       WebPushService.new(title: '📅 Começa um mês novo!',
                          message: MESSAGES.sample,

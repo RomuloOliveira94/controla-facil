@@ -1,6 +1,5 @@
-class NotifyFridayJob
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+class NotifyFridayJob < ApplicationJob
+  queue_as :default
 
   MESSAGES = [
     'Aproveite o final de semana com controle! 📊',
@@ -15,7 +14,7 @@ class NotifyFridayJob
     'Sextou! Controle suas despesas e tenha um ótimo final de semana. 🏖️'
   ].freeze
 
-  def perform(*_args)
+  def perform
     User.joins(:push_subscription).includes(:push_subscription).find_each do |user|
       WebPushService.new(title: "Sextou! #{user.first_name.camelize} 🎉",
                          message: MESSAGES.sample,

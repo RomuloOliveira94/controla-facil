@@ -1,0 +1,36 @@
+# Tarefas recorrentes do Solid Queue.
+#
+# O fuso é declarado explicitamente em cada cron (America/Sao_Paulo) porque o
+# servidor roda em UTC: sem o fuso, "0 8 * * *" dispararia às 05:00 no horário
+# de Brasília. O Fugit aceita o nome do fuso como último campo do cron.
+#
+# Não há retry em lugar nenhum: falhas ficam registradas em
+# solid_queue_failed_executions, visíveis para inspeção, em vez de serem
+# reexecutadas silenciosamente.
+#
+# Para experimentar o scheduler em development, adicione um bloco como este e
+# remova depois (o Solid Queue lê a seção do ambiente atual):
+#
+#   development:
+#     ping:
+#       class: NotifyFridayJob
+#       schedule: every minute
+production:
+  balance_user_mail:
+    class: BalanceUserMailJob
+    schedule: "0 2 1 * * America/Sao_Paulo"
+  notify_expense_expiring:
+    class: NotifyExpenseExpiringJob
+    schedule: "0 8 * * * America/Sao_Paulo"
+  notify_month_begin:
+    class: NotifyMonthBeginJob
+    schedule: "0 8 1 * * America/Sao_Paulo"
+  notify_friday:
+    class: NotifyFridayJob
+    schedule: "0 17 * * 5 America/Sao_Paulo"
+  notify_monday:
+    class: NotifyMondayJob
+    schedule: "0 8 * * 1 America/Sao_Paulo"
+  clear_solid_queue_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    schedule: every hour at minute 12

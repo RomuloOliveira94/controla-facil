@@ -29,9 +29,6 @@ gem 'tailwindcss-rails', '~> 3.3.1'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-# Use Redis adapter to run Action Cable in production
-gem 'redis', '>= 4.0.1'
-
 gem 'pagy', '~> 9.0'
 
 gem 'aws-sdk-s3'
@@ -79,8 +76,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
 # jobs
-gem 'sidekiq'
-gem 'sidekiq-scheduler', '~> 5.0'
+gem 'solid_queue', '~> 1.2'
 
 
 #webpush

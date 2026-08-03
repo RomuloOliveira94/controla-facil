@@ -15,12 +15,20 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
-# development e production usam o formato de 3 níveis (com `primary:`) porque a
-# Fase 4 adiciona o banco `queue:` do Solid Queue ao lado do primário.
+# development e production usam o formato de 3 níveis (com `primary:`) porque o
+# Solid Queue mantém o banco `queue:` ao lado do primário.
+#
+# O banco da fila é um arquivo separado de propósito: o SQLite tem um único
+# escritor por arquivo, e o polling do Solid Queue (dispatcher + worker, a cada
+# 1s) disputaria o lock de escrita com as requisições da aplicação.
 development:
   primary:
     <<: *default
     database: storage/development.sqlite3
+  queue:
+    <<: *default
+    database: storage/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -33,3 +41,7 @@ production:
   primary:
     <<: *default
     database: storage/production.sqlite3
+  queue:
+    <<: *default
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
