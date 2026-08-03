@@ -1,7 +1,33 @@
 #!/bin/bash -e
 
+DB_PATH="/rails/storage/production.sqlite3"
+LITESTREAM_CONFIG="/rails/config/litestream.yml"
+
 # If running the rails server then create or migrate existing database
 if [ "${1}" == "foreman" ] && [ "${2}" == "start" ]; then
+  # Volume vazio em produção: tenta restaurar o banco da réplica no R2 antes de
+  # o db:prepare criar um banco novo e em branco. Sem isto, perder o volume
+  # significaria subir com a base zerada em vez de recuperar do backup.
+  #
+  # As três guardas (ambiente, credencial, ausência do arquivo) existem porque o
+  # script roda com `bash -e`. Comportamento medido no v0.3.13:
+  #
+  #   - primeiro deploy, bucket alcançável e ainda sem réplica: sai 0
+  #     ("no matching backups found") e o db:prepare cria o banco do zero;
+  #   - réplica existente: restaura e sai 0;
+  #   - endpoint inalcançável ou credencial inválida: sai 1. O
+  #     -if-replica-exists cobre só o caso "não há réplica", não erro de conexão.
+  #
+  # O último caso derruba o container de propósito, e não é suavizado com
+  # `|| true`. Ele só acontece quando o volume está vazio E o backup está
+  # inacessível — exatamente a situação em que subir com a base zerada seria
+  # pior: a aplicação serviria dados vazios e o processo de replicação passaria
+  # a enviar esse banco vazio para o R2. Falhar alto força intervenção.
+  if [ "${RAILS_ENV}" == "production" ] && [ -n "${R2_BUCKET}" ] && [ ! -f "${DB_PATH}" ]; then
+    echo "==> banco ausente em ${DB_PATH}; tentando restaurar do Litestream"
+    litestream restore -if-replica-exists -config "${LITESTREAM_CONFIG}" "${DB_PATH}"
+  fi
+
   ./bin/rails db:prepare
 fi
 
