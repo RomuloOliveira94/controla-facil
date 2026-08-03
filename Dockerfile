@@ -53,6 +53,12 @@ RUN apt-get update -qq && \
 # datetime('now','localtime') pelo TZ do processo.
 ENV TZ="America/Sao_Paulo"
 
+# Litestream: replica contínua do SQLite para o R2 (config/litestream.yml).
+# Instalado a partir do .deb oficial, que coloca o binário em /usr/bin, legível
+# por qualquer usuário — o processo roda como `rails`, não como root.
+ADD https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-amd64.deb /tmp/litestream.deb
+RUN dpkg -i /tmp/litestream.deb && rm /tmp/litestream.deb
+
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails

@@ -1,0 +1,25 @@
+# Replicação contínua do banco SQLite para o R2.
+#
+# O Litestream acompanha o WAL e envia os frames para o objeto remoto, o que dá
+# recuperação para um ponto no tempo dentro da janela de retenção. Reaproveita o
+# mesmo bucket e as mesmas credenciais do Active Storage (config/storage.yml),
+# em uma subpasta própria, para não misturar com os anexos.
+#
+# force-path-style espelha o force_path_style do storage.yml: o R2 endereça
+# bucket por caminho, não por subdomínio.
+#
+# O banco da fila (storage/production_queue.sqlite3) fica de fora de propósito.
+# É estado efêmero de processamento, reconstruído por db:prepare, e replicá-lo
+# só geraria escrita constante sem valor de recuperação.
+dbs:
+  - path: /rails/storage/production.sqlite3
+    replicas:
+      - type: s3
+        bucket: ${R2_BUCKET}
+        path: litestream/production
+        endpoint: ${R2_ENDPOINT}
+        region: us-east-1
+        force-path-style: true
+        access-key-id: ${R2_ACCESS_KEY_ID}
+        secret-access-key: ${R2_SECRET_ACCESS_KEY}
+        retention: 240h
