@@ -10,22 +10,41 @@ if [ "${1}" == "foreman" ] && [ "${2}" == "start" ]; then
   # significaria subir com a base zerada em vez de recuperar do backup.
   #
   # As três guardas (ambiente, credencial, ausência do arquivo) existem porque o
-  # script roda com `bash -e`. Comportamento medido no v0.3.13:
+  # script roda com `bash -e`. Comportamento do litestream v0.3.13:
   #
-  #   - primeiro deploy, bucket alcançável e ainda sem réplica: sai 0
-  #     ("no matching backups found") e o db:prepare cria o banco do zero;
   #   - réplica existente: restaura e sai 0;
-  #   - endpoint inalcançável ou credencial inválida: sai 1. O
-  #     -if-replica-exists cobre só o caso "não há réplica", não erro de conexão.
+  #   - bucket alcançável e ainda sem réplica, em S3/MinIO: sai 0
+  #     ("no matching backups found") e o db:prepare cria o banco do zero;
+  #   - no R2, esse mesmo caso sai 1 com "NoSuchKey ... status code: 404",
+  #     porque o R2 responde 404 ao listar um prefixo inexistente enquanto a
+  #     AWS devolve lista vazia com 200. O -if-replica-exists não chega a agir;
+  #   - endpoint inalcançável ou credencial inválida: sai 1.
   #
-  # O último caso derruba o container de propósito, e não é suavizado com
-  # `|| true`. Ele só acontece quando o volume está vazio E o backup está
-  # inacessível — exatamente a situação em que subir com a base zerada seria
-  # pior: a aplicação serviria dados vazios e o processo de replicação passaria
-  # a enviar esse banco vazio para o R2. Falhar alto força intervenção.
+  # Por isso a saída é inspecionada em vez de apenas propagada. NoSuchKey
+  # significa bucket alcançável, credencial aceita (senão viria 403) e chave
+  # ausente, ou seja, não há réplica: é seguro seguir para o db:prepare.
+  #
+  # Qualquer outro erro continua derrubando o container de propósito, sem
+  # `|| true`. Só acontece com o volume vazio E o backup inacessível — a
+  # situação em que subir com a base zerada seria pior, porque a aplicação
+  # serviria dados vazios e a replicação passaria a enviar esse banco vazio por
+  # cima do backup bom. Falhar alto força intervenção.
   if [ "${RAILS_ENV}" == "production" ] && [ -n "${R2_BUCKET}" ] && [ ! -f "${DB_PATH}" ]; then
     echo "==> banco ausente em ${DB_PATH}; tentando restaurar do Litestream"
-    litestream restore -if-replica-exists -config "${LITESTREAM_CONFIG}" "${DB_PATH}"
+
+    if restore_output=$(litestream restore -if-replica-exists -config "${LITESTREAM_CONFIG}" "${DB_PATH}" 2>&1); then
+      [ -n "${restore_output}" ] && echo "${restore_output}"
+      echo "==> restauração concluída"
+    else
+      echo "${restore_output}" >&2
+
+      if echo "${restore_output}" | grep -q 'NoSuchKey'; then
+        echo "==> réplica inexistente no R2 — primeiro boot, seguindo para db:prepare"
+      else
+        echo "==> falha ao restaurar do Litestream; abortando para não subir com a base vazia" >&2
+        exit 1
+      fi
+    fi
   fi
 
   ./bin/rails db:prepare
