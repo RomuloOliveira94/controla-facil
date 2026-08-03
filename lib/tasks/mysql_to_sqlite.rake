@@ -156,9 +156,20 @@ namespace :db do
     target = ActiveRecord::Base.connection
     failures = []
 
-    check = lambda do |label, sql|
-      expected = source.select_value(sql).to_s
-      actual = target.select_value(sql).to_s
+    # Os dois lados devolvem tipos Ruby diferentes para a mesma consulta: o
+    # mysql2 converte DECIMAL em BigDecimal, o sqlite3 devolve Float. Comparar
+    # `.to_s` só funciona porque o Active Support redefine BigDecimal#to_s para
+    # o formato "F"; sem essa extensão a origem sairia em notação científica
+    # ("0.100710736e7") e toda linha de soma falharia. Normalizar com casas
+    # decimais fixas tira a comparação dessa dependência e também do risco de um
+    # dos lados devolver Integer onde o outro devolve Float.
+    normalize = lambda do |value, numeric|
+      numeric ? format('%.2f', value.to_d) : value.to_i.to_s
+    end
+
+    check = lambda do |label, sql, numeric: false|
+      expected = normalize.call(source.select_value(sql), numeric)
+      actual = normalize.call(target.select_value(sql), numeric)
       ok = expected == actual
       failures << label unless ok
       puts format('%-4s %-46s origem=%-16s destino=%s', ok ? 'OK' : 'FAIL', label, expected, actual)
@@ -170,9 +181,9 @@ namespace :db do
       check.call("COUNT(*) #{table}", "SELECT COUNT(*) FROM #{table}")
     end
 
-    check.call('SUM(value) expenses', 'SELECT ROUND(COALESCE(SUM(value), 0), 2) FROM expenses')
-    check.call('SUM(value) incomes', 'SELECT ROUND(COALESCE(SUM(value), 0), 2) FROM incomes')
-    check.call('SUM(balance) balances', 'SELECT ROUND(COALESCE(SUM(balance), 0), 2) FROM balances')
+    check.call('SUM(value) expenses', 'SELECT ROUND(COALESCE(SUM(value), 0), 2) FROM expenses', numeric: true)
+    check.call('SUM(value) incomes', 'SELECT ROUND(COALESCE(SUM(value), 0), 2) FROM incomes', numeric: true)
+    check.call('SUM(balance) balances', 'SELECT ROUND(COALESCE(SUM(balance), 0), 2) FROM balances', numeric: true)
     check.call('users com e-mail não normalizado', 'SELECT COUNT(*) FROM users WHERE email <> LOWER(email)')
 
     puts
