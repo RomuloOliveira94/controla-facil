@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 DB_PATH="/rails/storage/production.sqlite3"
+QUEUE_DB_PATH="/rails/storage/production_queue.sqlite3"
 LITESTREAM_CONFIG="/rails/config/litestream.yml"
 
 # If running the rails server then create or migrate existing database
@@ -29,6 +30,23 @@ if [ "${1}" == "foreman" ] && [ "${2}" == "start" ]; then
   # situação em que subir com a base zerada seria pior, porque a aplicação
   # serviria dados vazios e a replicação passaria a enviar esse banco vazio por
   # cima do backup bom. Falhar alto força intervenção.
+  # FORCE_RESTORE=1 descarta o banco local e restaura do R2 mesmo que o arquivo
+  # exista. Serve ao cutover: a réplica é semeada com os dados reais a partir de
+  # outra máquina e o app puxa daqui, mas o volume já contém um
+  # production.sqlite3 vazio criado pelo db:prepare do primeiro boot, então a
+  # guarda `! -f` sozinha nunca dispararia.
+  #
+  # O banco da fila também é apagado: as linhas que sobraram do boot com a base
+  # vazia apontam para registros que deixarão de existir. O db:prepare recria a
+  # fila limpa em seguida.
+  force_restore=''
+  if [ "${RAILS_ENV}" == "production" ] && [ -n "${R2_BUCKET}" ] && [ "${FORCE_RESTORE:-}" == "1" ]; then
+    force_restore='1'
+    echo "==> FORCE_RESTORE ativo — descartando banco local e restaurando do R2"
+    rm -f "${DB_PATH}" "${DB_PATH}-wal" "${DB_PATH}-shm"
+    rm -f "${QUEUE_DB_PATH}" "${QUEUE_DB_PATH}-wal" "${QUEUE_DB_PATH}-shm"
+  fi
+
   if [ "${RAILS_ENV}" == "production" ] && [ -n "${R2_BUCKET}" ] && [ ! -f "${DB_PATH}" ]; then
     echo "==> banco ausente em ${DB_PATH}; tentando restaurar do Litestream"
 
@@ -37,6 +55,14 @@ if [ "${1}" == "foreman" ] && [ "${2}" == "start" ]; then
       echo "==> restauração concluída"
     else
       echo "${restore_output}" >&2
+
+      if [ "${force_restore}" == "1" ]; then
+        # Em FORCE_RESTORE qualquer falha é erro, inclusive NoSuchKey: se o
+        # operador pediu a restauração, réplica ausente não é primeiro boot, é
+        # sinal de que a semeadura no R2 não aconteceu como esperado.
+        echo "==> FORCE_RESTORE ativo e a restauração falhou; abortando" >&2
+        exit 1
+      fi
 
       if echo "${restore_output}" | grep -q 'NoSuchKey'; then
         echo "==> réplica inexistente no R2 — primeiro boot, seguindo para db:prepare"
