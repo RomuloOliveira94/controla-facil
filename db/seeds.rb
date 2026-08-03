@@ -12,17 +12,17 @@
 
 #create expenses categories
 
-Category.find_or_create_by!(name: 'Alimentação', description: 'Despesas relacionadas a alimentação', cat_sub: 1, fixed: true, icon: 'fas fa-utensils')
-Category.find_or_create_by!(name: 'Transporte', description: 'Despesas relacionadas a Transporte', cat_sub: 1, fixed: true, icon: 'fas fa-bus')
-Category.find_or_create_by!(name: 'Saúde', description: 'Despesas relacionadas a saúde', cat_sub: 1, fixed: true, icon: 'fas fa-medkit')
-Category.find_or_create_by!(name: 'Entertainment', description: 'Despesas relacionadas a Entretenimento', cat_sub: 1, fixed: true, icon: 'fas fa-film')
-Category.find_or_create_by!(name: 'Education', description: 'Despesas relacionadas Educação', cat_sub: 1, fixed: true, icon: 'fas fa-graduation-cap')
-Category.find_or_create_by!(name: 'Outras', description: 'Outras despesas', cat_sub: 1, fixed: true, icon: 'fas fa-question-circle')
-Category.find_or_create_by!(name: 'Moradia', description: 'Despesas relacionadas', cat_sub: 1, fixed: true, icon: 'fas fa-home')
+Category.find_or_create_by!(name: 'Alimentação', description: 'Despesas relacionadas a alimentação', cat_sub: 'expenses', fixed: true, icon: 'fas fa-utensils')
+Category.find_or_create_by!(name: 'Transporte', description: 'Despesas relacionadas a Transporte', cat_sub: 'expenses', fixed: true, icon: 'fas fa-bus')
+Category.find_or_create_by!(name: 'Saúde', description: 'Despesas relacionadas a saúde', cat_sub: 'expenses', fixed: true, icon: 'fas fa-medkit')
+Category.find_or_create_by!(name: 'Entertainment', description: 'Despesas relacionadas a Entretenimento', cat_sub: 'expenses', fixed: true, icon: 'fas fa-film')
+Category.find_or_create_by!(name: 'Education', description: 'Despesas relacionadas Educação', cat_sub: 'expenses', fixed: true, icon: 'fas fa-graduation-cap')
+Category.find_or_create_by!(name: 'Outras', description: 'Outras despesas', cat_sub: 'expenses', fixed: true, icon: 'fas fa-question-circle')
+Category.find_or_create_by!(name: 'Moradia', description: 'Despesas relacionadas', cat_sub: 'expenses', fixed: true, icon: 'fas fa-home')
 
 #create incomes categories
 
-Category.find_or_create_by!(name: 'Salário', description: 'Receitas de Salário', cat_sub: 2, fixed: true, icon: 'fas fa-money-bill-wave')
-Category.find_or_create_by!(name: 'Investimentos', description: 'Receitas de Investimentos', cat_sub: 2, fixed: true, icon: 'fas fa-chart-line')
-Category.find_or_create_by!(name: 'Presente', description: 'Receitas recebidas como presente', cat_sub: 2, fixed: true, icon: 'fas fa-gift')
-Category.find_or_create_by!(name: 'Outras', description: 'Outras receitas', cat_sub: 2, fixed: true, icon: 'fas fa-question-circle')
+Category.find_or_create_by!(name: 'Salário', description: 'Receitas de Salário', cat_sub: 'incomes', fixed: true, icon: 'fas fa-money-bill-wave')
+Category.find_or_create_by!(name: 'Investimentos', description: 'Receitas de Investimentos', cat_sub: 'incomes', fixed: true, icon: 'fas fa-chart-line')
+Category.find_or_create_by!(name: 'Presente', description: 'Receitas recebidas como presente', cat_sub: 'incomes', fixed: true, icon: 'fas fa-gift')
+Category.find_or_create_by!(name: 'Outras', description: 'Outras receitas', cat_sub: 'incomes', fixed: true, icon: 'fas fa-question-circle')

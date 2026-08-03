@@ -4,7 +4,7 @@ class Category < ApplicationRecord
   belongs_to :user, optional: true
 
   validates :name, presence: true
-  validates :cat_sub, presence: true
+  validates :cat_sub, presence: true, inclusion: { in: %w[expenses incomes] }
   validates :icon, presence: true
 
   before_destroy :disassociate_uses
