@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_14_120348) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_03_141300) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_14_120348) do
   create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.column "cat_sub", "enum('expenses','incomes')"
+    t.string "cat_sub", limit: 10, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "fixed", default: false
