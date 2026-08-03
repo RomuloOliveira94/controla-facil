@@ -1,6 +1,9 @@
 name: Build and Deploy Docker Image
 
-on: [pull_request, push]
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build_and_deploy:
@@ -31,7 +34,7 @@ jobs:
         push: true
         tags: ${{ env.IMAGE_URL }}
 
-    - name: Deploy Image to CapRrover
+    - name: Deploy Image to CapRover
       uses: caprover/deploy-from-github@v1.1.2
       with:
         server: "${{ secrets.CAPROVER_SERVER }}"
