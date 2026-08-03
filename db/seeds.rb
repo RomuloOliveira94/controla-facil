@@ -2,27 +2,38 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
-# Example:
+# Categorias fixas (globais, sem dono).
 #
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# A identidade de uma categoria fixa é o par (name, cat_sub) — é o que a
+# aplicação usa para distinguir, por exemplo, "Outras" de despesa e "Outras" de
+# receita. Por isso o find_or_create_by! casa só por esse par, e os demais
+# atributos são atribuídos apenas na criação.
+#
+# Isso importa no primeiro boot depois da migração para SQLite: a criação do
+# banco da fila faz o db:prepare rodar os seeds, com o banco primário já
+# populado pela cópia. Se o matcher incluísse description e icon, qualquer
+# diferença nesses textos criaria uma segunda categoria fixa com o mesmo nome,
+# em silêncio, e os usuários passariam a ver a categoria duplicada.
+fixed_categories = [
+  # despesas
+  { name: 'Alimentação',   cat_sub: 'expenses', description: 'Despesas relacionadas a alimentação',    icon: 'fas fa-utensils' },
+  { name: 'Transporte',    cat_sub: 'expenses', description: 'Despesas relacionadas a Transporte',     icon: 'fas fa-bus' },
+  { name: 'Saúde',         cat_sub: 'expenses', description: 'Despesas relacionadas a saúde',          icon: 'fas fa-medkit' },
+  { name: 'Entertainment', cat_sub: 'expenses', description: 'Despesas relacionadas a Entretenimento', icon: 'fas fa-film' },
+  { name: 'Education',     cat_sub: 'expenses', description: 'Despesas relacionadas Educação',         icon: 'fas fa-graduation-cap' },
+  { name: 'Outras',        cat_sub: 'expenses', description: 'Outras despesas',                        icon: 'fas fa-question-circle' },
+  { name: 'Moradia',       cat_sub: 'expenses', description: 'Despesas relacionadas',                  icon: 'fas fa-home' },
+  # receitas
+  { name: 'Salário',       cat_sub: 'incomes',  description: 'Receitas de Salário',                    icon: 'fas fa-money-bill-wave' },
+  { name: 'Investimentos', cat_sub: 'incomes',  description: 'Receitas de Investimentos',              icon: 'fas fa-chart-line' },
+  { name: 'Presente',      cat_sub: 'incomes',  description: 'Receitas recebidas como presente',       icon: 'fas fa-gift' },
+  { name: 'Outras',        cat_sub: 'incomes',  description: 'Outras receitas',                        icon: 'fas fa-question-circle' }
+]
 
-
-
-#create expenses categories
-
-Category.find_or_create_by!(name: 'Alimentação', description: 'Despesas relacionadas a alimentação', cat_sub: 'expenses', fixed: true, icon: 'fas fa-utensils')
-Category.find_or_create_by!(name: 'Transporte', description: 'Despesas relacionadas a Transporte', cat_sub: 'expenses', fixed: true, icon: 'fas fa-bus')
-Category.find_or_create_by!(name: 'Saúde', description: 'Despesas relacionadas a saúde', cat_sub: 'expenses', fixed: true, icon: 'fas fa-medkit')
-Category.find_or_create_by!(name: 'Entertainment', description: 'Despesas relacionadas a Entretenimento', cat_sub: 'expenses', fixed: true, icon: 'fas fa-film')
-Category.find_or_create_by!(name: 'Education', description: 'Despesas relacionadas Educação', cat_sub: 'expenses', fixed: true, icon: 'fas fa-graduation-cap')
-Category.find_or_create_by!(name: 'Outras', description: 'Outras despesas', cat_sub: 'expenses', fixed: true, icon: 'fas fa-question-circle')
-Category.find_or_create_by!(name: 'Moradia', description: 'Despesas relacionadas', cat_sub: 'expenses', fixed: true, icon: 'fas fa-home')
-
-#create incomes categories
-
-Category.find_or_create_by!(name: 'Salário', description: 'Receitas de Salário', cat_sub: 'incomes', fixed: true, icon: 'fas fa-money-bill-wave')
-Category.find_or_create_by!(name: 'Investimentos', description: 'Receitas de Investimentos', cat_sub: 'incomes', fixed: true, icon: 'fas fa-chart-line')
-Category.find_or_create_by!(name: 'Presente', description: 'Receitas recebidas como presente', cat_sub: 'incomes', fixed: true, icon: 'fas fa-gift')
-Category.find_or_create_by!(name: 'Outras', description: 'Outras receitas', cat_sub: 'incomes', fixed: true, icon: 'fas fa-question-circle')
+fixed_categories.each do |attributes|
+  Category.find_or_create_by!(name: attributes[:name], cat_sub: attributes[:cat_sub]) do |category|
+    category.description = attributes[:description]
+    category.icon = attributes[:icon]
+    category.fixed = true
+  end
+end
