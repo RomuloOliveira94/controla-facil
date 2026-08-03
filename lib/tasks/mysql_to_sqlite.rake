@@ -64,6 +64,24 @@
 #   charset/collation e FKs bigint) e desfaz o schema nativo do SQLite. Os
 #   passos acima usam só `db:schema:load`, que não faz dump. Se precisar
 #   migrar a origem, confira `git status db/schema.rb` depois.
+#
+# * Qualquer `db:migrate` avulso contra o MySQL dentro do container também
+#   precisa das variáveis do R2, mesmo que com valores fictícios:
+#     -e R2_BUCKET=x -e R2_ENDPOINT=https://x \
+#     -e R2_ACCESS_KEY_ID=x -e R2_SECRET_ACCESS_KEY=x
+#   Sem elas o boot carrega os modelos, o `has_one_attached :avatar` do User
+#   tenta resolver o service do Active Storage e a falha aparece como
+#   `ArgumentError: missing required option :name`, que não sugere em nada a
+#   causa real. A sequência de 3 comandos documentada acima NÃO precisa dessas
+#   variáveis, porque só usa SQL cru e não instancia os modelos.
+#
+# * Na checagem "users com e-mail não normalizado", um FAIL no formato
+#   `origem=0 destino=N` NÃO indica defeito na cópia. A comparação `email <>
+#   LOWER(email)` roda com a collation case-insensitive do MySQL, que considera
+#   'Foo@BAR.com' igual a 'foo@bar.com' e devolve 0; no SQLite a comparação é
+#   binária e os mesmos registros aparecem. Ou seja, a origem tem e-mails
+#   legados fora do padrão que o MySQL escondia. Corrija na origem (a migration
+#   20260803141300 faz exatamente isso) e refaça a cópia.
 namespace :db do
   # Ordem de dependência de FK: pais antes dos filhos.
   COPY_TABLES = %w[
