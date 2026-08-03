@@ -2,7 +2,7 @@ class BalanceUserMailJob < ApplicationJob
   queue_as :default
 
   def perform
-    last_month_date = Date.today.prev_month
+    last_month_date = Time.zone.today.prev_month
 
     User.where.not(email: [nil, '']).where(email_notifications: true).find_each do |user|
       last_month_balance = user.balances.find_by(month: last_month_date.month, year: last_month_date.year)
