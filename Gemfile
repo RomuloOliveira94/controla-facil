@@ -65,7 +65,7 @@ group :development do
   # gem "spring"
 end
 
-gem 'revise_auth', '~> 0.7.1'
+gem 'revise_auth', '~> 0.8.1'
 
 gem 'ransack'
 
