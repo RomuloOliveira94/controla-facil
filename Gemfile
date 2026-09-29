@@ -29,7 +29,7 @@ gem 'tailwindcss-rails', '~> 3.3.1'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem 'pagy', '~> 9.0'
+gem 'pagy', '~> 43.6'
 
 gem 'aws-sdk-s3'
 
