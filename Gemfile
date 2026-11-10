@@ -76,7 +76,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
 # jobs
-gem 'solid_queue', '~> 1.2'
+gem 'solid_queue', '~> 1.7'
 
 
 #webpush
